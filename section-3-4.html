@@ -1,0 +1,68 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>3.4 坐标、向量与矩阵｜从零开始学人工智能：中学生 CAICP 学习指南</title><meta name="description" content="3.4 坐标、向量与矩阵。逻辑、统计、方程、函数、向量和概率，为理解模型打下数学基础。"><meta name="author" content="陈峥"><link rel="canonical" href="https://uestc1010.github.io/CAICP_Book/section-3-4.html"><link rel="icon" type="image/svg+xml" href="favicon.svg"><meta name="theme-color" content="#173c46"><meta property="og:title" content="3.4 坐标、向量与矩阵｜从零开始学人工智能：中学生 CAICP 学习指南"><meta property="og:description" content="3.4 坐标、向量与矩阵。逻辑、统计、方程、函数、向量和概率，为理解模型打下数学基础。"><meta property="og:type" content="article"><meta property="og:url" content="https://uestc1010.github.io/CAICP_Book/section-3-4.html"><meta property="og:image" content="https://uestc1010.github.io/CAICP_Book/assets/cover.png"><link rel="stylesheet" href="site.css"><script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "name": "3.4 坐标、向量与矩阵｜从零开始学人工智能：中学生 CAICP 学习指南", "inLanguage": "zh-CN", "url": "https://uestc1010.github.io/CAICP_Book/section-3-4.html", "author": {"@type": "Person", "name": "陈峥"}, "description": "3.4 坐标、向量与矩阵。逻辑、统计、方程、函数、向量和概率，为理解模型打下数学基础。"}</script><script defer src="site.js"></script><script defer src="mathjax-tex-svg.js"></script></head><body><a class="skip" href="#main">跳到正文</a><header class="topbar"><a class="brand" href="./"><span class="brand-mark">AI</span><span>中学生 CAICP 学习指南</span></a><nav aria-label="主导航"><a href="./#contents">全书目录</a><a href="https://github.com/UESTC1010/CAICP_Book/releases/download/v0.9/CAICP_Book-v0.9.pdf">下载 PDF</a><a href="https://github.com/UESTC1010/CAICP_Book">GitHub ↗</a></nav></header><div class="reader-layout"><aside class="sidebar"><details class="book-nav" open><summary>全书目录</summary><nav aria-label="章节目录"><a href="preface.html">前言</a><a href="chapter-1.html">第一章 认识人工智能</a><a href="chapter-2.html">第二章 用 Python 编写程序</a><a href="chapter-3.html" aria-current="page">第三章 理解 AI 所需的数学基础</a><a href="chapter-4.html">第四章 用算法解决问题</a><a href="chapter-5.html">第五章 让机器从数据中学习</a><a href="chapter-6.html">第六章 理解常见模型的工作原理</a><a href="chapter-7.html">第七章 用 Python 处理数据与训练模型</a><a href="chapter-8.html">第八章 了解人工智能的前沿与应用</a><a href="appendix.html">附录</a></nav></details><details class="section-nav" open><summary>本章小节</summary><nav aria-label="小节目录"><a href="section-3-1.html">3.1 逻辑、集合与条件判断</a><a href="section-3-2.html">3.2 数据统计与图表阅读</a><a href="section-3-3.html">3.3 代数、方程与函数</a><a href="section-3-4.html" aria-current="page">3.4 坐标、向量与矩阵</a><a href="section-3-5.html">3.5 概率与常见分布</a><a href="chapter-3-review.html">本章小结与想一想</a></nav></details></aside><main id="main" class="reading"><div class="reading-meta"><a href="chapter-3.html">第三章 理解 AI 所需的数学基础</a><span>v0.9</span></div><article><h1>3.4 坐标、向量与矩阵</h1><h3 id="_1">用坐标表示数据</h3>
+<p>坐标可以描绘函数，也可以表示一批观测记录。把叶片长度放在横轴、宽度放在纵轴，每片叶子就对应一个点，这便是前面散点图的画法。例如，一片叶子长 3 厘米、宽 1 厘米，可以记为 <span class="arithmatex">\((3,1)\)</span>。这里的坐标描述测量值，不表示叶子在地面上的实际位置。两个轴各表示什么、采用什么单位，都要随所研究的数据明确下来。</p>
+<p>用两个数确定一个点的位置，称为<strong>二维</strong>。在空间中，再增加一条与前两条轴都垂直的 <span class="arithmatex">\(z\)</span> 轴，便能用 <span class="arithmatex">\((x,y,z)\)</span> 三个数表示位置，这就是<strong>三维</strong>。数据也可以增加第三项，例如在叶片长度、宽度之外再记录面积。一条记录含有多少个数值，就可以把它看成多少维的数据；每一维都有自己的含义。把记录表示成点以后，点之间相隔多远，也就成为比较记录的一种办法。下面先从平面中的两个点看起。</p>
+<h3 id="_2">两点之间的距离怎样计算</h3>
+<p>图 3-6 左图中，<span class="arithmatex">\(P(1,2)\)</span> 与 <span class="arithmatex">\(Q(4,6)\)</span> 的横坐标相差 3，纵坐标相差 4。把水平、竖直两个方向的差作为直角三角形的两条直角边，连接 <span class="arithmatex">\(P\)</span>、<span class="arithmatex">\(Q\)</span> 的线段就是斜边。<strong>勾股定理</strong>说明，直角三角形两条直角边长度的平方和，等于斜边长度的平方。因而这段距离的平方为 <span class="arithmatex">\(3^2+4^2=25\)</span>，距离为 5。</p>
+<p>若两点分别为 <span class="arithmatex">\((x_1,y_1)\)</span> 和 <span class="arithmatex">\((x_2,y_2)\)</span>，用 <span class="arithmatex">\(d\)</span> 表示它们的距离，就得到：</p>
+<div class="arithmatex">\[
+d=\sqrt{(x_2-x_1)^2+(y_2-y_1)^2}
+\]</div>
+<p>这样的距离称为<strong>欧氏距离</strong>，在平面中就是熟悉的直线距离。计算时，先在相同位置上相减，再平方、相加，最后开平方。相减顺序颠倒会改变差的正负，却不会改变平方后的结果，因此从 <span class="arithmatex">\(P\)</span> 到 <span class="arithmatex">\(Q\)</span> 和从 <span class="arithmatex">\(Q\)</span> 到 <span class="arithmatex">\(P\)</span> 的距离相同。</p>
+<figure><img loading="lazy" decoding="async" alt="平面中的距离与向量相加" src="assets/图3-6_坐标与向量.png" /><figcaption>图 3-6 左图用直角三角形求距离，右图将两个向量首尾相接</figcaption></figure>
+<p>三维距离的计算再增加一个方向上的差。例如，<span class="arithmatex">\((1,2,3)\)</span> 与 <span class="arithmatex">\((3,3,5)\)</span> 对应分量的差为 2、1、2，距离为 <span class="arithmatex">\(\sqrt{2^2+1^2+2^2}=3\)</span>。人工智能中，一条记录往往包含更多数值：叶片长度、宽度、面积等，每一个数值都可以占一个位置。即使这些位置无法在纸上画成空间，仍能按相同规则求距离：各位置的差平方后相加，再开平方。</p>
+<p>这个方法也提醒了一个容易忽略的问题：距离取决于怎样表示数据。同一片叶子的长度，用厘米记录是 5，用毫米记录是 50。如果某一列改了单位而其他列没有改，这一列对距离的影响就可能明显改变。把数值放进公式之前，要弄清它们的意义和单位；不同尺度怎样处理，将在机器学习部分讨论。用一组数字表示词语或图片以后，距离可以帮助比较它们，但距离是否反映所关心的相似程度，还取决于这些数字是怎样得到的。</p>
+<h3 id="_3">向量及其基本运算</h3>
+<p>按顺序排列的一组数可以看作一个<strong>向量</strong>，每个位置上的数叫作一个<strong>分量</strong>，分量的个数称为向量的<strong>维数</strong>。例如 <span class="arithmatex">\(u=(3,1)\)</span> 是二维向量，<span class="arithmatex">\(v=(1,2,3)\)</span> 是三维向量。二维、三维向量还可以画成箭头：二维向量 <span class="arithmatex">\((3,1)\)</span> 表示水平方向移动 3、竖直方向移动 1。箭头可以从原点出发，也可以从其他点出发，只要长度和方向相同，就表示同一个向量。点用于说明“在哪里”，位移向量用于说明“怎样移动”；两者都能写成有顺序的数，但含义需要区分。</p>
+<p>相同维数的向量可以按对应分量相加、相减。取 <span class="arithmatex">\(u=(3,1)\)</span>、<span class="arithmatex">\(v=(1,2)\)</span>，就有：</p>
+<div class="arithmatex">\[
+u+v=(3+1,1+2)=(4,3)
+\]</div>
+<div class="arithmatex">\[
+u-v=(3-1,1-2)=(2,-1)
+\]</div>
+<p>向量相加也可以用首尾相接的箭头表示：先按 <span class="arithmatex">\(u\)</span> 移动，再按 <span class="arithmatex">\(v\)</span> 移动，从最初起点指向最终终点的箭头表示 <span class="arithmatex">\(u+v\)</span>，如图 3-6 右图。用一个数乘向量，就把每个分量都乘这个数，例如 <span class="arithmatex">\(2u=(6,2)\)</span>。正数倍使箭头沿原方向伸长或缩短，负数倍还会把方向反转；乘以零得到各分量都为零的<strong>零向量</strong>。</p>
+<p>两个同维向量的对应分量相乘，再把乘积相加，称为<strong>内积</strong>，也常叫作<strong>点积</strong>。例如 <span class="arithmatex">\(a=(2,1)\)</span>、<span class="arithmatex">\(w=(3,4)\)</span>，则 <span class="arithmatex">\(a\cdot w=2\times3+1\times4=10\)</span>。点积的结果是一个数。如果 <span class="arithmatex">\(a\)</span> 的分量表示两个输入数值，<span class="arithmatex">\(w\)</span> 的分量表示各自的权重，这个计算正好给出加权求和。许多模型就是先做这样的运算，再进行下一步处理。向量从起点到终点的距离称为它的<strong>长度</strong>，也称为这里所用的欧氏范数。<span class="arithmatex">\((3,4)\)</span> 的长度是 5，而它与自身的点积是 <span class="arithmatex">\(3^2+4^2=25\)</span>，等于长度的平方。</p>
+<p>点积和距离虽然都会用到乘法与加法，却不是同一种运算。例如，<span class="arithmatex">\((3,4)\)</span> 与自身的距离为零，与自身的点积却是 25：一个在比较差异，另一个在累加对应分量的乘积。</p>
+<h3 id="_4">同一组数可以参与不同运算</h3>
+<p>向量的加法、点积和距离都使用分量，但回答的问题各不相同。取 <span class="arithmatex">\(a=(2,1)\)</span>、<span class="arithmatex">\(b=(5,3)\)</span>，相加得到 <span class="arithmatex">\((7,4)\)</span>，结果仍是二维向量；相减得到 <span class="arithmatex">\((3,2)\)</span>，表示从 <span class="arithmatex">\(a\)</span> 所在的点移到 <span class="arithmatex">\(b\)</span> 所在的点需要怎样改变两个坐标；欧氏距离是 <span class="arithmatex">\(\sqrt{3^2+2^2}=\sqrt{13}\)</span>；点积则是 <span class="arithmatex">\(2\times5+1\times3=13\)</span>。这个例子中距离的平方恰好等于点积，只是数值上的巧合，换成别的向量通常就不相等。</p>
+<p>点积适合把多个输入合成一个结果。设叶片的两个测量值为 <span class="arithmatex">\(x=(4,2)\)</span>，权重为 <span class="arithmatex">\(w=(3,-1)\)</span>，则 <span class="arithmatex">\(x\cdot w=4\times3+2\times(-1)=10\)</span>。第一项权重为正，长度增加会使结果增加；第二项权重为负，宽度增加会使结果减少。若保持长度为 4、把宽度从 2 改成 3，结果变为 9。这样的变化可以直接由各分量的贡献解释，无须先把整个模型当成一个难以看清的整体。</p>
+<p>记录中的分量顺序必须一致。如果一条记录按“长度、宽度”排列，另一条却按“宽度、长度”排列，它们在同一位置的数就没有相同含义。距离与点积仍可能算出一个数，但这个数已经不能表达原本想比较的关系。数学公式要求形状相容，实际建模还要求位置的意义相容，两项条件需要同时满足。</p>
+<h3 id="_5">矩阵把一批数据排在一起</h3>
+<p>把数按横行、竖列排成一个长方形，就得到<strong>矩阵</strong>。例如，下面的矩阵 <span class="arithmatex">\(A\)</span> 有 2 行、3 列，称为一个 <span class="arithmatex">\(2\times3\)</span> 矩阵；这里的 <span class="arithmatex">\(2\times3\)</span> 说明形状，不是把矩阵变成数字 6。</p>
+<div class="arithmatex">\[
+A=\begin{bmatrix}2&amp;1&amp;3\\0&amp;4&amp;1\end{bmatrix}
+\]</div>
+<p>矩阵中的每个数叫作一个<strong>元素</strong>，通常用 <span class="arithmatex">\(a_{ij}\)</span> 表示第 <span class="arithmatex">\(i\)</span> 行、第 <span class="arithmatex">\(j\)</span> 列的元素。因此，<span class="arithmatex">\(a_{12}=1\)</span>，<span class="arithmatex">\(a_{23}=1\)</span>。数学中这套下标通常从 1 开始，读取 Python 列表或数组的位置则通常从 0 开始，需要按所使用的规则判断。若每一行对应一片叶子，每一列对应一种测量值，一个矩阵便能装下整批测量记录；图像的像素数值也常按行、列组织。</p>
+<p>矩阵的基本运算先从形状入手。只有行数、列数分别相同，两个矩阵才能按对应位置相加、相减；用一个数乘矩阵，则把每个元素都乘这个数。把原来的行变成列、列变成行，称为<strong>转置</strong>，用右上角的 <span class="arithmatex">\(T\)</span> 表示。上面的 <span class="arithmatex">\(A\)</span> 转置后为：</p>
+<div class="arithmatex">\[
+A^T=\begin{bmatrix}2&amp;0\\1&amp;4\\3&amp;1\end{bmatrix}
+\]</div>
+<p><strong>矩阵乘法</strong>有一套专门的规则。先看矩阵乘向量：把 <span class="arithmatex">\(w=(1,2,1)\)</span> 竖着写成一列，用 <span class="arithmatex">\(A\)</span> 的每一行分别与它做点积，就得到一个两分量的结果：</p>
+<div class="arithmatex">\[
+\begin{bmatrix}2&amp;1&amp;3\\0&amp;4&amp;1\end{bmatrix}
+\begin{bmatrix}1\\2\\1\end{bmatrix}
+=\begin{bmatrix}2\times1+1\times2+3\times1\\0\times1+4\times2+1\times1\end{bmatrix}
+=\begin{bmatrix}7\\9\end{bmatrix}
+\]</div>
+<p>左边矩阵有 3 列，右边向量就必须有 3 个分量，点积才能一一对应。结果有 2 个分量，是因为左边矩阵有 2 行。如果每行是一条输入记录，右边是所有记录共同使用的权重，这一次运算就同时完成了两条记录的加权求和。</p>
+<p>矩阵乘矩阵时，也是取“左边的一行”与“右边的一列”做点积。例如：</p>
+<div class="arithmatex">\[
+\begin{bmatrix}1&amp;2\\3&amp;4\end{bmatrix}
+\begin{bmatrix}2&amp;0\\1&amp;5\end{bmatrix}
+=\begin{bmatrix}4&amp;10\\10&amp;20\end{bmatrix}
+\]</div>
+<p>结果的第 1 行第 1 列是 <span class="arithmatex">\(1\times2+2\times1=4\)</span>，第 1 行第 2 列是 <span class="arithmatex">\(1\times0+2\times5=10\)</span>，其余位置同理。一般来说，一个 <span class="arithmatex">\(m\times n\)</span> 矩阵可以乘一个 <span class="arithmatex">\(n\times p\)</span> 矩阵，结果的形状是 <span class="arithmatex">\(m\times p\)</span>；中间的两个 <span class="arithmatex">\(n\)</span> 必须相同。</p>
+<p>这里的乘法与“两个同形状矩阵按对应元素相乘”不同，后者应明确称为<strong>逐元素乘法</strong>。矩阵乘法一般不能随意交换顺序，交换后即使形状允许计算，也可能得到不同结果。</p>
+<h3 id="_6">沿着行和列完成一次矩阵乘法</h3>
+<p>矩阵乘法的形状规则，可以通过一批叶片的两个测量值来理解。把三片叶子的长度、宽度排成输入矩阵 <span class="arithmatex">\(X\)</span>，再用权重矩阵 <span class="arithmatex">\(W\)</span> 同时计算两种得分：第一列权重用于得分甲，第二列权重用于得分乙。</p>
+<div class="arithmatex">\[
+X=\begin{bmatrix}4&amp;1\\6&amp;2\\8&amp;3\end{bmatrix},\qquad
+W=\begin{bmatrix}2&amp;1\\-1&amp;3\end{bmatrix}
+\]</div>
+<p>第一片叶子的得分甲，用第一行 <span class="arithmatex">\((4,1)\)</span> 与第一列 <span class="arithmatex">\((2,-1)\)</span> 做点积，得到 <span class="arithmatex">\(4\times2+1\times(-1)=7\)</span>；得分乙用同一行与第二列 <span class="arithmatex">\((1,3)\)</span> 做点积，得到 <span class="arithmatex">\(4\times1+1\times3=7\)</span>。第二片叶子换用第二行，两个结果分别为 10 和 12。所有位置都这样计算，便有：</p>
+<div class="arithmatex">\[
+XW=\begin{bmatrix}7&amp;7\\10&amp;12\\13&amp;17\end{bmatrix}
+\]</div>
+<figure><img loading="lazy" decoding="async" alt="矩阵乘法中一行与一列对应相乘再求和" src="assets/图3-7_矩阵乘法.png" /><figcaption>图 3-7 一个输出元素来自一行与一列的点积</figcaption></figure>
+<p>输入的三行对应三片叶子，输出仍有三行；权重有两列，表示要计算两种得分，输出于是有两列。中间共同的数 2 表示每次点积有两项相乘：长度对长度的权重，宽度对宽度的权重。写成形状关系就是 <span class="arithmatex">\((3\times2)(2\times2)\rightarrow3\times2\)</span>。图中把第一项计算单独标出，其余五个位置遵守同样的规则。</p>
+<p><strong>逐元素乘法</strong>采用另一种配对方式。例如，两个 <span class="arithmatex">\(2\times2\)</span> 矩阵逐元素相乘，每个位置只与另一矩阵的相同位置相乘，不会再把一行与一列的乘积加起来。后面使用 NumPy 时，<code>*</code> 通常表示逐元素乘法，<code>@</code> 才表示这里的矩阵乘法。同样出现一个乘号或“乘”字，必须先确认采用的规则。</p></article><nav class="pager" aria-label="前后篇目"><a href="section-3-3.html"><small>上一篇</small>3.3 代数、方程与函数</a><a href="section-3-5.html"><small>下一篇</small>3.5 概率与常见分布 →</a></nav><p class="reader-note">发现错误或有没讲清楚的地方？欢迎<a href="https://github.com/UESTC1010/CAICP_Book/issues">提交勘误与建议</a>。请注明章节及原文。</p></main></div><a class="back-top" href="#main" aria-label="返回正文顶部">↑</a><footer class="footer"><span>陈峥 著 · 公开试读版 v0.9</span><span><a href="https://github.com/UESTC1010/CAICP_Book/blob/main/LICENSE.md">正文与插图 CC BY-NC-SA 4.0</a> · <a href="https://github.com/UESTC1010/CAICP_Book/issues">勘误与建议 ↗</a></span></footer></body></html>

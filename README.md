@@ -10,6 +10,10 @@
 
 编写这本书，起于给初一孩子辅导 CAICP 时的一个困难：有大纲和样题，却很难找到一本适合中学生从头学习、又能把相关知识串起来的教材。现在将完整书稿和源文件公开，欢迎阅读、分享和提出修改意见。
 
+## 在线阅读
+
+[打开图书网站](https://uestc1010.github.io/CAICP_Book/)：按章、按节阅读，支持手机浏览、公式与代码显示。
+
 ## 下载整本书
 
 **[下载完整 PDF（v0.9，289 页）](https://github.com/UESTC1010/CAICP_Book/releases/download/v0.9/CAICP_Book-v0.9.pdf)**

@@ -1,0 +1,76 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>6.1 线性回归与多项式回归｜从零开始学人工智能：中学生 CAICP 学习指南</title><meta name="description" content="6.1 线性回归与多项式回归。从回归和分类，到神经网络、梯度下降与卷积，理解模型内部的工作方式。"><meta name="author" content="陈峥"><link rel="canonical" href="https://uestc1010.github.io/CAICP_Book/section-6-1.html"><link rel="icon" type="image/svg+xml" href="favicon.svg"><meta name="theme-color" content="#173c46"><meta property="og:title" content="6.1 线性回归与多项式回归｜从零开始学人工智能：中学生 CAICP 学习指南"><meta property="og:description" content="6.1 线性回归与多项式回归。从回归和分类，到神经网络、梯度下降与卷积，理解模型内部的工作方式。"><meta property="og:type" content="article"><meta property="og:url" content="https://uestc1010.github.io/CAICP_Book/section-6-1.html"><meta property="og:image" content="https://uestc1010.github.io/CAICP_Book/assets/cover.png"><link rel="stylesheet" href="site.css"><script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "name": "6.1 线性回归与多项式回归｜从零开始学人工智能：中学生 CAICP 学习指南", "inLanguage": "zh-CN", "url": "https://uestc1010.github.io/CAICP_Book/section-6-1.html", "author": {"@type": "Person", "name": "陈峥"}, "description": "6.1 线性回归与多项式回归。从回归和分类，到神经网络、梯度下降与卷积，理解模型内部的工作方式。"}</script><script defer src="site.js"></script><script defer src="mathjax-tex-svg.js"></script></head><body><a class="skip" href="#main">跳到正文</a><header class="topbar"><a class="brand" href="./"><span class="brand-mark">AI</span><span>中学生 CAICP 学习指南</span></a><nav aria-label="主导航"><a href="./#contents">全书目录</a><a href="https://github.com/UESTC1010/CAICP_Book/releases/download/v0.9/CAICP_Book-v0.9.pdf">下载 PDF</a><a href="https://github.com/UESTC1010/CAICP_Book">GitHub ↗</a></nav></header><div class="reader-layout"><aside class="sidebar"><details class="book-nav" open><summary>全书目录</summary><nav aria-label="章节目录"><a href="preface.html">前言</a><a href="chapter-1.html">第一章 认识人工智能</a><a href="chapter-2.html">第二章 用 Python 编写程序</a><a href="chapter-3.html">第三章 理解 AI 所需的数学基础</a><a href="chapter-4.html">第四章 用算法解决问题</a><a href="chapter-5.html">第五章 让机器从数据中学习</a><a href="chapter-6.html" aria-current="page">第六章 理解常见模型的工作原理</a><a href="chapter-7.html">第七章 用 Python 处理数据与训练模型</a><a href="chapter-8.html">第八章 了解人工智能的前沿与应用</a><a href="appendix.html">附录</a></nav></details><details class="section-nav" open><summary>本章小节</summary><nav aria-label="小节目录"><a href="section-6-1.html" aria-current="page">6.1 线性回归与多项式回归</a><a href="section-6-2.html">6.2 常见分类算法</a><a href="section-6-3.html">6.3 聚类与 K-means</a><a href="section-6-4.html">6.4 概率建模与统计推断</a><a href="section-6-5.html">6.5 神经元与多层感知机</a><a href="section-6-6.html">6.6 极限、导数与梯度下降</a><a href="section-6-7.html">6.7 模型训练与改进</a><a href="section-6-8.html">6.8 卷积神经网络</a><a href="chapter-6-review.html">本章小结与想一想</a></nav></details></aside><main id="main" class="reading"><div class="reading-meta"><a href="chapter-6.html">第六章 理解常见模型的工作原理</a><span>v0.9</span></div><article><h1>6.1 线性回归与多项式回归</h1><h3 id="_1">一条直线怎样作预测</h3>
+<p>第三章用 <span class="arithmatex">\(y=kx+b\)</span> 描述一次函数。把它用于数值预测时，常写为 <span class="arithmatex">\(\hat{y}=wx+b\)</span>，称为一个单特征的<strong>线性回归模型</strong>。<span class="arithmatex">\(x\)</span> 是输入特征，<span class="arithmatex">\(\hat{y}\)</span> 是预测值，读作“<span class="arithmatex">\(y\)</span> 帽”；真实目标值仍记为 <span class="arithmatex">\(y\)</span>。<span class="arithmatex">\(w\)</span> 是权重，决定输入变化对预测的影响，<span class="arithmatex">\(b\)</span> 是截距，也常称为偏置。例如，一个按厘米记录的叶片面积估计模型规定：输入叶片长度 <span class="arithmatex">\(x\)</span>，预测面积 <span class="arithmatex">\(\hat{y}=2x+1\)</span> 平方厘米。长度为 4 厘米时，预测为 9 平方厘米；长度增加到 5 厘米，预测增加 2 平方厘米。这个公式是用于说明计算的示例，不是所有叶片都满足的生物学规律。权重的数值与单位有关，若长度改用毫米输入，就不能继续原样使用权重 2。</p>
+<p>有多个特征时，可以分别加权后相加。例如，<span class="arithmatex">\(\hat{y}=w_1x_1+w_2x_2+b\)</span> 同时使用长度和宽度。若权重为 2、3，偏置为 1，输入为 <span class="arithmatex">\((4,2)\)</span>，预测就是 <span class="arithmatex">\(2\times4+3\times2+1=15\)</span>。第三章的点积恰好表示这种加权和。输入增加到更多特征时，计算规则不变，只是对应相乘的项更多。线性模型并不要求所有权重为正。权重为负，表示在其他特征固定时，这个特征增加会使预测减小。</p>
+<p>解释某个权重时，必须带上“其他特征固定”和“在当前模型中”这两个条件。输入特征常常彼此相关，模型权重也会受所选数据影响，不能仅凭一个负号就断言现实中的因果关系。</p>
+<h3 id="_2">最小二乘法如何选择直线</h3>
+<p>模型的形式规定了能作出怎样的预测，训练则决定具体权重与偏置。对训练样本逐个计算误差 <span class="arithmatex">\(\hat{y}_i-y_i\)</span>，把误差平方后相加，寻找使这个总和尽量小的参数，这种拟合原则称为<strong>最小二乘法</strong>。“二乘”指平方；它衡量的是在每个输入位置上，预测输出与真实输出之间的差，通常不是散点到直线的垂直最短距离。</p>
+<p>设训练集有 <span class="arithmatex">\(n\)</span> 个样本，用 <span class="arithmatex">\(L\)</span> 表示均方误差，则：</p>
+<div class="arithmatex">\[
+L(w,b)=\frac{1}{n}\sum_{i=1}^{n}(wx_i+b-y_i)^2
+\]</div>
+<p><span class="arithmatex">\(L\)</span> 称为<strong>损失函数</strong>，用一个数评价当前参数下预测与训练目标的差距。括号里先算模型输出，再减去真实值；下标 <span class="arithmatex">\(i\)</span> 表示第几个样本。固定这批样本以后，<span class="arithmatex">\(x_i\)</span> 和 <span class="arithmatex">\(y_i\)</span> 不再改变，改变的是 <span class="arithmatex">\(w\)</span> 和 <span class="arithmatex">\(b\)</span>。因此，这个式子也可以看作以模型参数为输入、以误差大小为输出的函数。对于固定的 <span class="arithmatex">\(n\)</span>，除不除以 <span class="arithmatex">\(n\)</span> 不影响最小值对应的参数。一个式子中出现许多下标，仍然可以按样本逐条展开。例如，只有两条记录时，求和号表示先算 <span class="arithmatex">\((wx_1+b-y_1)^2\)</span>，再算 <span class="arithmatex">\((wx_2+b-y_2)^2\)</span>，两项相加后除以 2。参数在所有样本上共用，每条样本有自己的输入和目标，这正是模型从整批数据中学习共同规则的含义。</p>
+<p>先看只有偏置的模型：它无论收到什么输入，总是预测同一个数 <span class="arithmatex">\(b\)</span>。训练目标为 2、4、6 时，取 <span class="arithmatex">\(b=3\)</span>，平方误差和为 <span class="arithmatex">\(1+1+9=11\)</span>；取 <span class="arithmatex">\(b=4\)</span>，则为 <span class="arithmatex">\(4+0+4=8\)</span>。事实上，对这三个数，误差和可以整理为 <span class="arithmatex">\(3(b-4)^2+8\)</span>，所以 <span class="arithmatex">\(b=4\)</span> 时最小。这里的 4 正是目标值的平均数。这个简单例子说明，最小二乘并不是要让模型恰好经过每个点，而是在一批数据之间寻求按平方误差衡量的整体拟合。</p>
+<p>对于同时含权重与偏置的单特征线性回归，也有直接计算的方法。设输入平均数为 <span class="arithmatex">\(\bar{x}\)</span>，目标平均数为 <span class="arithmatex">\(\bar{y}\)</span>，且输入并非全部相同，则最小二乘解为：</p>
+<div class="arithmatex">\[
+w=\frac{\sum_{i=1}^{n}(x_i-\bar{x})(y_i-\bar{y})}{\sum_{i=1}^{n}(x_i-\bar{x})^2},\qquad b=\bar{y}-w\bar{x}
+\]</div>
+<p>分子把输入与目标相对各自平均数的变化相乘后累加，分母衡量输入自身的分散程度。对输入 1、2、3 和目标 2、4、6，两组平均数为 2 和 4，分子为 <span class="arithmatex">\((-1)(-2)+0+1\times2=4\)</span>，分母为 <span class="arithmatex">\(1+0+1=2\)</span>，得到 <span class="arithmatex">\(w=2\)</span>、<span class="arithmatex">\(b=0\)</span>。所有点正好落在 <span class="arithmatex">\(y=2x\)</span> 上，训练误差为零。真实测量通常没有这样整齐，得到的直线会在各点之间作出折中。</p>
+<p>上述公式用于一元、带截距、普通最小二乘的情形。如果所有输入相同，分母为零，数据不足以唯一确定斜率；不能直接代入。多特征模型常借助线性代数工具求解，也可以使用后面介绍的梯度下降。</p>
+<p>最小二乘确定了训练目标，求解算法则负责找到符合这一目标的参数。</p>
+<h3 id="_3">对不完全共线的记录拟合一次</h3>
+<p>训练点恰好排成直线时，容易把拟合理解成“连起几个点”。现在使用三条不完全共线的记录：输入为 1、2、3，目标为 2、3、7。输入均值为 2，目标均值为 4，各项计算列在表 6-1 中。</p>
+<p>表 6-1 最小二乘计算中的中心化数值</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="数据表格"><table>
+<thead>
+<tr>
+<th>输入与目标</th>
+<th>输入减均值</th>
+<th>目标减均值</th>
+<th>两个差的乘积</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(1,2)</td>
+<td>−1</td>
+<td>−2</td>
+<td>2</td>
+</tr>
+<tr>
+<td>(2,3)</td>
+<td>0</td>
+<td>−1</td>
+<td>0</td>
+</tr>
+<tr>
+<td>(3,7)</td>
+<td>1</td>
+<td>3</td>
+<td>3</td>
+</tr>
+</tbody>
+</table></div>
+<p>分子的总和为 5，分母为 <span class="arithmatex">\((-1)^2+0^2+1^2=2\)</span>，所以 <span class="arithmatex">\(w=2.5\)</span>、<span class="arithmatex">\(b=4-2.5\times2=-1\)</span>。拟合直线为 <span class="arithmatex">\(\hat y=2.5x-1\)</span>，三条预测分别为 1.5、4、6.5，误差分别为 <span class="arithmatex">\(-0.5\)</span>、1、<span class="arithmatex">\(-0.5\)</span>，均方误差为：</p>
+<div class="arithmatex">\[
+L=\frac{(-0.5)^2+1^2+(-0.5)^2}{3}=0.5
+\]</div>
+<figure><img loading="lazy" decoding="async" alt="不完全共线的样本与最小二乘直线的纵向残差" src="assets/图6-1_残差与拟合.png" /><figcaption>图 6-1 最小二乘比较的是同一输入位置上的输出差</figcaption></figure>
+<p>图中的短线沿纵向连接预测与观测，表示每条误差。中间的点位于直线下方，两端的点位于直线上方，直线在三条记录之间取得折中。如果改用 <span class="arithmatex">\(\hat y=2x\)</span>，误差为 0、1、<span class="arithmatex">\(-1\)</span>，MSE 为 <span class="arithmatex">\(2/3\)</span>，比 0.5 大。虽然这条备选直线恰好经过第一条记录，却没有在整批数据上得到更小的平方误差。</p>
+<p>可以用一个小函数计算任意给定参数的损失。这里让模型参数成为函数的输入，训练数据固定在列表中，便于观察“换一条直线”对结果的影响。</p>
+<pre><code class="language-python">samples = [(1.0, 2.0), (2.0, 3.0), (3.0, 7.0)]
+def line_loss(w, b):
+    total = 0.0
+    for x, y in samples:
+        prediction = w * x + b
+        total += (prediction - y) ** 2
+    return total / len(samples)
+
+print(line_loss(2.5, -1.0))  # 0.5
+print(round(line_loss(2.0, 0.0), 4))  # 0.6667
+</code></pre>
+<p>计算出最优直线以后，仍要用未参与拟合的记录评价预测。三条训练记录说明了如何确定参数，却不能单独证明这条关系适用于更大范围。一个模型的拟合过程与它在新数据上的可信程度，需要分别检查。</p>
+<h3 id="_4">多项式让图像能够弯曲</h3>
+<p>一条直线每向右走相同距离，预测变化量都相同。如果散点明显呈弯曲趋势，可以增加 <span class="arithmatex">\(x^2\)</span>、<span class="arithmatex">\(x^3\)</span> 等特征，得到<strong>多项式回归</strong>。二次形式为 <span class="arithmatex">\(\hat{y}=a_2x^2+a_1x+b\)</span>。例如，模型 <span class="arithmatex">\(\hat{y}=x^2+1\)</span> 在输入 1、2、3 时分别输出 2、5、10，第三章中的抛物线因此直接成为一种预测曲线。虽然输出相对于原输入 <span class="arithmatex">\(x\)</span> 是弯曲的，模型对参数 <span class="arithmatex">\(a_2\)</span>、<span class="arithmatex">\(a_1\)</span>、<span class="arithmatex">\(b\)</span> 仍是加权相加，没有把参数平方或相乘。因此，可以先把原输入变成 <span class="arithmatex">\((x,x^2)\)</span> 两个特征，再用线性回归学习这些特征的权重。“线性”在模型讨论中有时是相对于参数而言，不能只凭图像是否弯曲判断。</p>
+<p>多个输入也可以构造交互项，例如 <span class="arithmatex">\(x_1x_2\)</span>。它表示一个特征的影响随另一个特征而变化。多变量多项式中，一项的次数是各变量指数之和：<span class="arithmatex">\(x_1x_2\)</span> 是二次项，<span class="arithmatex">\(x_1^2x_2\)</span> 是三次项。增加这些项会让模型更加灵活，也会增加待学习参数；不能因为原始特征只有两个，就认为模型一定简单。</p>
+<figure><img loading="lazy" decoding="async" alt="直线与不同复杂度曲线对数据的拟合" src="assets/图6-2_回归与拟合.png" /><figcaption>图 6-2 更灵活的曲线可以贴近训练点，也可能把测量波动当作规律</figcaption></figure>
+<p>提高次数通常能降低同一训练集上的最小平方误差，却未必改善新数据预测。图 6-2 中，过分曲折的曲线迎合了训练点的细小波动，在点与点之间或观察范围之外可能变化很大。在训练数据覆盖范围之外作预测称为<strong>外推</strong>，此时模型依靠的是从已有范围延伸出的假设，应结合实际规律和新数据评价。第 6.7 节将进一步讨论模型复杂度怎样影响泛化。</p></article><nav class="pager" aria-label="前后篇目"><a href="chapter-6.html"><small>上一篇</small>第六章 理解常见模型的工作原理</a><a href="section-6-2.html"><small>下一篇</small>6.2 常见分类算法 →</a></nav><p class="reader-note">发现错误或有没讲清楚的地方？欢迎<a href="https://github.com/UESTC1010/CAICP_Book/issues">提交勘误与建议</a>。请注明章节及原文。</p></main></div><a class="back-top" href="#main" aria-label="返回正文顶部">↑</a><footer class="footer"><span>陈峥 著 · 公开试读版 v0.9</span><span><a href="https://github.com/UESTC1010/CAICP_Book/blob/main/LICENSE.md">正文与插图 CC BY-NC-SA 4.0</a> · <a href="https://github.com/UESTC1010/CAICP_Book/issues">勘误与建议 ↗</a></span></footer></body></html>

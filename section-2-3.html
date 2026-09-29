@@ -1,0 +1,68 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>2.3 函数、递归与代码复用｜从零开始学人工智能：中学生 CAICP 学习指南</title><meta name="description" content="2.3 函数、递归与代码复用。变量、条件、循环、函数与程序调试，逐步写出能解决问题的 Python 程序。"><meta name="author" content="陈峥"><link rel="canonical" href="https://uestc1010.github.io/CAICP_Book/section-2-3.html"><link rel="icon" type="image/svg+xml" href="favicon.svg"><meta name="theme-color" content="#173c46"><meta property="og:title" content="2.3 函数、递归与代码复用｜从零开始学人工智能：中学生 CAICP 学习指南"><meta property="og:description" content="2.3 函数、递归与代码复用。变量、条件、循环、函数与程序调试，逐步写出能解决问题的 Python 程序。"><meta property="og:type" content="article"><meta property="og:url" content="https://uestc1010.github.io/CAICP_Book/section-2-3.html"><meta property="og:image" content="https://uestc1010.github.io/CAICP_Book/assets/cover.png"><link rel="stylesheet" href="site.css"><script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "name": "2.3 函数、递归与代码复用｜从零开始学人工智能：中学生 CAICP 学习指南", "inLanguage": "zh-CN", "url": "https://uestc1010.github.io/CAICP_Book/section-2-3.html", "author": {"@type": "Person", "name": "陈峥"}, "description": "2.3 函数、递归与代码复用。变量、条件、循环、函数与程序调试，逐步写出能解决问题的 Python 程序。"}</script><script defer src="site.js"></script><script defer src="mathjax-tex-svg.js"></script></head><body><a class="skip" href="#main">跳到正文</a><header class="topbar"><a class="brand" href="./"><span class="brand-mark">AI</span><span>中学生 CAICP 学习指南</span></a><nav aria-label="主导航"><a href="./#contents">全书目录</a><a href="https://github.com/UESTC1010/CAICP_Book/releases/download/v0.9/CAICP_Book-v0.9.pdf">下载 PDF</a><a href="https://github.com/UESTC1010/CAICP_Book">GitHub ↗</a></nav></header><div class="reader-layout"><aside class="sidebar"><details class="book-nav" open><summary>全书目录</summary><nav aria-label="章节目录"><a href="preface.html">前言</a><a href="chapter-1.html">第一章 认识人工智能</a><a href="chapter-2.html" aria-current="page">第二章 用 Python 编写程序</a><a href="chapter-3.html">第三章 理解 AI 所需的数学基础</a><a href="chapter-4.html">第四章 用算法解决问题</a><a href="chapter-5.html">第五章 让机器从数据中学习</a><a href="chapter-6.html">第六章 理解常见模型的工作原理</a><a href="chapter-7.html">第七章 用 Python 处理数据与训练模型</a><a href="chapter-8.html">第八章 了解人工智能的前沿与应用</a><a href="appendix.html">附录</a></nav></details><details class="section-nav" open><summary>本章小节</summary><nav aria-label="小节目录"><a href="section-2-1.html">2.1 基础语法与程序执行</a><a href="section-2-2.html">2.2 字符串与容器</a><a href="section-2-3.html" aria-current="page">2.3 函数、递归与代码复用</a><a href="section-2-4.html">2.4 模块、文档阅读与程序调试</a><a href="section-2-5.html">2.5 进阶表达与面向对象</a><a href="chapter-2-review.html">本章小结与想一想</a></nav></details></aside><main id="main" class="reading"><div class="reading-meta"><a href="chapter-2.html">第二章 用 Python 编写程序</a><span>v0.9</span></div><article><h1>2.3 函数、递归与代码复用</h1><h3 id="_1">用函数划分工作</h3>
+<p>同一组测量值换成另一组，求平均数的步骤仍是“总和除以数量”。这样反复出现的工作，可以定义成自己的函数，像调用 <code>print()</code>、<code>len()</code> 那样复用。定义以 <code>def</code> 开始，后面写函数名和参数；冒号之后缩进的部分是<strong>函数体</strong>。下面将函数命名为 <code>mean</code>，意思是平均数。参数 <code>values</code> 接收数据，<code>sum(values)</code> 求总和，<code>len(values)</code> 取项数，<code>return</code> 再把计算结果交回调用处。</p>
+<pre><code class="language-python">def mean(values):
+    return sum(values) / len(values)
+
+result = mean([18, 20, 25])
+print(result)  # 21.0
+</code></pre>
+<p>执行函数定义时，Python 先记下这个函数，并不立即计算平均数。运行到 <code>mean([18, 20, 25])</code>，才把列表交给参数 <code>values</code>，进入函数体：总和为 63，数量为 3，除法结果为 <code>21.0</code>。<code>return</code> 随即结束这次函数执行，把结果交给外面的 <code>result</code>，最后由 <code>print()</code> 显示出来。如果换成另一组非空数值，函数仍使用相同的步骤；空列表会使除数为零，不符合这个函数的使用条件。把相关步骤组织起来，用明确的参数与返回结果提供功能，称为<strong>封装</strong>。调用者可以先看函数完成什么工作，需要时再查内部细节。以后要对多批资料求平均数或转换格式，就能反复调用同一处代码，也便于集中修改。</p>
+<p>函数也可以不接收参数。下面的 <code>announce()</code> 只显示固定文字，但定义和调用时的空括号都不能省略。</p>
+<pre><code class="language-python">def announce():
+    print(&quot;处理完成&quot;)
+
+announce()
+</code></pre>
+<p>“显示内容”和“返回结果”是两个操作。显示是把文字送到输出区域，返回是把数据交回调用的位置。没有执行带结果的 <code>return</code> 时，函数会返回 <code>None</code>。下面故意只打印总数，观察外面接到什么。</p>
+<pre><code class="language-python">def show_total(values):
+    print(sum(values))
+
+result = show_total([2, 3])
+print(result)
+</code></pre>
+<p>第一行输出 <code>5</code>，来自函数体内的 <code>print()</code>；第二行输出 <code>None</code>，因为 <code>show_total()</code> 没有把总数返回。若后面还要拿总数继续计算，就应在函数体中使用 <code>return sum(values)</code>，不能把已经出现在屏幕上的文字当成调用者收到的数据。</p>
+<h3 id="_2">参数怎样传入函数</h3>
+<p>一个函数可以有多个参数，也可以给部分参数规定<strong>默认值</strong>，在调用者省略这项信息时使用。下面的函数把数值增加一段偏移量；<code>offset</code> 表示偏移量，没有另外指定时使用 1。</p>
+<pre><code class="language-python">def shift(value, offset=1):
+    return value + offset
+
+print(shift(5))            # 6
+print(shift(5, 3))         # 8
+print(shift(5, offset=3))   # 8
+</code></pre>
+<p><code>shift(5, 3)</code> 按位置传递，5 交给 <code>value</code>，3 交给 <code>offset</code>；<code>shift(5, offset=3)</code> 则为第二个参数写出了名称。顺序和名称都必须符合函数定义，不能随意把两项交换。默认值是在定义函数时计算的，默认列表不会在每次调用时自动重新创建；若需要每次从一份空列表开始，应把新建列表的语句放在函数体内。</p>
+<p>变量名能在哪一部分代码中使用，有自己的范围，称为<strong>作用域</strong>。参数以及函数体内赋值建立的名字，通常是当前函数调用的<strong>局部变量</strong>。例如，<code>mean</code> 内部的参数叫 <code>values</code>，外面调用它时使用的列表变量可以叫 <code>temperatures</code>，两个名字不必相同。不同函数里即使都写了名叫 <code>total</code> 的局部变量，也不会仅因同名就联动。函数内直接赋值通常建立局部名字；优先通过参数接收数据、通过返回值交出结果，能够让这种内外关系更清楚。</p>
+<h3 id="_3">列表作为参数时发生什么</h3>
+<p>函数接收列表参数时，并不会自动获得一份新列表。下面的参数 <code>values</code> 与外面的 <code>data</code> 指向同一个对象，所以在函数内执行 <code>append()</code>，会改变调用者原有的数据。</p>
+<pre><code class="language-python">def add_zero(values):
+    values.append(0)
+
+data = [3, 5]
+add_zero(data)
+print(data)  # [3, 5, 0]
+</code></pre>
+<p>把函数体改成 <code>values = [0]</code>，结果却不同：局部名字改为指向新列表，外面的 <code>data</code> 仍指向原列表。</p>
+<p><code>append()</code> 修改对象，赋值更换名字所指的对象，这一区别到了函数内部仍然成立。如果希望保留原数据，可以先复制，再修改副本并返回；复制嵌套列表时，也仍要考虑内层是否共享。</p>
+<h3 id="_4">常用内置函数与数制转换</h3>
+<p>Python 已经提供了许多可以直接使用的<strong>内置函数</strong>。<code>sum()</code> 求和，<code>len()</code> 取长度或元素数量，<code>min()</code> 和 <code>max()</code> 求最小值、最大值，<code>abs()</code> 求绝对值，<code>pow(x, y)</code> 计算乘方，<code>sorted()</code> 返回排序后的列表。它们让程序能够直接表达“求总数”“取最大值”这些意图。<code>round(x, n)</code> 用于按指定的小数位数取近似值，省略 <code>n</code> 时取整；当数值恰好处于两个候选值正中间时，采用靠近偶数的规则，例如 <code>round(2.5)</code> 为 2，<code>round(3.5)</code> 为 4。浮点数本身也可能有表示误差，因此它不等同于所有日常场景中的“四舍五入”。</p>
+<p><strong>数制</strong>决定如何用数码表示一个数。十进制每向左一位，所代表的单位扩大 10 倍；二进制扩大 2 倍，只用 0 和 1；十六进制扩大 16 倍，用 0 至 9 和 A 至 F 表示十六种数码，其中 A 表示十，F 表示十五。例如，二进制的 <code>1101</code> 表示 <code>1×8 + 1×4 + 0×2 + 1</code>，也就是十进制的 13。变的是写法，数值并没有变。</p>
+<pre><code class="language-python">print(bin(26))       # 0b11010
+print(hex(26))       # 0x1a
+print(int(&quot;11010&quot;, 2))  # 26
+print(int(&quot;1A&quot;, 16))    # 26
+print(format(26, &quot;b&quot;))  # 11010
+</code></pre>
+<p><code>bin()</code> 和 <code>hex()</code> 返回字符串，前面的 <code>0b</code>、<code>0x</code> 分别说明二进制和十六进制。<code>int(文字, 进制)</code> 按指定规则把文字读成整数，十六进制的字母可以大写或小写。<code>format(26, "b")</code> 得到不带 <code>0b</code> 的二进制文字。输入若含多个字段，应先按约定拆开，再分别转换；进制不匹配的数码，例如把 <code>"102"</code> 当作二进制读取，会引发错误。</p>
+<h3 id="_5">递归如何一层层返回</h3>
+<p><strong>递归</strong>是函数在执行过程中调用自身。它适合把某个问题缩小成同类问题，再逐层求解。以从 1 加到正整数 <code>n</code> 为例，前 <code>n</code> 项的和等于“前 <code>n-1</code> 项的和再加 <code>n</code>”。约定 <code>n</code> 为非负整数，<code>n = 0</code> 时没有数要加，总和就是 0。这样就有了一个直接结束的情况，也有了向它不断靠近的方法。</p>
+<pre><code class="language-python">def total_to(n):
+    if n == 0:
+        return 0
+    return n + total_to(n - 1)
+
+print(total_to(3))  # 6
+</code></pre>
+<p>计算 <code>total_to(3)</code> 时，函数需要先知道 <code>total_to(2)</code> 的结果；后者又要等待 <code>total_to(1)</code>，再等到 <code>total_to(0)</code>。每次调用都有各自的参数和执行位置，外层不会因为出现了新调用而消失。直到最内层返回 0，等待的计算才依次完成：<code>1 + 0</code> 得到 1，<code>2 + 1</code> 得到 3，<code>3 + 3</code> 得到 6。图 2-4 用箭头表示这个先深入、再返回的过程。</p>
+<figure><img loading="lazy" decoding="async" alt="递归调用与结果逐层返回" src="assets/图2-4_递归调用.png" /><figcaption>图 2-4 递归需要保存每一层尚未完成的计算</figcaption></figure>
+<p>递归需要<strong>终止条件</strong>，还需要每次调用真正接近终止条件。如果把 <code>n - 1</code> 写成 <code>n</code>，问题大小就没有改变；如果把负整数交给上面的函数，它也不会走到 0。Python 对递归深度有限制，递归过深会出现 <code>RecursionError</code>。</p>
+<p>这个求和问题也能直接用循环或 <code>sum(range(1, n + 1))</code> 完成。递归提供了一种组织思路，是否采用，还要看问题结构和执行开销，不能认为写成递归就一定更快。</p></article><nav class="pager" aria-label="前后篇目"><a href="section-2-2.html"><small>上一篇</small>2.2 字符串与容器</a><a href="section-2-4.html"><small>下一篇</small>2.4 模块、文档阅读与程序调试 →</a></nav><p class="reader-note">发现错误或有没讲清楚的地方？欢迎<a href="https://github.com/UESTC1010/CAICP_Book/issues">提交勘误与建议</a>。请注明章节及原文。</p></main></div><a class="back-top" href="#main" aria-label="返回正文顶部">↑</a><footer class="footer"><span>陈峥 著 · 公开试读版 v0.9</span><span><a href="https://github.com/UESTC1010/CAICP_Book/blob/main/LICENSE.md">正文与插图 CC BY-NC-SA 4.0</a> · <a href="https://github.com/UESTC1010/CAICP_Book/issues">勘误与建议 ↗</a></span></footer></body></html>

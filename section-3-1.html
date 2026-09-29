@@ -1,0 +1,58 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>3.1 逻辑、集合与条件判断｜从零开始学人工智能：中学生 CAICP 学习指南</title><meta name="description" content="3.1 逻辑、集合与条件判断。逻辑、统计、方程、函数、向量和概率，为理解模型打下数学基础。"><meta name="author" content="陈峥"><link rel="canonical" href="https://uestc1010.github.io/CAICP_Book/section-3-1.html"><link rel="icon" type="image/svg+xml" href="favicon.svg"><meta name="theme-color" content="#173c46"><meta property="og:title" content="3.1 逻辑、集合与条件判断｜从零开始学人工智能：中学生 CAICP 学习指南"><meta property="og:description" content="3.1 逻辑、集合与条件判断。逻辑、统计、方程、函数、向量和概率，为理解模型打下数学基础。"><meta property="og:type" content="article"><meta property="og:url" content="https://uestc1010.github.io/CAICP_Book/section-3-1.html"><meta property="og:image" content="https://uestc1010.github.io/CAICP_Book/assets/cover.png"><link rel="stylesheet" href="site.css"><script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "name": "3.1 逻辑、集合与条件判断｜从零开始学人工智能：中学生 CAICP 学习指南", "inLanguage": "zh-CN", "url": "https://uestc1010.github.io/CAICP_Book/section-3-1.html", "author": {"@type": "Person", "name": "陈峥"}, "description": "3.1 逻辑、集合与条件判断。逻辑、统计、方程、函数、向量和概率，为理解模型打下数学基础。"}</script><script defer src="site.js"></script><script defer src="mathjax-tex-svg.js"></script></head><body><a class="skip" href="#main">跳到正文</a><header class="topbar"><a class="brand" href="./"><span class="brand-mark">AI</span><span>中学生 CAICP 学习指南</span></a><nav aria-label="主导航"><a href="./#contents">全书目录</a><a href="https://github.com/UESTC1010/CAICP_Book/releases/download/v0.9/CAICP_Book-v0.9.pdf">下载 PDF</a><a href="https://github.com/UESTC1010/CAICP_Book">GitHub ↗</a></nav></header><div class="reader-layout"><aside class="sidebar"><details class="book-nav" open><summary>全书目录</summary><nav aria-label="章节目录"><a href="preface.html">前言</a><a href="chapter-1.html">第一章 认识人工智能</a><a href="chapter-2.html">第二章 用 Python 编写程序</a><a href="chapter-3.html" aria-current="page">第三章 理解 AI 所需的数学基础</a><a href="chapter-4.html">第四章 用算法解决问题</a><a href="chapter-5.html">第五章 让机器从数据中学习</a><a href="chapter-6.html">第六章 理解常见模型的工作原理</a><a href="chapter-7.html">第七章 用 Python 处理数据与训练模型</a><a href="chapter-8.html">第八章 了解人工智能的前沿与应用</a><a href="appendix.html">附录</a></nav></details><details class="section-nav" open><summary>本章小节</summary><nav aria-label="小节目录"><a href="section-3-1.html" aria-current="page">3.1 逻辑、集合与条件判断</a><a href="section-3-2.html">3.2 数据统计与图表阅读</a><a href="section-3-3.html">3.3 代数、方程与函数</a><a href="section-3-4.html">3.4 坐标、向量与矩阵</a><a href="section-3-5.html">3.5 概率与常见分布</a><a href="chapter-3-review.html">本章小结与想一想</a></nav></details></aside><main id="main" class="reading"><div class="reading-meta"><a href="chapter-3.html">第三章 理解 AI 所需的数学基础</a><span>v0.9</span></div><article><h1>3.1 逻辑、集合与条件判断</h1><h3 id="_1">条件怎样组成一个判断</h3>
+<p>“这张图片的宽度大于 100 像素”是一句可以判断真假的话。给定图片宽度以后，它或者成立，或者不成立。这样的陈述称为<strong>命题</strong>。“把图片放大一些”是一项要求，没有真假之分，因而不是这里讨论的命题。一个陈述是否为真，可以依赖具体条件：宽度为 120 像素时，前面的命题为真；宽度为 80 像素时，它为假。</p>
+<p>较复杂的要求可以由几个简单条件组成。设 <span class="arithmatex">\(P\)</span> 表示“图片宽度不少于 100 像素”，<span class="arithmatex">\(Q\)</span> 表示“图片高度不少于 100 像素”。这里的字母只是两个命题的简称，不表示具体数值。“<span class="arithmatex">\(P\)</span> 并且 <span class="arithmatex">\(Q\)</span>”要求两项都成立，称为<strong>合取</strong>；“<span class="arithmatex">\(P\)</span> 或者 <span class="arithmatex">\(Q\)</span>”要求至少一项成立，称为<strong>析取</strong>。数学中常分别写成 <span class="arithmatex">\(P\land Q\)</span> 和 <span class="arithmatex">\(P\lor Q\)</span>，对应 Python 的 <code>and</code> 和 <code>or</code>。表 3-1 列出了所有可能的真假组合，这样的表称为<strong>真值表</strong>。</p>
+<p>表 3-1 两个命题的真假组合</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="数据表格"><table>
+<thead>
+<tr>
+<th>P</th>
+<th>Q</th>
+<th>P 并且 Q</th>
+<th>P 或者 Q</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>真</td>
+<td>真</td>
+<td>真</td>
+<td>真</td>
+</tr>
+<tr>
+<td>真</td>
+<td>假</td>
+<td>假</td>
+<td>真</td>
+</tr>
+<tr>
+<td>假</td>
+<td>真</td>
+<td>假</td>
+<td>真</td>
+</tr>
+<tr>
+<td>假</td>
+<td>假</td>
+<td>假</td>
+<td>假</td>
+</tr>
+</tbody>
+</table></div>
+<p>这里的“或者”允许两项同时成立。若要求“恰好满足一项”，就要额外排除两项都成立的情况。图片宽、高均为 120 像素时，<span class="arithmatex">\(P\lor Q\)</span> 为真，却不符合“恰好有一边不少于 100 像素”的要求。自然语言中的“或”有时带有不同含义，写成程序之前，必须把这一点说清楚。</p>
+<p>把一个命题的真假反过来，称为<strong>否定</strong>，记作 <span class="arithmatex">\(\neg P\)</span>，对应 Python 的 <code>not</code>。否定“宽度不少于 100”，得到的是“宽度小于 100”，不是“宽度不大于 100”；恰好等于 100 的情况原来属于真，否定后就应属于假。检查边界上的取值，是理解条件的一种直接办法。对于组合条件，否定要作用于整个要求。“并非宽和高都合格”，只需至少一边不合格；“宽和高都不合格”则要求两边同时不合格。于是，否定“<span class="arithmatex">\(P\)</span> 并且 <span class="arithmatex">\(Q\)</span>”，相当于“非 <span class="arithmatex">\(P\)</span> 或者非 <span class="arithmatex">\(Q\)</span>”；否定“<span class="arithmatex">\(P\)</span> 或者 <span class="arithmatex">\(Q\)</span>”，相当于“非 <span class="arithmatex">\(P\)</span> 并且非 <span class="arithmatex">\(Q\)</span>”。这两条关系称为<strong>德摩根律</strong>。在程序中，<code>not (P and Q)</code> 与 <code>(not P) or (not Q)</code> 的真假结果相同，括号指出了否定的范围。</p>
+<h3 id="_2">从条件推出结论</h3>
+<p>“如果一个整数是 4 的倍数，那么它是偶数”，说明前一个条件成立时，后一个结论也成立。这样的关系称为<strong>蕴含</strong>，常写成 <span class="arithmatex">\(P\Rightarrow Q\)</span>。它把前提与结论联系起来。要否定这条关系，需要找到一个反例：既是 4 的倍数，又不是偶数的整数。只找到一个偶数 6，不能否定原来的话，因为原来的话并没有说“所有偶数都是 4 的倍数”。这也说明，前提和结论不能随意倒过来。已知一个整数是偶数，仍不能断定它一定是 4 的倍数。反过来，已知它不是偶数，就能断定它不是 4 的倍数：如果它是 4 的倍数，就会与“不是偶数”发生冲突。由 <span class="arithmatex">\(P\Rightarrow Q\)</span> 推出 <span class="arithmatex">\(\neg Q\Rightarrow\neg P\)</span>，称为使用<strong>逆否命题</strong>。这种判断在排除不可能情况时很有用。</p>
+<p>把一般规则用于一个具体对象，是常见的推理方式。例如，“所有正方形都有四条边；图形 A 是正方形；所以图形 A 有四条边”，由两个前提得到一个结论，具有<strong>三段论</strong>的形式。推理形式正确，还需要前提本身可靠。如果规则库既存着“所有鸟都会飞”，又存着“企鹅是鸟，企鹅不会飞”，规则与事实之间就有矛盾。计算机照着有矛盾的规则推理，并不能使这些前提自动变得正确。</p>
+<p>“所有”与“有的”也决定了结论的范围。“所有图片都清晰”的否定，是“至少有一张图片不清晰”，不需要证明每张都模糊。“有的图片带有标签”的否定，则是“一张带标签的图片也没有”。在审查人工智能系统的判断规则时，找出一个反例就能否定“所有情况都如此”；观察到几次成功，却不能直接证明对所有情况都成立。</p>
+<h3 id="_3">用集合表示一类对象</h3>
+<p>按照明确规则归在一起的一批对象，称为<strong>集合</strong>，其中的对象称为<strong>元素</strong>。例如，把编号为 1、2、3、4 的四张图片组成集合，可以写成 <span class="arithmatex">\(A=\{1,2,3,4\}\)</span>。<span class="arithmatex">\(2\in A\)</span> 表示 2 是 <span class="arithmatex">\(A\)</span> 的元素，<span class="arithmatex">\(7\notin A\)</span> 表示 7 不是它的元素。集合只关心有哪些元素，不关心排列顺序；同一个元素写两次，也不会多出一个成员。如果集合 <span class="arithmatex">\(B\)</span> 中的每个元素都属于集合 <span class="arithmatex">\(A\)</span>，就说 <span class="arithmatex">\(B\)</span> 是 <span class="arithmatex">\(A\)</span> 的<strong>子集</strong>，记作 <span class="arithmatex">\(B\subseteq A\)</span>。例如，<span class="arithmatex">\(\{1,3\}\)</span> 是 <span class="arithmatex">\(\{1,2,3,4\}\)</span> 的子集。没有任何元素的集合称为<strong>空集</strong>，记作 <span class="arithmatex">\(\emptyset\)</span>。空集与只含数字 0 的集合不同：<span class="arithmatex">\(\{0\}\)</span> 仍有一个元素。</p>
+<p>讨论集合之前，还要明确全部候选对象的范围，称为<strong>全集</strong>，通常记作 <span class="arithmatex">\(U\)</span>。设当前有八张图片，<span class="arithmatex">\(U=\{1,2,3,4,5,6,7,8\}\)</span>；集合 <span class="arithmatex">\(A=\{1,2,3,4\}\)</span> 收集清晰的图片，集合 <span class="arithmatex">\(B=\{3,4,5\}\)</span> 收集带标签的图片。图 3-1 用长方形表示全集，用两个圆表示两个集合。这种用区域表现集合关系的图称为<strong>韦恩图</strong>。编号放在哪块区域，表示它具有什么条件，与图上面积的大小无关。</p>
+<figure><img loading="lazy" decoding="async" alt="图片集合及其交集" src="assets/图3-1_集合与条件.png" /><figcaption>图 3-1 同时属于两个集合的元素位于重叠区域</figcaption></figure>
+<p><span class="arithmatex">\(A\)</span> 与 <span class="arithmatex">\(B\)</span> 的<strong>交集</strong>记作 <span class="arithmatex">\(A\cap B\)</span>，包含同时属于二者的元素，因此结果为 <span class="arithmatex">\(\{3,4\}\)</span>。<strong>并集</strong>记作 <span class="arithmatex">\(A\cup B\)</span>，包含至少属于其中一个集合的元素，结果为 <span class="arithmatex">\(\{1,2,3,4,5\}\)</span>。<span class="arithmatex">\(A\)</span> 相对于全集的<strong>补集</strong>记作 <span class="arithmatex">\(U\setminus A\)</span>，表示全集里不属于 <span class="arithmatex">\(A\)</span> 的元素，这里是 <span class="arithmatex">\(\{5,6,7,8\}\)</span>。符号 <span class="arithmatex">\(\setminus\)</span> 还可以表示两个集合的差：<span class="arithmatex">\(A\setminus B=\{1,2\}\)</span>，留下属于 <span class="arithmatex">\(A\)</span>、但不属于 <span class="arithmatex">\(B\)</span> 的部分。集合运算与逻辑条件有直接联系。筛选“清晰并且有标签”的图片，就是取交集；筛选“清晰或者有标签”的图片，就是取并集；筛选“不清晰”的图片，就是在当前全集中取清晰图片的补集。全集换成另一批图片，补集也可能改变，所以“剩下的全部”必须有明确范围。</p>
+<p>计算并集中有多少个元素时，不能把两边的数量直接相加。上例中 <span class="arithmatex">\(A\)</span> 有 4 个元素，<span class="arithmatex">\(B\)</span> 有 3 个元素，编号 3、4 被两边都算了一次，应各减去一次，因此并集的元素数为 <span class="arithmatex">\(4+3-2=5\)</span>。用 <span class="arithmatex">\(|A|\)</span> 表示有限集合 <span class="arithmatex">\(A\)</span> 的元素个数，可以把这一关系写成：</p>
+<div class="arithmatex">\[
+|A\cup B|=|A|+|B|-|A\cap B|
+\]</div>
+<h3 id="_4">把一句筛选要求翻译成集合</h3>
+<p>仍以八张图片组成的全集为例，清晰图片为 <span class="arithmatex">\(A=\{1,2,3,4\}\)</span>，带标签图片为 <span class="arithmatex">\(B=\{3,4,5\}\)</span>。若要求“清晰，但还没有标签”，应先在清晰图片中查找，再排除带标签的部分，得到 <span class="arithmatex">\(A\setminus B=\{1,2\}\)</span>。若要求“并非既清晰又带标签”，则应排除同时满足两项的图片，得到 <span class="arithmatex">\(U\setminus(A\cap B)=\{1,2,5,6,7,8\}\)</span>。两句话只差几个字，选出的范围却大不相同。可以逐项检查编号 5 来验证区别。它带标签但不清晰，因此不满足第一句话，却满足第二句话。编号 6 既不清晰也没标签，同样只满足第二句话。选择一个正好能区分两种解释的对象，比只检查编号 3 这样的共同排除项更有帮助。这种对象可以用来检验条件表达是否准确，写程序时的小规模测试也经常采用这种思路。</p>
+<p>集合图可以表现范围，逻辑式可以写进程序。例如，“清晰但未标注”对应 <code>clear and not labeled</code>；“并非既清晰又已标注”对应 <code>not (clear and labeled)</code>。括号使否定作用于整个合取。翻译时先确定每个简单条件，再按“并且”“或者”“并非”的层次组合，最后用具体对象检验，便能把自然语言、集合和代码联系起来。</p></article><nav class="pager" aria-label="前后篇目"><a href="chapter-3.html"><small>上一篇</small>第三章 理解 AI 所需的数学基础</a><a href="section-3-2.html"><small>下一篇</small>3.2 数据统计与图表阅读 →</a></nav><p class="reader-note">发现错误或有没讲清楚的地方？欢迎<a href="https://github.com/UESTC1010/CAICP_Book/issues">提交勘误与建议</a>。请注明章节及原文。</p></main></div><a class="back-top" href="#main" aria-label="返回正文顶部">↑</a><footer class="footer"><span>陈峥 著 · 公开试读版 v0.9</span><span><a href="https://github.com/UESTC1010/CAICP_Book/blob/main/LICENSE.md">正文与插图 CC BY-NC-SA 4.0</a> · <a href="https://github.com/UESTC1010/CAICP_Book/issues">勘误与建议 ↗</a></span></footer></body></html>

@@ -1,0 +1,97 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>3.3 代数、方程与函数｜从零开始学人工智能：中学生 CAICP 学习指南</title><meta name="description" content="3.3 代数、方程与函数。逻辑、统计、方程、函数、向量和概率，为理解模型打下数学基础。"><meta name="author" content="陈峥"><link rel="canonical" href="https://uestc1010.github.io/CAICP_Book/section-3-3.html"><link rel="icon" type="image/svg+xml" href="favicon.svg"><meta name="theme-color" content="#173c46"><meta property="og:title" content="3.3 代数、方程与函数｜从零开始学人工智能：中学生 CAICP 学习指南"><meta property="og:description" content="3.3 代数、方程与函数。逻辑、统计、方程、函数、向量和概率，为理解模型打下数学基础。"><meta property="og:type" content="article"><meta property="og:url" content="https://uestc1010.github.io/CAICP_Book/section-3-3.html"><meta property="og:image" content="https://uestc1010.github.io/CAICP_Book/assets/cover.png"><link rel="stylesheet" href="site.css"><script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "name": "3.3 代数、方程与函数｜从零开始学人工智能：中学生 CAICP 学习指南", "inLanguage": "zh-CN", "url": "https://uestc1010.github.io/CAICP_Book/section-3-3.html", "author": {"@type": "Person", "name": "陈峥"}, "description": "3.3 代数、方程与函数。逻辑、统计、方程、函数、向量和概率，为理解模型打下数学基础。"}</script><script defer src="site.js"></script><script defer src="mathjax-tex-svg.js"></script></head><body><a class="skip" href="#main">跳到正文</a><header class="topbar"><a class="brand" href="./"><span class="brand-mark">AI</span><span>中学生 CAICP 学习指南</span></a><nav aria-label="主导航"><a href="./#contents">全书目录</a><a href="https://github.com/UESTC1010/CAICP_Book/releases/download/v0.9/CAICP_Book-v0.9.pdf">下载 PDF</a><a href="https://github.com/UESTC1010/CAICP_Book">GitHub ↗</a></nav></header><div class="reader-layout"><aside class="sidebar"><details class="book-nav" open><summary>全书目录</summary><nav aria-label="章节目录"><a href="preface.html">前言</a><a href="chapter-1.html">第一章 认识人工智能</a><a href="chapter-2.html">第二章 用 Python 编写程序</a><a href="chapter-3.html" aria-current="page">第三章 理解 AI 所需的数学基础</a><a href="chapter-4.html">第四章 用算法解决问题</a><a href="chapter-5.html">第五章 让机器从数据中学习</a><a href="chapter-6.html">第六章 理解常见模型的工作原理</a><a href="chapter-7.html">第七章 用 Python 处理数据与训练模型</a><a href="chapter-8.html">第八章 了解人工智能的前沿与应用</a><a href="appendix.html">附录</a></nav></details><details class="section-nav" open><summary>本章小节</summary><nav aria-label="小节目录"><a href="section-3-1.html">3.1 逻辑、集合与条件判断</a><a href="section-3-2.html">3.2 数据统计与图表阅读</a><a href="section-3-3.html" aria-current="page">3.3 代数、方程与函数</a><a href="section-3-4.html">3.4 坐标、向量与矩阵</a><a href="section-3-5.html">3.5 概率与常见分布</a><a href="chapter-3-review.html">本章小结与想一想</a></nav></details></aside><main id="main" class="reading"><div class="reading-meta"><a href="chapter-3.html">第三章 理解 AI 所需的数学基础</a><span>v0.9</span></div><article><h1>3.3 代数、方程与函数</h1><h3 id="_1">用字母表达数量关系</h3>
+<p>一次计算可以用具体数字写清，许多次计算中共同的规律则适合用字母表达。例如，每个文件占用 2 MB，另有一个固定占用 5 MB 的说明文件。若有 3 个普通文件，总大小为 <span class="arithmatex">\(2\times3+5=11\)</span> MB；若有 8 个，总大小为 <span class="arithmatex">\(2\times8+5=21\)</span> MB。用 <span class="arithmatex">\(x\)</span> 表示普通文件的个数，两个算式便可以统一写成 <span class="arithmatex">\(2x+5\)</span>。这里的 <span class="arithmatex">\(x\)</span> 是<strong>变量</strong>，表示可以取不同值的量；固定的 2 和 5 是<strong>常量</strong>。式子中乘在变量前面的数称为<strong>系数</strong>，<span class="arithmatex">\(2x\)</span> 的系数就是 2。数学中常省略数字与字母之间的乘号，<span class="arithmatex">\(2x\)</span> 表示 <span class="arithmatex">\(2\times x\)</span>；写成 Python 代码时，这个乘号要用 <code>*</code> 明确写出。把变量换成一个具体数并计算，称为<strong>代入求值</strong>。计算 <span class="arithmatex">\(2x+5\)</span> 在 <span class="arithmatex">\(x=3\)</span> 时的值，就是把式子中的 <span class="arithmatex">\(x\)</span> 换成 3。使用数量关系时还要留意变量能取什么值：文件个数可以是 0、1、2 等整数，不能是 <span class="arithmatex">\(-3\)</span> 或 2.5；若 <span class="arithmatex">\(x\)</span> 表示测得的长度，就可能取 2.5 这样的数。式子的计算规则相同，实际问题允许的取值却未必相同。</p>
+<p>人工智能模型也常用字母表达计算规则。一个最简单的数值预测模型可以写成 <span class="arithmatex">\(y=kx+b\)</span>：<span class="arithmatex">\(x\)</span> 是输入，<span class="arithmatex">\(y\)</span> 是输出，<span class="arithmatex">\(k\)</span> 和 <span class="arithmatex">\(b\)</span> 控制模型怎样计算。对于一个已经确定的模型，<span class="arithmatex">\(k\)</span>、<span class="arithmatex">\(b\)</span> 是固定的数；比较或训练不同模型时，它们又可以调整。这类用于确定模型具体形式的量称为<strong>参数</strong>。因此，“变量”“常量”“参数”要结合所讨论的过程理解，不能只凭字母长什么样来区分。</p>
+<h3 id="_2">读懂带下标和求和号的公式</h3>
+<p>数据一多，用 <span class="arithmatex">\(x_1,x_2,\ldots,x_n\)</span> 表示比为每个数另取一个字母方便。右下角的数字或字母叫作<strong>下标</strong>，用来区分第几项；<span class="arithmatex">\(x_2\)</span> 表示第 2 个数，不是 <span class="arithmatex">\(x\)</span> 的平方。这里 <span class="arithmatex">\(n\)</span> 表示数据个数，<span class="arithmatex">\(x_i\)</span> 表示第 <span class="arithmatex">\(i\)</span> 个数。它们的和可以简写为：</p>
+<div class="arithmatex">\[
+\sum_{i=1}^{n}x_i=x_1+x_2+\cdots+x_n
+\]</div>
+<p>符号 <span class="arithmatex">\(\sum\)</span> 是<strong>求和号</strong>，下方的 <span class="arithmatex">\(i=1\)</span> 指从第 1 项开始，上方的 <span class="arithmatex">\(n\)</span> 指到第 <span class="arithmatex">\(n\)</span> 项结束。例如，<span class="arithmatex">\(x_1=2\)</span>、<span class="arithmatex">\(x_2=3\)</span>、<span class="arithmatex">\(x_3=7\)</span> 时，从第 1 项加到第 3 项，结果就是 12。式子看起来多了几个符号，实际动作仍是依次相加。平均数常记为 <span class="arithmatex">\(\bar{x}\)</span>，读作“<span class="arithmatex">\(x\)</span> 上横线”，于是平均数的计算可以写为：</p>
+<div class="arithmatex">\[
+\bar{x}=\frac{1}{n}\sum_{i=1}^{n}x_i
+\]</div>
+<p>这与“总和除以个数”完全相同。求和号把一长串加法收在一个式子里，下标则交代每次要取哪个数。还原成具体数据后，紧凑的公式便能读成一步步计算。</p>
+<h3 id="_3">读公式时先展开几项</h3>
+<p>求和号前后的运算位置会改变含义。设 <span class="arithmatex">\(x_1=1\)</span>、<span class="arithmatex">\(x_2=3\)</span>，先平方再相加，得到 <span class="arithmatex">\(x_1^2+x_2^2=1+9=10\)</span>；先相加再平方，则得到 <span class="arithmatex">\((x_1+x_2)^2=4^2=16\)</span>。写成求和号时，前者是 <span class="arithmatex">\(\sum_{i=1}^{2}x_i^2\)</span>，后者是 <span class="arithmatex">\((\sum_{i=1}^{2}x_i)^2\)</span>。求和号只是一种简写，括号仍然决定哪些对象一起参与下一步计算。</p>
+<p>带下标的公式也可以还原成表格。假设三条记录的真实值分别为 2、4、6，预测值分别为 3、4、4，用 <span class="arithmatex">\(y_i\)</span> 表示第 <span class="arithmatex">\(i\)</span> 条真实值，用 <span class="arithmatex">\(\hat y_i\)</span> 表示对应预测值；上方的小帽子提示这是估计或预测结果。要计算 MSE，就需要对每条记录先求差、再平方，最后求平均。</p>
+<p>表 3-4 将误差公式展开为逐条计算</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="数据表格"><table>
+<thead>
+<tr>
+<th>记录 i</th>
+<th>真实值</th>
+<th>预测值</th>
+<th>误差的平方</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>2</td>
+<td>3</td>
+<td>(3−2)²＝1</td>
+</tr>
+<tr>
+<td>2</td>
+<td>4</td>
+<td>4</td>
+<td>(4−4)²＝0</td>
+</tr>
+<tr>
+<td>3</td>
+<td>6</td>
+<td>4</td>
+<td>(4−6)²＝4</td>
+</tr>
+</tbody>
+</table></div>
+<div class="arithmatex">\[
+\frac{1}{3}\sum_{i=1}^{3}(\hat y_i-y_i)^2
+=\frac{(3-2)^2+(4-4)^2+(4-6)^2}{3}
+=\frac{5}{3}
+\]</div>
+<p>这里分母为 3，因为共有三条参与评价的记录；第二条的误差虽然为零，仍然是一条记录。若把三条误差先相加再平方，就会得到另一种量，不能再称为这批记录的均方误差。读到一个紧凑公式时，先代入两三条数据，便能检查下标、括号和计算顺序是否都理解正确。</p>
+<h3 id="_4">方程怎样求解</h3>
+<p>如果总大小已经知道，反过来求文件个数，就需要<strong>方程</strong>。方程是含有未知数的等式，等式中的未知数是等待求出的量。沿用前面每个普通文件占 2 MB、说明文件占 5 MB 的条件，已知总大小为 21 MB，就有 <span class="arithmatex">\(2x+5=21\)</span>。求解的目标是找到使等式成立的 <span class="arithmatex">\(x\)</span>。等式两边同时减去 5，再同时除以 2，得到：</p>
+<div class="arithmatex">\[
+2x+5=21\quad\Rightarrow\quad2x=16\quad\Rightarrow\quad x=8
+\]</div>
+<p>这些变形依靠等式的基本性质：两边加上或减去同一个数，等式仍然成立；两边乘以同一个非零数，或者除以同一个非零数，也保持相等，并且可以还原回原来的等式。除数不能是零，因为除以零没有定义。将 <span class="arithmatex">\(x=8\)</span> 代回原式，左边为 <span class="arithmatex">\(2\times8+5=21\)</span>，与右边相同，便完成了检验。数学中的等号表示两边相等，含义与 Python 中用于赋值的单个 <code>=</code> 不同。</p>
+<p>只有一个未知数、整理后能写成 <span class="arithmatex">\(ax+b=0\)</span> 且 <span class="arithmatex">\(a\ne0\)</span> 的方程，称为<strong>一元一次方程</strong>。上面的 <span class="arithmatex">\(2x+5=21\)</span> 可以写成 <span class="arithmatex">\(2x-16=0\)</span>，就属于这一类。“元”指未知数的个数；这里的“一次”表示未知数以 <span class="arithmatex">\(x\)</span> 的形式出现，没有被平方或立方。</p>
+<p>若一个问题有两个未知数，通常需要两个相互配合的等式。例如，<span class="arithmatex">\(x+y=10\)</span>、<span class="arithmatex">\(2x+4y=28\)</span> 组成一个<strong>方程组</strong>，要求同一对 <span class="arithmatex">\(x\)</span>、<span class="arithmatex">\(y\)</span> 同时满足两个等式。把第一个等式两边都乘 2，得到 <span class="arithmatex">\(2x+2y=20\)</span>；再用第二个等式减去它，便有 <span class="arithmatex">\(2y=8\)</span>，所以 <span class="arithmatex">\(y=4\)</span>，代回得到 <span class="arithmatex">\(x=6\)</span>。这个过程把两个未知数暂时减少为一个，称为<strong>消元</strong>。</p>
+<p>用不等号连接的式子称为<strong>不等式</strong>。例如，<span class="arithmatex">\(2x+5\leq15\)</span> 表示 <span class="arithmatex">\(2x+5\)</span> 不超过 15，其解为 <span class="arithmatex">\(x\leq5\)</span>。与方程相比，不等式往往允许一整段范围内的数。</p>
+<p>两边加减同一个数，不等号方向保持不变；两边乘除同一个正数，方向也不变；乘除同一个负数时，方向必须反转。例如 <span class="arithmatex">\(2&lt;5\)</span>，同时乘 <span class="arithmatex">\(-1\)</span> 后是 <span class="arithmatex">\(-2&gt;-5\)</span>。因此，解 <span class="arithmatex">\(-2x&lt;6\)</span> 时，两边除以 <span class="arithmatex">\(-2\)</span>，结果是 <span class="arithmatex">\(x&gt;-3\)</span>。若题目中的 <span class="arithmatex">\(x\)</span> 是文件个数，还应把代数计算的结果与非负整数这一实际要求合在一起考虑。</p>
+<h3 id="_5">平方、平方根与二次方程</h3>
+<p>一个数连续乘自身若干次，可以用<strong>乘方</strong>简写，乘方的结果称为<strong>幂</strong>。<span class="arithmatex">\(x^2=x\times x\)</span> 读作“<span class="arithmatex">\(x\)</span> 的平方”，<span class="arithmatex">\(x^3=x\times x\times x\)</span> 读作“<span class="arithmatex">\(x\)</span> 的立方”。在 <span class="arithmatex">\(x^3\)</span> 中，<span class="arithmatex">\(x\)</span> 是底数，3 是指数。括号决定哪些部分一起乘方：<span class="arithmatex">\((-2)^2=4\)</span>，而 <span class="arithmatex">\(-2^2=-(2\times2)=-4\)</span>。</p>
+<p>像 <span class="arithmatex">\(3x^2-5x+6\)</span> 这样的式子，可以看成 <span class="arithmatex">\(3x^2\)</span>、<span class="arithmatex">\(-5x\)</span>、6 三部分相加，每一部分称为一<strong>项</strong>。用常数、变量的正整数次幂以及它们的乘积组成这样的项，再将若干项相加，得到的式子称为<strong>多项式</strong>。只含一个变量时，一项中变量的指数就是这一项的次数：<span class="arithmatex">\(3x^2\)</span> 是二次项，<span class="arithmatex">\(-5x\)</span> 是一次项，6 是不含变量的常数项。字母及其指数相同的项称为<strong>同类项</strong>，可以合并计算，例如 <span class="arithmatex">\(2x^2-x^2=x^2\)</span>。先合并同类项，再看系数不为零的各项，其中最高的次数就是多项式的<strong>次数</strong>。因此，<span class="arithmatex">\(3x^2-5x+6\)</span> 是二次多项式；前面的 <span class="arithmatex">\(2x+5\)</span> 则是一次多项式。</p>
+<p>乘方也可以反过来问：哪个数的平方等于 9？3 和 <span class="arithmatex">\(-3\)</span> 都满足要求，都是 9 的<strong>平方根</strong>。其中非负的一个称为<strong>算术平方根</strong>，用根号表示，写作 <span class="arithmatex">\(\sqrt{9}=3\)</span>。所以，<span class="arithmatex">\(x^2=9\)</span> 有两个解 <span class="arithmatex">\(x=3\)</span> 和 <span class="arithmatex">\(x=-3\)</span>，但 <span class="arithmatex">\(\sqrt{9}\)</span> 本身只表示 3。0 的平方根只有 0。</p>
+<p>像 2 这样的数也有平方根，只是不能写成两个整数的比；<span class="arithmatex">\(\sqrt{2}\)</span> 约为 1.414。这些数和整数、分数一起属于<strong>实数</strong>，都可以在数轴上表示。<strong>数轴</strong>是规定了原点、正方向和单位长度的直线，每个实数都对应其中的一个点。任何实数的平方都不小于零，因此 <span class="arithmatex">\(x^2=-1\)</span> 没有实数解；本章求解方程时只讨论实数范围。</p>
+<p>整理后形如 <span class="arithmatex">\(ax^2+bx+c=0\)</span>、且 <span class="arithmatex">\(a\ne0\)</span> 的方程，称为<strong>一元二次方程</strong>。它的未知数最高次数为 2。某些二次方程可以把左边改写成两个式子的乘积，这种改写称为<strong>因式分解</strong>。例如：</p>
+<div class="arithmatex">\[
+x^2-5x+6=(x-2)(x-3)
+\]</div>
+<p>把右边的括号展开，得到 <span class="arithmatex">\(x^2-3x-2x+6\)</span>，合并后正好是左边的式子。因此，<span class="arithmatex">\(x^2-5x+6=0\)</span> 等价于 <span class="arithmatex">\((x-2)(x-3)=0\)</span>。两个实数相乘为零，至少有一个为零，于是 <span class="arithmatex">\(x-2=0\)</span> 或 <span class="arithmatex">\(x-3=0\)</span>，得到两个解 2 和 3。方程的解也称为方程的<strong>根</strong>。</p>
+<p>有些二次方程不容易直接分解因式，可以使用通用的<strong>求根公式</strong>：</p>
+<div class="arithmatex">\[
+x=\frac{-b\pm\sqrt{b^2-4ac}}{2a}
+\]</div>
+<p>符号 <span class="arithmatex">\(\pm\)</span> 读作“正负”，表示分别取加号、减号计算。对于 <span class="arithmatex">\(x^2-5x+6=0\)</span>，<span class="arithmatex">\(a=1\)</span>、<span class="arithmatex">\(b=-5\)</span>、<span class="arithmatex">\(c=6\)</span>，代入后得到 <span class="arithmatex">\(x=(5\pm1)/2\)</span>，仍然是 3 和 2。</p>
+<p>根号内的 <span class="arithmatex">\(b^2-4ac\)</span> 称为<strong>判别式</strong>，常记作 <span class="arithmatex">\(\Delta\)</span>：大于零时有两个不同的实数根；等于零时两个根相等；小于零时没有实数根。这里的 <span class="arithmatex">\(a\ne0\)</span>，既保证方程是二次的，也保证公式的分母不为零。若题目另有取值限制，还应据此筛选求出的根。例如要求 <span class="arithmatex">\(x&gt;2\)</span> 时，上面两个根中只有 3 符合。</p>
+<h3 id="_6">函数描述输入与输出的关系</h3>
+<p>当输入在允许的范围内取每一个值时，都有唯一确定的输出与它对应，这样的关系称为<strong>函数</strong>。例如 <span class="arithmatex">\(y=2x+1\)</span>，给定 <span class="arithmatex">\(x=0\)</span>，输出只能是 1；给定 <span class="arithmatex">\(x=3\)</span>，输出只能是 7。也可以写成 <span class="arithmatex">\(f(x)=2x+1\)</span>，其中 <span class="arithmatex">\(f\)</span> 是函数的名称，<span class="arithmatex">\(f(3)\)</span> 表示输入为 3 时的函数值，不表示 <span class="arithmatex">\(f\)</span> 乘以 3。所有允许输入的值构成函数的<strong>定义域</strong>。函数要求的是“一个输入对应一个输出”，并不要求“不同输入一定对应不同输出”。在 <span class="arithmatex">\(f(x)=x^2\)</span> 中，输入 2 和 <span class="arithmatex">\(-2\)</span> 都得到 4，这仍然是函数。相比之下，如果对同一个输入，规则没有说明应从几个不同输出中选哪一个，就还不能确定一个函数。</p>
+<p>数学函数用于描述这种对应关系；Python 的函数则是一段可以调用的程序，除了计算数值，还可能读写文件、显示文字。两者有联系，含义并不完全相同。</p>
+<p><span class="arithmatex">\(y=kx+b\)</span> 是常见的函数形式。当 <span class="arithmatex">\(k\ne0\)</span> 时，它称为<strong>一次函数</strong>；<span class="arithmatex">\(k=0\)</span> 时，输出始终为 <span class="arithmatex">\(b\)</span>，称为常数函数。在允许的输入范围内，<span class="arithmatex">\(x\)</span> 每增加 1，<span class="arithmatex">\(y\)</span> 就增加 <span class="arithmatex">\(k\)</span>，所以 <span class="arithmatex">\(k\)</span> 控制变化快慢和方向：<span class="arithmatex">\(k&gt;0\)</span> 时随输入增加而增加，<span class="arithmatex">\(k&lt;0\)</span> 时随输入增加而减小。<span class="arithmatex">\(b\)</span> 是输入为零时的输出。这正好解释了本节开头那个简单模型的两个参数各起什么作用。二次函数 <span class="arithmatex">\(y=x^2\)</span> 的变化则不一样：<span class="arithmatex">\(x\)</span> 从 1 增到 2，输出增加 3；从 2 增到 3，输出增加 5，输入每次增加相同的量，输出的增量并不固定。</p>
+<p>还有一类函数把变量放在指数的位置，如 <span class="arithmatex">\(y=2^x\)</span>。当 <span class="arithmatex">\(x\)</span> 依次为 1、2、3、4 时，输出为 2、4、8、16，每增加 1，输出就乘以 2，称为<strong>指数增长</strong>。为了使乘方的运算规律继续成立，规定非零数的零次方等于 1，负整数次方等于相应正整数次方的倒数，如 <span class="arithmatex">\(2^0=1\)</span>、<span class="arithmatex">\(2^{-2}=1/4\)</span>。指数函数也可以接受非整数输入，其更完整的运算方法会在后续数学学习中展开。</p>
+<p>人工智能的一些公式使用 <span class="arithmatex">\(e^x\)</span>。其中 <span class="arithmatex">\(e\)</span> 是一个固定的数学常数，约为 2.71828，<span class="arithmatex">\(e^x\)</span> 是以它为底的指数函数。若反过来求“<span class="arithmatex">\(e\)</span> 的多少次方等于一个正数”，就用<strong>自然对数</strong>表示：<span class="arithmatex">\(\mathrm{ln}(y)=x\)</span> 表示 <span class="arithmatex">\(e^x=y\)</span>。例如 <span class="arithmatex">\(\mathrm{ln}(1)=0\)</span>、<span class="arithmatex">\(\mathrm{ln}(e)=1\)</span>；这里要求 <span class="arithmatex">\(y&gt;0\)</span>。自然对数与指数把相反的两个计算方向联系起来，这种关系会在后面的模型公式中用到。</p>
+<h3 id="_7">用坐标画出函数</h3>
+<p>函数的变化可以画出来。为此，需要先约定怎样在纸上表示一对数。取两条互相垂直的数轴，分别作为 <span class="arithmatex">\(x\)</span> 轴和 <span class="arithmatex">\(y\)</span> 轴，交点称为<strong>原点</strong>，记作 <span class="arithmatex">\(O\)</span>；通常向右是 <span class="arithmatex">\(x\)</span> 轴的正方向，向上是 <span class="arithmatex">\(y\)</span> 轴的正方向。这样建立的图形称为<strong>平面直角坐标系</strong>，也称平面笛卡尔坐标系。两条轴把平面分成四个区域，称为四个象限，从右上方开始逆时针依次编号；坐标轴上的点不属于任何一个象限。</p>
+<p>点的位置用有顺序的数对 <span class="arithmatex">\((x,y)\)</span> 表示，第一个数称为<strong>横坐标</strong>，第二个称为<strong>纵坐标</strong>。例如，点 <span class="arithmatex">\((1,2)\)</span> 在原点右侧 1 个单位、上方 2 个单位的位置；点 <span class="arithmatex">\((-1,2)\)</span> 则在原点左侧 1 个单位、上方 2 个单位的位置。两个数的顺序不同，表示的位置也可能不同，所以 <span class="arithmatex">\((1,2)\)</span> 与 <span class="arithmatex">\((2,1)\)</span> 不能混用。横纵轴可以采用不同单位，也可以采用不同的显示比例，读图时应按各自的刻度判断数值。</p>
+<p>对于一个函数，把每个允许的输入 <span class="arithmatex">\(x\)</span> 与对应的输出 <span class="arithmatex">\(f(x)\)</span> 配成点 <span class="arithmatex">\((x,f(x))\)</span>，所有这样的点就组成它的<strong>函数图像</strong>。例如，<span class="arithmatex">\(y=x^2\)</span> 在输入为 <span class="arithmatex">\(-2\)</span>、<span class="arithmatex">\(-1\)</span>、0、1、2 时，输出分别为 4、1、0、1、4，对应五个点 <span class="arithmatex">\((-2,4)\)</span>、<span class="arithmatex">\((-1,1)\)</span>、<span class="arithmatex">\((0,0)\)</span>、<span class="arithmatex">\((1,1)\)</span>、<span class="arithmatex">\((2,4)\)</span>。这些点帮助确定曲线的位置；输入还可以取 0.5、1.2 等更多数值，整条图像包含的点远不止五个。</p>
+<p>一次函数 <span class="arithmatex">\(y=kx+b\)</span> 的图像是一条直线，反映输入每增加相同的量，输出也改变相同的量。二次函数 <span class="arithmatex">\(y=ax^2+bx+c\)</span>（<span class="arithmatex">\(a\ne0\)</span>）的图像则称为<strong>抛物线</strong>：<span class="arithmatex">\(a&gt;0\)</span> 时开口向上，<span class="arithmatex">\(a&lt;0\)</span> 时开口向下。图 3-4 比较了 <span class="arithmatex">\(y=x\)</span> 和 <span class="arithmatex">\(y=x^2\)</span>。右图中，从原点向左右两侧走，曲线都逐渐升高，而且越来越陡。直线与抛物线的区别，使一次、二次这两类数量关系有了直观的形状。</p>
+<figure><img loading="lazy" decoding="async" alt="一次函数与二次函数的图像及方程的根" src="assets/图3-4_函数与图像.png" /><figcaption>图 3-4 左图是直线，右图是抛物线；虚线与抛物线的交点可用于求根</figcaption></figure>
+<p>方程的求解也能从图像上理解。右图中的水平虚线表示 <span class="arithmatex">\(y=4\)</span>，它与 <span class="arithmatex">\(y=x^2\)</span> 相交于 <span class="arithmatex">\((-2,4)\)</span> 和 <span class="arithmatex">\((2,4)\)</span>。两个交点的横坐标 <span class="arithmatex">\(-2\)</span>、2，正好是方程 <span class="arithmatex">\(x^2=4\)</span> 的两个根。若把式子改写成 <span class="arithmatex">\(x^2-4=0\)</span>，也可以画出 <span class="arithmatex">\(y=x^2-4\)</span>：它是原来的抛物线整体向下移动 4 个单位，与 <span class="arithmatex">\(x\)</span> 轴相交处的横坐标仍是这两个根。求根因此可以转化为寻找图像的交点；代数计算则能把图上观察到的位置求得更准确。前面用于计算误差的平方，也是这样的二次关系。用 <span class="arithmatex">\(r\)</span> 表示误差，<span class="arithmatex">\(r^2\)</span> 随 <span class="arithmatex">\(r\)</span> 变化的图像是一条开口向上的抛物线，最低点对应误差为零。公式给出计算规则，图像则帮助看清这种变化的整体趋势。</p>
+<h3 id="_8">从图像观察参数的作用</h3>
+<p>在 <span class="arithmatex">\(y=kx+b\)</span> 中，参数并不是只供代入的字母。固定 <span class="arithmatex">\(k=2\)</span>，把 <span class="arithmatex">\(b\)</span> 从 1 改成 <span class="arithmatex">\(-2\)</span>，每一个输入对应的输出都减少 3。因此，直线 <span class="arithmatex">\(y=2x-2\)</span> 可以由 <span class="arithmatex">\(y=2x+1\)</span> 整体向下移动 3 个单位得到，两条线彼此平行。再固定 <span class="arithmatex">\(b=1\)</span>，比较 <span class="arithmatex">\(y=x+1\)</span> 与 <span class="arithmatex">\(y=2x+1\)</span>，两条线都经过 <span class="arithmatex">\((0,1)\)</span>，但输入每增加 1，输出分别增加 1 和 2。</p>
+<figure><img loading="lazy" decoding="async" alt="一次函数的系数与常数项对直线位置和方向的影响" src="assets/图3-5_参数与直线.png" /><figcaption>图 3-5 固定一个参数，观察另一个参数改变时的结果</figcaption></figure>
+<p>直线的倾斜程度可用<strong>斜率</strong>描述。对不与纵轴平行的直线，任取两个横坐标不同的点，纵坐标的变化量除以横坐标的变化量，得到同一个比值；在 <span class="arithmatex">\(y=kx+b\)</span> 中，这个比值就是 <span class="arithmatex">\(k\)</span>。例如，<span class="arithmatex">\((1,3)\)</span> 与 <span class="arithmatex">\((3,7)\)</span> 都在 <span class="arithmatex">\(y=2x+1\)</span> 上，斜率为 <span class="arithmatex">\((7-3)/(3-1)=2\)</span>。这里比较的是坐标的数值变化，若绘图时把一条轴压缩，直线在纸上看起来会变陡或变平，但由坐标算出的斜率没有改变。</p>
+<p>参数与输入在图中的角色也有区别。固定一组 <span class="arithmatex">\(k\)</span>、<span class="arithmatex">\(b\)</span>，沿直线移动，表示输入在变化；改变 <span class="arithmatex">\(k\)</span> 或 <span class="arithmatex">\(b\)</span>，则会得到另一条直线，表示模型的计算规则发生变化。第六章训练线性回归模型时，会根据一批观测点调整参数，让预测线更贴近数据。这里先看清参数怎样改变图像，后面便能理解训练程序究竟在调整什么。</p></article><nav class="pager" aria-label="前后篇目"><a href="section-3-2.html"><small>上一篇</small>3.2 数据统计与图表阅读</a><a href="section-3-4.html"><small>下一篇</small>3.4 坐标、向量与矩阵 →</a></nav><p class="reader-note">发现错误或有没讲清楚的地方？欢迎<a href="https://github.com/UESTC1010/CAICP_Book/issues">提交勘误与建议</a>。请注明章节及原文。</p></main></div><a class="back-top" href="#main" aria-label="返回正文顶部">↑</a><footer class="footer"><span>陈峥 著 · 公开试读版 v0.9</span><span><a href="https://github.com/UESTC1010/CAICP_Book/blob/main/LICENSE.md">正文与插图 CC BY-NC-SA 4.0</a> · <a href="https://github.com/UESTC1010/CAICP_Book/issues">勘误与建议 ↗</a></span></footer></body></html>

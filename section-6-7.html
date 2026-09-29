@@ -1,0 +1,112 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>6.7 模型训练与改进｜从零开始学人工智能：中学生 CAICP 学习指南</title><meta name="description" content="6.7 模型训练与改进。从回归和分类，到神经网络、梯度下降与卷积，理解模型内部的工作方式。"><meta name="author" content="陈峥"><link rel="canonical" href="https://uestc1010.github.io/CAICP_Book/section-6-7.html"><link rel="icon" type="image/svg+xml" href="favicon.svg"><meta name="theme-color" content="#173c46"><meta property="og:title" content="6.7 模型训练与改进｜从零开始学人工智能：中学生 CAICP 学习指南"><meta property="og:description" content="6.7 模型训练与改进。从回归和分类，到神经网络、梯度下降与卷积，理解模型内部的工作方式。"><meta property="og:type" content="article"><meta property="og:url" content="https://uestc1010.github.io/CAICP_Book/section-6-7.html"><meta property="og:image" content="https://uestc1010.github.io/CAICP_Book/assets/cover.png"><link rel="stylesheet" href="site.css"><script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "name": "6.7 模型训练与改进｜从零开始学人工智能：中学生 CAICP 学习指南", "inLanguage": "zh-CN", "url": "https://uestc1010.github.io/CAICP_Book/section-6-7.html", "author": {"@type": "Person", "name": "陈峥"}, "description": "6.7 模型训练与改进。从回归和分类，到神经网络、梯度下降与卷积，理解模型内部的工作方式。"}</script><script defer src="site.js"></script><script defer src="mathjax-tex-svg.js"></script></head><body><a class="skip" href="#main">跳到正文</a><header class="topbar"><a class="brand" href="./"><span class="brand-mark">AI</span><span>中学生 CAICP 学习指南</span></a><nav aria-label="主导航"><a href="./#contents">全书目录</a><a href="https://github.com/UESTC1010/CAICP_Book/releases/download/v0.9/CAICP_Book-v0.9.pdf">下载 PDF</a><a href="https://github.com/UESTC1010/CAICP_Book">GitHub ↗</a></nav></header><div class="reader-layout"><aside class="sidebar"><details class="book-nav" open><summary>全书目录</summary><nav aria-label="章节目录"><a href="preface.html">前言</a><a href="chapter-1.html">第一章 认识人工智能</a><a href="chapter-2.html">第二章 用 Python 编写程序</a><a href="chapter-3.html">第三章 理解 AI 所需的数学基础</a><a href="chapter-4.html">第四章 用算法解决问题</a><a href="chapter-5.html">第五章 让机器从数据中学习</a><a href="chapter-6.html" aria-current="page">第六章 理解常见模型的工作原理</a><a href="chapter-7.html">第七章 用 Python 处理数据与训练模型</a><a href="chapter-8.html">第八章 了解人工智能的前沿与应用</a><a href="appendix.html">附录</a></nav></details><details class="section-nav" open><summary>本章小节</summary><nav aria-label="小节目录"><a href="section-6-1.html">6.1 线性回归与多项式回归</a><a href="section-6-2.html">6.2 常见分类算法</a><a href="section-6-3.html">6.3 聚类与 K-means</a><a href="section-6-4.html">6.4 概率建模与统计推断</a><a href="section-6-5.html">6.5 神经元与多层感知机</a><a href="section-6-6.html">6.6 极限、导数与梯度下降</a><a href="section-6-7.html" aria-current="page">6.7 模型训练与改进</a><a href="section-6-8.html">6.8 卷积神经网络</a><a href="chapter-6-review.html">本章小结与想一想</a></nav></details></aside><main id="main" class="reading"><div class="reading-meta"><a href="chapter-6.html">第六章 理解常见模型的工作原理</a><span>v0.9</span></div><article><h1>6.7 模型训练与改进</h1><h3 id="_1">一次更新与一轮训练</h3>
+<p>训练时可以每次用全部训练样本计算损失和梯度，称为批量梯度下降；也可以每次只取一个样本，或一小批样本近似估计梯度。后一种常用方式称为<strong>小批量训练</strong>。一批含多少样本，称为批大小；完整处理一遍训练集，称为一个<strong>训练轮次</strong>，常用英文 epoch 表示。处理一批并更新一次参数，是一个更新步骤，两者不是同一个单位。例如，训练集有 1000 个样本，批大小为 100，不丢弃数据时，一轮共有 10 个批次，通常完成 10 次参数更新。小批量梯度会随所抽样本波动，损失不一定每一步都下降，但计算资源利用和更新频率常更适合大数据训练。打乱独立训练样本的顺序，有助于避免批次长期偏向某一类；时间序列等有专门结构的任务，则需要相应采样方式。</p>
+<p>训练一般反复经历取样、前向计算、计算损失、反向传播和更新参数。分类网络常使用<strong>交叉熵损失</strong>。在二分类中，标签 <span class="arithmatex">\(y\)</span> 为 0 或 1，模型对正类的概率估计为 <span class="arithmatex">\(p\)</span>，损失为 <span class="arithmatex">\(-[y\ln p+(1-y)\ln(1-p)]\)</span>。若真实标签为 1，这个式子只留下 <span class="arithmatex">\(-\ln p\)</span>：给真实类别较低概率，损失就更大。公式要求对数输入为正，实际软件还会用数值稳定的实现处理非常接近端点的情形。</p>
+<p>训练为什么常用交叉熵，而不直接用准确率？准确率只记录类别是否判对，很多参数的小变化并不改变它；交叉熵还能区分“刚刚判对”与“对真实类别给出较高概率”的预测，有利于提供连续的训练信号。训练损失与最终应用指标可以不同，但应当相互匹配，并通过验证结果检查这种选择是否合适。</p>
+<h3 id="_2">训练轮次、更新次数和输出置信程度</h3>
+<p>训练集若只有 10 个样本，批大小为 4，且不丢弃最后不足一批的数据，那么一轮分为 4、4、2 三批，共有三次更新。训练五轮则通常有 15 次更新。每一轮可以让所有样本都参与一次，每一批得到的梯度却只反映当前这一部分材料。最后一批样本少，计算平均损失时也应按这一批实际的数量处理。</p>
+<figure><img loading="lazy" decoding="async" alt="一轮训练包含多个小批量与对应的参数更新" src="assets/图6-14_批次与轮次.png" /><figcaption>图 6-14 处理完整训练集一次，与更新参数一次是不同的计数单位</figcaption></figure>
+<p>分类训练还需要比“判对了没有”更细的信号。假设真实标签为 1，两次预测给正类的概率分别为 0.6 和 0.9，按 0.5 阈值都判对，准确率没有区别；交叉熵却分别为 <span class="arithmatex">\(-\ln0.6\approx0.5108\)</span> 和 <span class="arithmatex">\(-\ln0.9\approx0.1054\)</span>，后一种损失更小。若模型给真实类别的概率仅为 0.01，损失约为 4.6052，说明这个错误判断会受到更大的惩罚。对于真实标签 0，应看模型给负类的概率 <span class="arithmatex">\(1-p\)</span>。如果 p 为 0.9，负类概率仅为 0.1，损失便是 <span class="arithmatex">\(-\ln0.1\approx2.3026\)</span>。同一个 p，在不同真实标签下对应的损失不同，因为损失比较的是预测与目标。</p>
+<h3 id="_3">从连续记录看训练是否继续有用</h3>
+<p>只看最后一轮的损失，难以知道训练过程中发生了什么。可以在每轮结束时，用同一评价规则分别计算训练和验证损失，保存成两条序列。表 6-4 是用于分析的示意记录，图 6-15 将同一组数画成曲线。</p>
+<p>表 6-4 五轮训练中的损失变化示例</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="数据表格"><table>
+<thead>
+<tr>
+<th>轮次</th>
+<th>训练损失</th>
+<th>验证损失</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>0.80</td>
+<td>0.85</td>
+</tr>
+<tr>
+<td>2</td>
+<td>0.50</td>
+<td>0.58</td>
+</tr>
+<tr>
+<td>3</td>
+<td>0.30</td>
+<td>0.45</td>
+</tr>
+<tr>
+<td>4</td>
+<td>0.15</td>
+<td>0.52</td>
+</tr>
+<tr>
+<td>5</td>
+<td>0.08</td>
+<td>0.70</td>
+</tr>
+</tbody>
+</table></div>
+<figure><img loading="lazy" decoding="async" alt="同一训练过程中训练损失下降而验证损失先降后升" src="assets/图6-15_训练曲线.png" /><figcaption>图 6-15 验证损失最低的轮次未必是训练结束的轮次</figcaption></figure>
+<p>前三轮，两条损失都在下降，说明训练资料和验证资料上的表现一起改善；后两轮训练损失继续下降，验证损失却上升。在数据划分合理、评价方式一致的前提下，这提示模型可能开始过分贴合训练细节。若预先规定容许连续两轮没有改善，训练到第五轮可以停止，并使用第三轮保存的参数。</p>
+<p>停止的时刻和最终采用哪轮参数，需要分别记录。曲线提供了进一步检查的线索。可以先检查验证集是否代表实际使用条件，再尝试降低不必要的模型复杂度、增加合适的训练材料或使用正则化。每次改动后重新观察曲线和实际错误，才能知道改动是否解决了原来的问题。</p>
+<h3 id="_4">欠拟合与过拟合</h3>
+<p><strong>欠拟合</strong>表示模型没有充分学到任务中可用的规律，在训练数据上也表现不佳。例如，用一条直线去描述明显弯曲的关系，即使训练充分，也可能持续留下较大误差。模型表达能力不足、特征遗漏、训练轮次不够或优化设置不合适，都可能造成类似现象，需要结合具体证据区分。<strong>过拟合</strong>表示模型过度适应训练材料中的细节或噪声，训练表现很好，新数据表现却较差。树不断分支直到记住每一条训练记录，高次多项式追随每一个测量波动，都是直观例子。训练损失持续降低而验证损失开始升高，是值得注意的信号。</p>
+<p>训练与验证之间有差距，也可能有其他原因。数据分布不同、标注质量不同也可能造成差距。</p>
+<p>若训练和验证误差都很高，可以先检查代码、特征与训练过程，再考虑提高模型能力或增加有效训练；若训练误差很低而验证误差较高，可以检查数据泄漏与划分、补充有代表性的样本，或者降低不必要的复杂度。常见做法包括减小树深、减少多项式次数、调整网络规模、使用适当增强等。应当根据发现的问题改动，而不是在每种情况下都笼统地“加数据、加层数”。</p>
+<h3 id="_5">正则化、早停与超参数选择</h3>
+<p><strong>正则化</strong>是在拟合训练数据之外，对模型施加额外约束或偏好，以改善泛化。例如，在平方误差后增加权重平方和的惩罚：</p>
+<div class="arithmatex">\[
+L_{\text{总}}=L_{\text{数据}}+\lambda\sum_jw_j^2
+\]</div>
+<p><span class="arithmatex">\(\lambda\)</span> 是非负的正则化强度。惩罚项使非常大的权重需要付出额外代价，训练便在贴近数据与控制权重之间取舍。强度过大也可能让模型过于受限，出现欠拟合。是否惩罚偏置、怎样按样本数缩放惩罚项，属于具体实现约定；读代码时应查清所用工具的定义。</p>
+<p><strong>早停</strong>在验证表现长期不再改善时结束训练，并保留表现较好的参数。它并不是看到某一批训练损失上升就立刻终止，因为小批量波动很常见。可以预先规定容许多少轮没有改善、用哪个指标比较。验证材料的使用方式也要明确，不能一边用测试集决定停止时间，一边再把同一测试集当作独立考试。</p>
+<p>超参数搜索可以比较一组候选设置。例如，对决策树最大深度依次尝试 2、4、6，每次仅用训练集学习，再用验证集比较。更完整的方法可以同时比较几个超参数，或采用交叉验证。比较时尽量保持评价材料和其他重要条件一致，记录每个设置的结果，便于判断改进来自哪里。</p>
+<h3 id="_6">正则化怎样改变最优参数</h3>
+<p>对两条训练样本 <span class="arithmatex">\((1,2)\)</span>、<span class="arithmatex">\((2,4)\)</span>，先考虑没有偏置的模型 <span class="arithmatex">\(\hat y=wx\)</span>。它的均方误差为</p>
+<div class="arithmatex">\[
+L_{\text{数据}}=\frac{(w-2)^2+(2w-4)^2}{2}
+=2.5(w-2)^2.
+\]</div>
+<p>只看数据误差，<span class="arithmatex">\(w=2\)</span> 可以让两条预测都正确，损失为零。现在加入强度为 2.5 的权重平方惩罚，总目标改为</p>
+<div class="arithmatex">\[
+L_{\text{总}}=2.5(w-2)^2+2.5w^2.
+\]</div>
+<p>对总目标求导，得到 <span class="arithmatex">\(5(w-2)+5w=10w-10\)</span>，在 <span class="arithmatex">\(w=1\)</span> 处为零。这个二次函数开口向上，所以它在 1 处取得最小值。表 6-5 比较几个候选，能够看出正则化改变了什么。</p>
+<p>表 6-5 数据误差与权重惩罚共同决定总目标</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="数据表格"><table>
+<thead>
+<tr>
+<th>w</th>
+<th>数据误差</th>
+<th>惩罚项</th>
+<th>总目标</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>10</td>
+<td>0</td>
+<td>10</td>
+</tr>
+<tr>
+<td>1</td>
+<td>2.5</td>
+<td>2.5</td>
+<td>5</td>
+</tr>
+<tr>
+<td>2</td>
+<td>0</td>
+<td>10</td>
+<td>10</td>
+</tr>
+</tbody>
+</table></div>
+<p>新的参数使预测变为 1、2，数据误差由零增加到 2.5，但权重惩罚由 10 降到 2.5，总目标反而更小。训练正是在按照改变后的目标作取舍。图 6-16 分别画出两项与它们的和，三条曲线最低的位置并不相同。</p>
+<figure><img loading="lazy" decoding="async" alt="权重惩罚改变总目标的最低位置" src="assets/图6-16_正则化.png" /><figcaption>图 6-16 数据误差希望 w 靠近 2，惩罚希望 w 靠近 0，总目标在两者之间取舍</figcaption></figure>
+<p>这组没有噪声的小数据，本来就能被 <span class="arithmatex">\(w=2\)</span> 完全描述，较强正则化反而损害了这个真实关系的拟合。可见，加入惩罚并不保证预测更准。实际任务中，额外约束可能减少模型追随噪声，也可能限制了本来需要的变化，仍要在验证数据上选择强度。</p>
+<p>如果把强度改记为一般的 <span class="arithmatex">\(\lambda\)</span>，求导后可得最优权重为 <span class="arithmatex">\(10/(5+2\lambda)\)</span>。<span class="arithmatex">\(\lambda=0\)</span> 时回到 2；随着非负的 <span class="arithmatex">\(\lambda\)</span> 增大，权重逐渐靠近零。参数的变化于是有了明确的方向和数量关系，而不只是“模型变简单”这样抽象的描述。</p>
+<h3 id="_7">分别观察表达能力与训练结果</h3>
+<p>模型能表示什么，与训练最后找到了什么，是两个相关但不同的问题。一条直线能够通过某两点，不代表某次只更新一两步的训练已经找到了那条直线；一个神经网络能够表示异或关系，也不代表任意初始参数和任意学习率都会把它训练好。判断问题时，可以先检查表达形式，再检查训练过程。例如，真实关系明显弯曲，线性模型的训练与验证误差都较大，增加训练轮次可能只是让直线更接近它所能达到的最佳位置，仍无法变成曲线。相反，如果数据本来接近直线，但学习率过小、只训练了几步，那么换一个更复杂模型未必必要，先观察损失是否仍在稳定下降更有帮助。</p>
+<p>数据量也会影响这种判断。很小的训练集上，复杂模型容易把几条记录全部拟合好，却很难凭这些记录确定哪些变化是稳定规律。增加覆盖实际条件的样本，可以让训练更充分地约束模型。若新增样本只是原来记录的重复副本，它们可能改变重复计算的次数，却没有带来相同程度的新信息。</p>
+<p>可以把每次实验记录为“数据版本、模型设置、训练过程、验证结果”四部分。改变某一项后，观察相应曲线和错误类型，才知道改动产生了什么影响。这样的记录既用于选择当前模型，也帮助解释失败：究竟是模型形式不合适、训练未完成，还是现有数据无法支持所需判断。</p></article><nav class="pager" aria-label="前后篇目"><a href="section-6-6.html"><small>上一篇</small>6.6 极限、导数与梯度下降</a><a href="section-6-8.html"><small>下一篇</small>6.8 卷积神经网络 →</a></nav><p class="reader-note">发现错误或有没讲清楚的地方？欢迎<a href="https://github.com/UESTC1010/CAICP_Book/issues">提交勘误与建议</a>。请注明章节及原文。</p></main></div><a class="back-top" href="#main" aria-label="返回正文顶部">↑</a><footer class="footer"><span>陈峥 著 · 公开试读版 v0.9</span><span><a href="https://github.com/UESTC1010/CAICP_Book/blob/main/LICENSE.md">正文与插图 CC BY-NC-SA 4.0</a> · <a href="https://github.com/UESTC1010/CAICP_Book/issues">勘误与建议 ↗</a></span></footer></body></html>

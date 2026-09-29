@@ -1,0 +1,73 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>1.4 人工智能的发展与主要思想｜从零开始学人工智能：中学生 CAICP 学习指南</title><meta name="description" content="1.4 人工智能的发展与主要思想。从数据、算法与算力开始，认识人工智能能做什么，也理解它的局限。"><meta name="author" content="陈峥"><link rel="canonical" href="https://uestc1010.github.io/CAICP_Book/section-1-4.html"><link rel="icon" type="image/svg+xml" href="favicon.svg"><meta name="theme-color" content="#173c46"><meta property="og:title" content="1.4 人工智能的发展与主要思想｜从零开始学人工智能：中学生 CAICP 学习指南"><meta property="og:description" content="1.4 人工智能的发展与主要思想。从数据、算法与算力开始，认识人工智能能做什么，也理解它的局限。"><meta property="og:type" content="article"><meta property="og:url" content="https://uestc1010.github.io/CAICP_Book/section-1-4.html"><meta property="og:image" content="https://uestc1010.github.io/CAICP_Book/assets/cover.png"><link rel="stylesheet" href="site.css"><script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "name": "1.4 人工智能的发展与主要思想｜从零开始学人工智能：中学生 CAICP 学习指南", "inLanguage": "zh-CN", "url": "https://uestc1010.github.io/CAICP_Book/section-1-4.html", "author": {"@type": "Person", "name": "陈峥"}, "description": "1.4 人工智能的发展与主要思想。从数据、算法与算力开始，认识人工智能能做什么，也理解它的局限。"}</script><script defer src="site.js"></script><script defer src="mathjax-tex-svg.js"></script></head><body><a class="skip" href="#main">跳到正文</a><header class="topbar"><a class="brand" href="./"><span class="brand-mark">AI</span><span>中学生 CAICP 学习指南</span></a><nav aria-label="主导航"><a href="./#contents">全书目录</a><a href="https://github.com/UESTC1010/CAICP_Book/releases/download/v0.9/CAICP_Book-v0.9.pdf">下载 PDF</a><a href="https://github.com/UESTC1010/CAICP_Book">GitHub ↗</a></nav></header><div class="reader-layout"><aside class="sidebar"><details class="book-nav" open><summary>全书目录</summary><nav aria-label="章节目录"><a href="preface.html">前言</a><a href="chapter-1.html" aria-current="page">第一章 认识人工智能</a><a href="chapter-2.html">第二章 用 Python 编写程序</a><a href="chapter-3.html">第三章 理解 AI 所需的数学基础</a><a href="chapter-4.html">第四章 用算法解决问题</a><a href="chapter-5.html">第五章 让机器从数据中学习</a><a href="chapter-6.html">第六章 理解常见模型的工作原理</a><a href="chapter-7.html">第七章 用 Python 处理数据与训练模型</a><a href="chapter-8.html">第八章 了解人工智能的前沿与应用</a><a href="appendix.html">附录</a></nav></details><details class="section-nav" open><summary>本章小节</summary><nav aria-label="小节目录"><a href="section-1-1.html">1.1 人工智能是什么</a><a href="section-1-2.html">1.2 数据</a><a href="section-1-3.html">1.3 算法、算力与计算机</a><a href="section-1-4.html" aria-current="page">1.4 人工智能的发展与主要思想</a><a href="section-1-5.html">1.5 人工智能的局限与使用伦理</a><a href="chapter-1-review.html">本章小结与想一想</a></nav></details></aside><main id="main" class="reading"><div class="reading-meta"><a href="chapter-1.html">第一章 认识人工智能</a><span>v0.9</span></div><article><h1>1.4 人工智能的发展与主要思想</h1><p>1956 年，一批研究者在美国达特茅斯开展了以人工智能为主题的夏季研究活动。此前一年，约翰·麦卡锡等人提出研究计划，并在计划中使用了“人工智能”这个名称。这次活动通常被视为人工智能成为独立研究领域的重要起点。研究者希望机器具有智能，但对实现方法有不同想法：有人从知识和推理出发，有人借鉴神经元之间的连接，还有人关注机器怎样在环境中行动。这些思路逐渐形成了符号主义、联结主义和行为主义等研究方向，后来也常在同一个系统中结合使用。</p>
+<h3 id="_1">用知识和规则推导结论</h3>
+<p><strong>符号主义</strong>重视把知识写成符号和规则，再逐步推导结论。系统若知道“麻雀是鸟”“所有鸟都是动物”，便能推出“麻雀是动物”。专家系统把这类办法用于特定领域：将知识整理为规则，从输入事实找到适用规则，推得的新结论还可以继续参与推理。设备维护系统就可以联系故障现象、传感器读数与检查规则，判断下一步该检查哪个部件。这样的推理有时能清楚交代结论是怎样来的，但规则本身也得可靠。若保存的是“所有鸟都会飞”，推理步骤即使没有错，遇到企鹅仍会出问题。现实知识有条件、例外和冲突，任务范围越广，整理和维护这些知识就越困难。</p>
+<p>早期人工智能还广泛研究<strong>搜索</strong>，也就是按照一定的方法考察可能的选择。下一步棋会形成新局面，对方的回应又会形成更多局面，继续往后想，就像一棵树不断分出枝条。计算机可以搜索这些分支，用评价方法判断哪些局面更有利。1997 年，IBM 的“深蓝”在六局国际象棋对抗赛中以总比分击败当时的世界冠军卡斯帕罗夫。它把强大的局面搜索能力与棋局评价方法结合起来，在规则明确、变化很多的任务中取得了成功。</p>
+<h3 id="_2">从感知机到神经网络</h3>
+<p><strong>联结主义</strong>关注相互连接的计算单元。生物大脑中神经元之间的大量连接启发了研究者：许多简单单元能否共同完成复杂任务？人工神经网络由此发展，不过人工神经元是简化的数学模型。20 世纪 50 年代后期，弗兰克·罗森布拉特研究了<strong>感知机</strong>。它把多个输入分别乘以权重、合在一起，再作判断，并通过学习调整权重。数值同为 5，乘以 2 得到 10，乘以 0.5 得到 2.5，可见权重能改变一个输入对结果的影响。简单感知机所能表示的判断关系有限，将多个计算层连接起来，上一层的输出便能交给下一层继续处理，表示更复杂的关系。由较多层构成的神经网络是<strong>深度学习</strong>的主要研究对象。图像中的像素经过多层计算，会逐步形成适合判断对象的信息；各层怎样处理、哪些信息分量更大，需要在训练中调整。</p>
+<p>层数多，并不等于一开始就会识别。合适的数据、训练方法和计算资源仍然缺一不可。</p>
+<p><strong>ImageNet</strong> 是一个大规模、有类别组织的图像数据库，相关论文发表于 2009 年。它为视觉研究提供了丰富的学习材料，也让不同方法能够在共同的任务中比较表现。2012 年，后来被广泛称为 <strong>AlexNet</strong> 的深度卷积神经网络在 ImageNet 图像识别挑战中取得显著成绩。卷积神经网络是一类适合处理图像等数据的神经网络，具体原理将在后面的章节介绍。这里先分清两者的角色：ImageNet 提供图片，AlexNet 是识别模型，GPU 提供了重要的计算支持。这次进展再次体现了数据、算法和算力的配合。</p>
+<h3 id="_3">从行动的结果中学习</h3>
+<p><strong>行为主义</strong>关注机器在环境中的感知和行动。能观察环境并采取行动的系统，常称为<strong>智能体</strong>。机器人读取传感器，发现障碍就转向，移动后再观察，决定下一步怎么走，便形成了持续交互。如果它始终照预定规则转向，交互中未必发生学习；如果还能根据走过的路线和遇到的障碍，改善以后的行动方式，就涉及从经验中学习。</p>
+<p><strong>强化学习</strong>研究的正是怎样利用行动后的反馈学会更好的策略，也就是学会在不同情况下选择怎样行动。</p>
+<p>2016 年，<strong>AlphaGo</strong> 在与李世石的五局围棋比赛中以 4 比 1 获胜，它结合了神经网络、搜索和强化学习等技术。围棋的可能局面太多，很难把每一种后续走法都算完。AlphaGo 利用学习得到的判断，优先考虑更有希望的方向，再通过搜索分析落子之后的变化。学习与搜索在这里相互帮助，也说明人工智能的不同研究思路可以共同解决一个问题。</p>
+<h3 id="_4">机器的语言表现与理解</h3>
+<p>1950 年，艾伦·图灵在《计算机器与智能》中提出用模仿游戏讨论机器智能。通常所说的<strong>图灵测试</strong>，让判断者只通过文字交流，分辨另一端是人还是机器。看不到外貌、听不到声音，只能依据交流内容判断，机器的语言表现由此成了可以观察和讨论的对象。</p>
+<p>但是，回答得合适，是否就说明理解了意思？哲学家约翰·塞尔在 1980 年提出了<strong>中文屋子</strong>思想实验。设想一个完全不懂中文的人待在房间里，收到中文符号后，照一本规则手册查找，再把规定的符号送出去。屋外的人也许觉得回答很流利，屋里的人却不知道这些符号是什么意思。所谓思想实验，不一定真要建一间屋子，而是借一种设想追问概念中的困难。塞尔由此讨论，正确操作符号是否足以构成理解。人们对这套论证仍有争议，它没有为机器理解的问题给出一个公认答案。</p>
+<p>2022 年 11 月 30 日，OpenAI 发布 ChatGPT 的研究预览，大量公众开始通过对话接触基于<strong>大语言模型</strong>的系统。大语言模型利用大量语言数据，学习词语、句子和上下文中的联系，并经过进一步训练形成对话能力。它们能生成连贯文字，也把机器理解的问题带到了人们面前。图灵关注交谈中的表现，塞尔追问符号与理解的关系，语言模型则提供了新的技术实例。讨论这些问题，有助于更仔细地区分机器做到了什么，以及还不能仅凭表现断定什么。</p>
+<p>表 1-3 人工智能发展的部分重要事件</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="数据表格"><table>
+<thead>
+<tr>
+<th>时间</th>
+<th>事件或工作</th>
+<th>主要意义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1950 年</td>
+<td>图灵提出模仿游戏的讨论</td>
+<td>从可观察行为研究机器智能</td>
+</tr>
+<tr>
+<td>1956 年</td>
+<td>达特茅斯夏季研究活动</td>
+<td>人工智能形成独立研究领域的重要起点</td>
+</tr>
+<tr>
+<td>20 世纪 50 年代后期</td>
+<td>感知机研究</td>
+<td>通过数据调整参数，学习判断规则</td>
+</tr>
+<tr>
+<td>1980 年</td>
+<td>中文屋子思想实验</td>
+<td>讨论符号处理与语言理解的关系</td>
+</tr>
+<tr>
+<td>1997 年</td>
+<td>深蓝击败卡斯帕罗夫</td>
+<td>搜索和局面评价在复杂任务中取得突破</td>
+</tr>
+<tr>
+<td>2009 年</td>
+<td>ImageNet 论文发表</td>
+<td>大规模图像数据为视觉研究提供学习材料</td>
+</tr>
+<tr>
+<td>2012 年</td>
+<td>AlexNet 取得突破</td>
+<td>深层网络与 GPU 计算提升图像识别表现</td>
+</tr>
+<tr>
+<td>2016 年</td>
+<td>AlphaGo 击败李世石</td>
+<td>学习与搜索方法相互配合</td>
+</tr>
+<tr>
+<td>2022 年</td>
+<td>ChatGPT 研究预览发布</td>
+<td>对话系统使语言模型进入公众视野</td>
+</tr>
+</tbody>
+</table></div></article><nav class="pager" aria-label="前后篇目"><a href="section-1-3.html"><small>上一篇</small>1.3 算法、算力与计算机</a><a href="section-1-5.html"><small>下一篇</small>1.5 人工智能的局限与使用伦理 →</a></nav><p class="reader-note">发现错误或有没讲清楚的地方？欢迎<a href="https://github.com/UESTC1010/CAICP_Book/issues">提交勘误与建议</a>。请注明章节及原文。</p></main></div><a class="back-top" href="#main" aria-label="返回正文顶部">↑</a><footer class="footer"><span>陈峥 著 · 公开试读版 v0.9</span><span><a href="https://github.com/UESTC1010/CAICP_Book/blob/main/LICENSE.md">正文与插图 CC BY-NC-SA 4.0</a> · <a href="https://github.com/UESTC1010/CAICP_Book/issues">勘误与建议 ↗</a></span></footer></body></html>

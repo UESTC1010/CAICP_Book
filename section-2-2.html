@@ -1,0 +1,150 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>2.2 字符串与容器｜从零开始学人工智能：中学生 CAICP 学习指南</title><meta name="description" content="2.2 字符串与容器。变量、条件、循环、函数与程序调试，逐步写出能解决问题的 Python 程序。"><meta name="author" content="陈峥"><link rel="canonical" href="https://uestc1010.github.io/CAICP_Book/section-2-2.html"><link rel="icon" type="image/svg+xml" href="favicon.svg"><meta name="theme-color" content="#173c46"><meta property="og:title" content="2.2 字符串与容器｜从零开始学人工智能：中学生 CAICP 学习指南"><meta property="og:description" content="2.2 字符串与容器。变量、条件、循环、函数与程序调试，逐步写出能解决问题的 Python 程序。"><meta property="og:type" content="article"><meta property="og:url" content="https://uestc1010.github.io/CAICP_Book/section-2-2.html"><meta property="og:image" content="https://uestc1010.github.io/CAICP_Book/assets/cover.png"><link rel="stylesheet" href="site.css"><script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "name": "2.2 字符串与容器｜从零开始学人工智能：中学生 CAICP 学习指南", "inLanguage": "zh-CN", "url": "https://uestc1010.github.io/CAICP_Book/section-2-2.html", "author": {"@type": "Person", "name": "陈峥"}, "description": "2.2 字符串与容器。变量、条件、循环、函数与程序调试，逐步写出能解决问题的 Python 程序。"}</script><script defer src="site.js"></script><script defer src="mathjax-tex-svg.js"></script></head><body><a class="skip" href="#main">跳到正文</a><header class="topbar"><a class="brand" href="./"><span class="brand-mark">AI</span><span>中学生 CAICP 学习指南</span></a><nav aria-label="主导航"><a href="./#contents">全书目录</a><a href="https://github.com/UESTC1010/CAICP_Book/releases/download/v0.9/CAICP_Book-v0.9.pdf">下载 PDF</a><a href="https://github.com/UESTC1010/CAICP_Book">GitHub ↗</a></nav></header><div class="reader-layout"><aside class="sidebar"><details class="book-nav" open><summary>全书目录</summary><nav aria-label="章节目录"><a href="preface.html">前言</a><a href="chapter-1.html">第一章 认识人工智能</a><a href="chapter-2.html" aria-current="page">第二章 用 Python 编写程序</a><a href="chapter-3.html">第三章 理解 AI 所需的数学基础</a><a href="chapter-4.html">第四章 用算法解决问题</a><a href="chapter-5.html">第五章 让机器从数据中学习</a><a href="chapter-6.html">第六章 理解常见模型的工作原理</a><a href="chapter-7.html">第七章 用 Python 处理数据与训练模型</a><a href="chapter-8.html">第八章 了解人工智能的前沿与应用</a><a href="appendix.html">附录</a></nav></details><details class="section-nav" open><summary>本章小节</summary><nav aria-label="小节目录"><a href="section-2-1.html">2.1 基础语法与程序执行</a><a href="section-2-2.html" aria-current="page">2.2 字符串与容器</a><a href="section-2-3.html">2.3 函数、递归与代码复用</a><a href="section-2-4.html">2.4 模块、文档阅读与程序调试</a><a href="section-2-5.html">2.5 进阶表达与面向对象</a><a href="chapter-2-review.html">本章小结与想一想</a></nav></details></aside><main id="main" class="reading"><div class="reading-meta"><a href="chapter-2.html">第二章 用 Python 编写程序</a><span>v0.9</span></div><article><h1>2.2 字符串与容器</h1><h3 id="_1">按位置访问数据</h3>
+<p>一个变量可以记录一个数量，实际任务却常常要处理一组资料。<strong>容器</strong>用来把多项数据组织在一起，前面出现的列表就是一种容器，元组、字典和集合也是常用容器。字符串则把字符按先后顺序排列。这样有位置顺序、能够按位置取项的数据结构称为<strong>序列</strong>，字符串和列表都属于序列。<strong>索引</strong>就是元素的位置编号，从 0 开始；负索引从末尾算起，<code>-1</code> 表示最后一项，<code>-2</code> 表示倒数第二项。以 <code>"Python"</code> 为例，<code>P</code> 的索引为 0，<code>y</code> 为 1，依次到 <code>n</code> 为 5。在变量名后加方括号、写入索引，就能取出相应字符。下面再把取两端字符与取一段字符放在一起比较。</p>
+<pre><code class="language-python">word = &quot;Python&quot;
+print(word[0], word[-1])  # P n
+print(word[1:4])          # yth
+print(word[:3])           # Pyt
+print(word[::2])          # Pto
+print(word[::-1])         # nohtyP
+</code></pre>
+<p>方括号中使用冒号的写法称为<strong>切片</strong>，一般形式是 <code>序列[start:stop:step]</code>，三个名称分别表示起点、终点和步长。<code>word[1:4]</code> 从索引 1 开始，取到索引 4 之前，因此得到 <code>"yth"</code>，不包含索引 4 的 <code>o</code>。<code>word[:3]</code> 省略起点，从开头取到索引 3 之前；省略终点则一直取到相应方向的末端。没有写步长时按 1 前进，<code>word[::2]</code> 每隔一项取一项，<code>word[::-1]</code> 则从末尾向前逐项取得整个字符串。</p>
+<p>单项访问和切片的边界规则不同：<code>word[6]</code> 超过了这个字符串的范围，会报告 <code>IndexError</code>；<code>word[:100]</code> 则只取存在的部分，仍得到整个字符串。列表也一样，<code>data[1]</code> 取一项，<code>data[1:2]</code> 得到含这一项的新列表。</p>
+<p>“取一项”与“取一段”，连结果的类型都可能不同。</p>
+<p>字符串可以用成对的单引号或双引号包围。某些不能方便地直接写出的字符，要用<strong>转义</strong>写法表示，例如 <code>\n</code> 表示换行符，<code>\\</code> 表示一个反斜杠。<code>print("第一行\n第二行")</code> 会分两行显示文字。<code>len()</code> 可以取得字符串长度，普通汉字、英文字母、空格和标点通常各计为一项。更准确地说，Python 按 Unicode 码点计数：Unicode 为文字和符号安排编号，这些编号称为<strong>码点</strong>；少数显示为一个图形的符号由多个码点组合而成，长度便可能大于 1。字符串长度也不同于保存文件时所占的字节数，字节是计算机存储容量的基本单位之一。</p>
+<h3 id="_2">把一段文字整理成需要的内容</h3>
+<p>文字记录中可能混有多余的空格，几项内容也可能挤在同一行。字符串提供了一些专门处理这些情况的<strong>方法</strong>。方法是与对象相关的操作，可以像函数一样调用，不过要先写处理对象，再写点号和方法名。例如，<code>text.strip()</code> 处理的是 <code>text</code> 指向的字符串，去掉两端的空白；<code>text.split(",")</code> 以逗号为界拆分；<code>text.replace("旧", "新")</code> 把指定文字替换为另一段文字。逗号在这里承担分隔内容的作用，称为<strong>分隔符</strong>。</p>
+<p>字符串创建后不能直接修改其中的字符，这种性质称为<strong>不可变</strong>。上述方法会把处理结果返回，原字符串仍然保留原样；若希望变量以后使用新的文字，就需要把结果赋回去。下面整理一条包含编号、温度和状态的记录，每一步都先保留结果，再交给下一步使用。</p>
+<pre><code class="language-python">line = &quot;  A17,23.5,正常  &quot;
+cleaned = line.strip()
+parts = cleaned.split(&quot;,&quot;)
+name = parts[0]
+temperature = float(parts[1])
+print(name, temperature, parts[2])  # A17 23.5 正常
+print(&quot; / &quot;.join(parts))           # A17 / 23.5 / 正常
+</code></pre>
+<p><code>cleaned</code> 保存去掉两端空格后的文字，<code>parts</code> 得到三个字符串组成的列表 <code>['A17', '23.5', '正常']</code>。索引 0 取出编号，索引 1 取出温度文字，再由 <code>float()</code> 转成数值。最后的 <code>join()</code> 从另一个方向工作：用 <code>" / "</code> 作连接符，把列表中的字符串连接起来，参加连接的各项都应当是字符串。熟悉各步以后，前两次处理也可以连续写成 <code>line.strip().split(",")</code>；点号连用时，后一个方法处理的是前一个方法返回的结果。拆分时还要看分隔规则。<code>split()</code> 不带参数，会按连续空白拆分并忽略两端空白；指定逗号后，<code>"a,,b".split(",")</code> 却会得到 <code>['a', '', 'b']</code>，中间空项被保留下来。它可能代表某项内容缺失，不能只为让结果整齐就删掉。读入原始记录之后，先分清这些数值、编号和标签的含义，后面的计算才有依据。</p>
+<p>查找文字时，<code>"on" in word</code> 判断是否包含子串，<code>word.find("on")</code> 返回第一次出现的位置，没有找到则返回 <code>-1</code>。<code>index()</code> 也能找位置，但找不到时会报错。<code>startswith()</code> 和 <code>endswith()</code> 分别检查开头、结尾，<code>lower()</code> 与 <code>upper()</code> 用于大小写转换。需要按某个分隔符只拆一次时，还可以使用 <code>partition()</code>：<code>"A17:正常".partition(":")</code> 得到包含前段、分隔符和后段的三个部分；<code>rpartition()</code> 从右边寻找分隔符。阅读陌生文本处理代码，重点是弄清每一步的输入和输出形状。</p>
+<p><strong>格式化</strong>把数值等内容按需要放入一段文字中。常用的 f 字符串在引号前加 <code>f</code>，用花括号标出需要计算并填入的位置；普通文字照原样保留。下面把编号和温度分别填入相应的说明。</p>
+<pre><code class="language-python">name = &quot;A17&quot;
+temperature = 23.5
+print(f&quot;编号：{name}&quot;)
+print(f&quot;温度：{temperature:.1f}℃&quot;)
+</code></pre>
+<p>两行输出分别是 <code>编号：A17</code> 和 <code>温度：23.5℃</code>。第二行花括号中的冒号后面写着 <code>.1f</code>，表示按一位小数显示。也可以使用字符串的 <code>format()</code> 方法，例如 <code>"温度：{:.1f}℃".format(temperature)</code>。格式化改变的是文字呈现方式，原来的数值不会因此改变。</p>
+<h3 id="_3">列表与二维列表</h3>
+<p>前面已经用方括号建立过列表，也用循环读过它的元素。列表与字符串有一个明显区别：列表是<strong>可变</strong>的，可以直接替换元素，也可以增删元素。<code>data[0] = 8</code> 把列表第一项改成 8，<code>data.append(4)</code> 在末尾加入一个元素 4，<code>data.extend([1, 5])</code> 则把另一组数据中的 1 和 5 逐个加入。<code>append([1, 5])</code> 加入的是一个列表元素，<code>extend([1, 5])</code> 加入的是两个整数，二者不能互换。</p>
+<p>其他常用操作也有各自的处理对象。<code>insert(i, x)</code> 在位置 <code>i</code> 前插入元素 <code>x</code>；<code>pop(i)</code> 删除并返回该位置的元素，省略位置时处理最后一项；<code>remove(x)</code> 删除第一个等于 <code>x</code> 的元素，找不到时会报错。<code>del data[i]</code> 按位置删除，<code>clear()</code> 清空列表。列表允许保存不同类型的数据，但一组需要统一计算的观测值，应当保持适合计算的类型。下面先向列表添加数值，再把它们从小到大排列，这样的操作称为<strong>排序</strong>。</p>
+<pre><code class="language-python">data = [3, 1]
+data.append(4)
+data.extend([1, 5])
+print(data)              # [3, 1, 4, 1, 5]
+ordered = sorted(data)
+print(ordered)           # [1, 1, 3, 4, 5]
+print(data)              # [3, 1, 4, 1, 5]
+data.sort(reverse=True)
+print(data)              # [5, 4, 3, 1, 1]
+</code></pre>
+<p><code>sorted()</code> 返回排好序的新列表，原列表不变；列表的 <code>sort()</code> 则在原处调整顺序，返回 <code>None</code>。<code>reverse=True</code> 表示反向排序，这里按从大到小排列。若写成 <code>data = data.sort()</code>，<code>data</code> 最后会指向 <code>None</code>。<code>append()</code>、<code>extend()</code> 等修改列表的方法也通常不返回修改后的列表，使用时应分清“操作原对象”和“接收返回结果”。</p>
+<p>需要倒转现有顺序时，<code>reverse()</code> 在原处反转，而切片 <code>data[::-1]</code> 得到新列表；反转并不等于按数值从大到小排序。</p>
+<p><strong>二维列表</strong>是在一个列表里放入多个列表，常用来表示行和列。<code>grid[r][c]</code> 先取第 <code>r</code> 行，再取这一行的第 <code>c</code> 项，两个索引都从 0 开始。Python 并不要求各行一样长；如果要把它当作整齐的表格使用，就需要自行保证行列关系。</p>
+<pre><code class="language-python">grid = [[2, 4, 6], [1, 3, 5]]
+print(grid[1][2])  # 5
+grid[0][1] = 8
+for row in grid:
+    row_total = 0
+    for value in row:
+        row_total += value
+    print(row_total)  # 依次输出 16 和 9
+</code></pre>
+<p>外层循环每次取出一行，内层循环再逐项累加；进入新的一行时，<code>row_total</code> 重新从 0 开始，所以两行分别得到自己的总数。若需要修改指定位置，可以使用行列索引。对于这个两行三列的列表，第一列是 <code>grid[0][0]</code> 和 <code>grid[1][0]</code>。<code>grid[0:2]</code> 取得的是前两行，并不会自动取出“前两列”。行、列和单个元素的层次弄清楚以后，图像像素表和后面的数值数组就更容易理解。</p>
+<h3 id="_4">赋值与复制</h3>
+<p>列表能够修改，这使赋值出现了一个值得留意的结果。变量名好比写着名称的标签，标签指向数据本身；写下 <code>b = a</code>，相当于给同一份列表又添了一个标签，并没有再做一份列表。此后沿着任何一个名字修改它，另一个名字都能看到变化。若需要一份独立的新列表，可以调用 <code>a.copy()</code>，也可以使用取完整范围的切片 <code>a[:]</code>。图 2-2 展示了下面代码在修改之前的关系。</p>
+<pre><code class="language-python">a = [2, 4, 6]
+b = a
+c = a.copy()
+b[0] = 9
+print(a)  # [9, 4, 6]
+print(c)  # [2, 4, 6]
+</code></pre>
+<figure><img loading="lazy" decoding="async" alt="列表赋值与浅复制中的对象关系" src="assets/图2-2_赋值与复制.png" /><figcaption>图 2-2 两个名字可以指向同一个列表</figcaption></figure>
+<p>这种关系称为<strong>共享引用</strong>。<code>==</code> 比较内容是否相等，<code>is</code> 判断是否为同一个对象；两个独立列表可以内容相等，却不是同一个对象。这里的复制属于<strong>浅复制</strong>：只新建最外面一层。若列表中还放着内层列表，新旧外层仍可能指向相同的内层对象。建立二维列表时，<code>bad = [[0, 0]] * 3</code> 就会把同一行重复引用三次，执行 <code>bad[0][0] = 1</code> 后，三行都会显示 <code>[1, 0]</code>。可以改用循环，每次创建一个新行：</p>
+<pre><code class="language-python">rows = []
+for _ in range(3):
+    rows.append([0, 0])
+rows[0][0] = 1
+print(rows)  # [[1, 0], [0, 0], [0, 0]]
+</code></pre>
+<p>这里的 <code>_</code> 是普通变量名，用它表示这次不需要使用循环序号。复制已有的规则二维列表时，若每行只含整数等不可变元素，可以逐行调用 <code>copy()</code>，得到相互独立的新行；嵌套层次更多时，还要继续看里面保存了什么。</p>
+<p>是否会相互影响，要追到名字最终指向的对象。</p>
+<h3 id="_5">从表格中提取一列</h3>
+<p>二维列表里的行列关系，值得用一个完整的小任务再看一遍。下面每一行表示一片叶子，第一项是长度，第二项是宽度，单位都为厘米。要求取出全部长度，并计算平均长度。</p>
+<pre><code class="language-python">leaves = [[4.0, 1.0], [6.0, 2.0], [8.0, 3.0]]
+lengths = []
+for row in leaves:
+    lengths.append(row[0])
+average = sum(lengths) / len(lengths)
+print(lengths)  # [4.0, 6.0, 8.0]
+print(average)  # 6.0
+</code></pre>
+<p>第一次循环，<code>row</code> 指向 <code>[4.0, 1.0]</code>，<code>row[0]</code> 是 4.0；接下来分别得到 6.0 和 8.0。外层列表中的一项是一整行，行中的一项才是一个数。因此，<code>leaves[0]</code> 取出第一片叶子的整行资料，<code>leaves[0][1]</code> 则取出它的宽度。若打算取所有宽度，应在循环中使用 <code>row[1]</code>。图 2-3 把几个索引的含义放在同一张表里。</p>
+<figure><img loading="lazy" decoding="async" alt="二维列表中外层索引取行内层索引取列" src="assets/图2-3_二维列表.png" /><figcaption>图 2-3 先找到行，再找到行中的元素</figcaption></figure>
+<p><code>lengths</code> 保存了完整的一列。若只求平均数，也可以逐行累加，不另存这份列表；结果相同，留下的中间资料却不同。处理图像或一批样本时，也要先分清需要的是一条记录、一个属性，还是整片数据区域。</p>
+<h3 id="_6">元组、字典和集合</h3>
+<p><strong>元组</strong>也是有顺序的序列，不过创建后不能替换其中的元素，也不能增删位置。坐标可以写成 <code>point = (3, 5)</code>，通过索引读取，也可以用 <code>x, y = point</code> 把两项分别交给两个变量，这称为<strong>解包</strong>。只有一个元素时要写成 <code>(3,)</code>，逗号不能省略；<code>(3)</code> 只是括号中的整数。元组可以遍历，也可以保存列表，但“不能换掉元组中的元素”不代表“这个元素指向的列表也不能修改”。是否可变，需要看清具体对象。</p>
+<p>列表用位置找内容，<strong>字典</strong>则用名称或其他键来找内容。字典的一项由<strong>键</strong>和<strong>值</strong>组成，键负责定位，值保存相应数据；写法是把各组 <code>键: 值</code> 放进花括号，组与组之间用逗号分开。例如，<code>{"编号": "A17", "温度": 23.5}</code> 用 <code>"编号"</code> 和 <code>"温度"</code> 作键，分别对应一段文字和一个数值。</p>
+<pre><code class="language-python">record = {&quot;编号&quot;: &quot;A17&quot;, &quot;温度&quot;: 23.5}
+print(record[&quot;编号&quot;])  # A17
+record[&quot;温度&quot;] = 24.0
+record[&quot;状态&quot;] = &quot;正常&quot;
+print(record[&quot;温度&quot;])  # 24.0
+</code></pre>
+<p>访问字典也使用方括号，不过里面写的是键。第三行修改已有键的值，第四行使用一个新键，于是增加了一项内容。字典的键不能重复，不同的键却可以对应相同的值。键常用字符串和整数，普通列表和字典本身不能直接作为键。为了按照标签统计数据，还可以把标签名当作键，把出现次数当作值：</p>
+<pre><code class="language-python">labels = [&quot;猫&quot;, &quot;狗&quot;, &quot;猫&quot;]
+counts = {}
+for label in labels:
+    counts[label] = counts.get(label, 0) + 1
+for label, count in counts.items():
+    print(label, count)  # 依次输出 猫 2 和 狗 1
+</code></pre>
+<p>起初 <code>counts</code> 是空字典。第一次读到 <code>"猫"</code>，<code>get(label, 0)</code> 因为找不到这个键而返回 0，加 1 后记成 <code>"猫": 1</code>；读到 <code>"狗"</code> 时同样记成 1；再次读到 <code>"猫"</code>，就取出已有的 1，增加为 2。<code>get()</code> 后面的第二个参数是找不到键时返回的默认值，单独调用它不会增加键，真正的更新发生在赋值时。直接用方括号访问不存在的键则会报 <code>KeyError</code>。统计完成后，第二个循环用 <code>items()</code> 逐组取得键和值，<code>label, count</code> 对它们解包。直接遍历字典或写 <code>label in counts</code>，处理的则是键；<code>keys()</code> 提供键，<code>values()</code> 提供值。删除某项可以用 <code>del counts[label]</code>，也可以用 <code>pop()</code> 删除并取得对应的值。</p>
+<p>字典保留插入顺序，但不会自动排序。用它统计各标签的数量，可以先看清这批分类数据大致是怎样分布的。</p>
+<p><strong>集合</strong>保存不重复的元素，适合判断某一项是否出现，也适合<strong>去重</strong>，即从重复内容中只保留一份。例如 <code>set(["猫", "狗", "猫"])</code> 把列表转成集合，只保留两个不同标签。集合没有用于取第几项的索引，也不保证遍历顺序，不能靠打印时恰好出现的顺序完成“保留首次出现顺序”的任务。空集合写成 <code>set()</code>，<code>{}</code> 表示空字典；集合可以保存整数、字符串等，但不能直接把普通列表放作元素。集合的 <code>add()</code> 加入元素，<code>discard()</code> 删除指定元素，即使不存在也不报错；<code>remove()</code> 则在元素不存在时报错。</p>
+<p>两个集合可以用 <code>|</code> 取得任一集合中出现的元素，称为并集；用 <code>&amp;</code> 取得共同出现的元素，称为交集；用 <code>-</code> 取得只在前一个集合中出现的元素，称为差集。例如，<code>{1, 2} &amp; {2, 3}</code> 得到 <code>{2}</code>。下一章会从数学角度进一步讨论这些关系。</p>
+<p>表 2-2 概括了这几种容器的主要区别。选择容器时，要看任务需要保持位置、按键查找，还是只关心某项是否出现，而不是把所有材料都塞进同一种结构。</p>
+<p>表 2-2 常用容器的比较</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="数据表格"><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>怎样组织数据</th>
+<th>可以怎样修改</th>
+<th>常见用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>列表 list</td>
+<td>按位置排列，允许重复</td>
+<td>替换、添加和删除元素</td>
+<td>一组观测值、待处理记录</td>
+</tr>
+<tr>
+<td>元组 tuple</td>
+<td>按位置排列，允许重复</td>
+<td>不能替换或增删位置</td>
+<td>坐标、固定的一组信息</td>
+</tr>
+<tr>
+<td>字典 dict</td>
+<td>每个键对应一个值</td>
+<td>添加键值对或修改值</td>
+<td>按编号查记录、分类计数</td>
+</tr>
+<tr>
+<td>集合 set</td>
+<td>保留互不重复的元素</td>
+<td>添加或删除元素</td>
+<td>去重、判断成员关系</td>
+</tr>
+</tbody>
+</table></div></article><nav class="pager" aria-label="前后篇目"><a href="section-2-1.html"><small>上一篇</small>2.1 基础语法与程序执行</a><a href="section-2-3.html"><small>下一篇</small>2.3 函数、递归与代码复用 →</a></nav><p class="reader-note">发现错误或有没讲清楚的地方？欢迎<a href="https://github.com/UESTC1010/CAICP_Book/issues">提交勘误与建议</a>。请注明章节及原文。</p></main></div><a class="back-top" href="#main" aria-label="返回正文顶部">↑</a><footer class="footer"><span>陈峥 著 · 公开试读版 v0.9</span><span><a href="https://github.com/UESTC1010/CAICP_Book/blob/main/LICENSE.md">正文与插图 CC BY-NC-SA 4.0</a> · <a href="https://github.com/UESTC1010/CAICP_Book/issues">勘误与建议 ↗</a></span></footer></body></html>

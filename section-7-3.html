@@ -1,0 +1,73 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>7.3 Matplotlib｜从零开始学人工智能：中学生 CAICP 学习指南</title><meta name="description" content="7.3 Matplotlib。使用 NumPy、Pandas、Matplotlib 和 scikit-learn，把知识落实到数据与程序中。"><meta name="author" content="陈峥"><link rel="canonical" href="https://uestc1010.github.io/CAICP_Book/section-7-3.html"><link rel="icon" type="image/svg+xml" href="favicon.svg"><meta name="theme-color" content="#173c46"><meta property="og:title" content="7.3 Matplotlib｜从零开始学人工智能：中学生 CAICP 学习指南"><meta property="og:description" content="7.3 Matplotlib。使用 NumPy、Pandas、Matplotlib 和 scikit-learn，把知识落实到数据与程序中。"><meta property="og:type" content="article"><meta property="og:url" content="https://uestc1010.github.io/CAICP_Book/section-7-3.html"><meta property="og:image" content="https://uestc1010.github.io/CAICP_Book/assets/cover.png"><link rel="stylesheet" href="site.css"><script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "name": "7.3 Matplotlib｜从零开始学人工智能：中学生 CAICP 学习指南", "inLanguage": "zh-CN", "url": "https://uestc1010.github.io/CAICP_Book/section-7-3.html", "author": {"@type": "Person", "name": "陈峥"}, "description": "7.3 Matplotlib。使用 NumPy、Pandas、Matplotlib 和 scikit-learn，把知识落实到数据与程序中。"}</script><script defer src="site.js"></script><script defer src="mathjax-tex-svg.js"></script></head><body><a class="skip" href="#main">跳到正文</a><header class="topbar"><a class="brand" href="./"><span class="brand-mark">AI</span><span>中学生 CAICP 学习指南</span></a><nav aria-label="主导航"><a href="./#contents">全书目录</a><a href="https://github.com/UESTC1010/CAICP_Book/releases/download/v0.9/CAICP_Book-v0.9.pdf">下载 PDF</a><a href="https://github.com/UESTC1010/CAICP_Book">GitHub ↗</a></nav></header><div class="reader-layout"><aside class="sidebar"><details class="book-nav" open><summary>全书目录</summary><nav aria-label="章节目录"><a href="preface.html">前言</a><a href="chapter-1.html">第一章 认识人工智能</a><a href="chapter-2.html">第二章 用 Python 编写程序</a><a href="chapter-3.html">第三章 理解 AI 所需的数学基础</a><a href="chapter-4.html">第四章 用算法解决问题</a><a href="chapter-5.html">第五章 让机器从数据中学习</a><a href="chapter-6.html">第六章 理解常见模型的工作原理</a><a href="chapter-7.html" aria-current="page">第七章 用 Python 处理数据与训练模型</a><a href="chapter-8.html">第八章 了解人工智能的前沿与应用</a><a href="appendix.html">附录</a></nav></details><details class="section-nav" open><summary>本章小节</summary><nav aria-label="小节目录"><a href="section-7-1.html">7.1 NumPy</a><a href="section-7-2.html">7.2 Pandas</a><a href="section-7-3.html" aria-current="page">7.3 Matplotlib</a><a href="section-7-4.html">7.4 scikit-learn 与第三方库使用</a><a href="chapter-7-review.html">本章小结与想一想</a></nav></details></aside><main id="main" class="reading"><div class="reading-meta"><a href="chapter-7.html">第七章 用 Python 处理数据与训练模型</a><span>v0.9</span></div><article><h1>7.3 Matplotlib</h1><h3 id="_1">图、绘图区和坐标轴</h3>
+<p><strong>Matplotlib</strong> 是常用的 Python 绘图库。<code>Figure</code> 表示整张图，<code>Axes</code> 表示其中一个绘图区，绘图区内部再包含横轴、纵轴、曲线、点和图例等对象。常见写法 <code>fig, ax = plt.subplots()</code> 同时创建一张图和一个绘图区，再通过 <code>ax</code> 指定画什么、怎样标注。</p>
+<pre><code class="language-python">import matplotlib.pyplot as plt
+
+fig, ax = plt.subplots(figsize=(6, 4))
+ax.scatter([4, 6, 8], [1, 2, 3], color=&quot;#376d84&quot;)
+ax.set_xlabel(&quot;Length / cm&quot;)
+ax.set_ylabel(&quot;Width / cm&quot;)
+ax.set_title(&quot;Leaf measurements&quot;)
+fig.tight_layout()
+fig.savefig(&quot;leaf_scatter.png&quot;, dpi=160)
+plt.show()
+</code></pre>
+<p><code>scatter</code> 画散点，两个列表分别给出每个点的横坐标和纵坐标；同一位置的数据配成一个点。<code>figsize</code> 用英寸指定图的物理大小，<code>savefig</code> 保存文件，<code>dpi</code> 影响输出像素密度；<code>show</code> 在支持图形显示的环境中展示图像。图中使用英文标签是为了让示例在没有中文字体的环境中也能显示，含义分别为叶长、叶宽和叶片测量。需要中文标签时，应选用已安装且包含中文字形的字体。<code>tight_layout</code> 尝试安排边距，减少标签被挤出图外的情况，保存后仍应检查实际图片。文件保存到程序当前工作目录，并不一定与编辑器打开的源文件在同一处。保存时给出明确的输出路径，便于找到文件。</p>
+<h3 id="_2">根据关系选择图形</h3>
+<p>折线图适合具有先后顺序的数据。例如，连续四天两台设备完成的处理数量可以画成两条线；散点图则通常不把每个点依次连起来，因为行顺序未必有意义。条形图比较不同类别的数量，饼图显示互不重叠的部分在同一整体中的占比。图形选错，即使代码没有报错，也可能让读者误解数据。</p>
+<pre><code class="language-python">fig, ax = plt.subplots(figsize=(6, 4))
+days = [1, 2, 3, 4]
+ax.plot(days, [20, 35, 30, 50], marker=&quot;o&quot;,
+        color=&quot;#376d84&quot;, label=&quot;Device A&quot;)
+ax.plot(days, [18, 24, 36, 42], marker=&quot;s&quot;,
+        linestyle=&quot;--&quot;, color=&quot;#73958c&quot;, label=&quot;Device B&quot;)
+ax.set_xlabel(&quot;Day&quot;)
+ax.set_ylabel(&quot;Processed images&quot;)
+ax.set_xticks(days)
+ax.set_ylim(0, 60)
+ax.legend()
+fig.tight_layout()
+fig.savefig(&quot;device_lines.png&quot;, dpi=160)
+plt.show()
+</code></pre>
+<p><code>label</code> 为每个数据系列命名，<code>legend</code> 显示图例。颜色、圆形与方形标记、实线与虚线共同区分两条曲线，灰度打印时也能辨认。<code>set_xticks</code> 将横轴刻度放在四个整数日期上，<code>set_ylim</code> 指定纵轴范围。范围过窄可能夸大波动，过宽又会掩盖细节，需要结合要表达的问题选择，并让单位和刻度清楚可见。</p>
+<p>下面在同一张图中放置条形图和饼图，两者使用同一组类别数量。</p>
+<pre><code class="language-python">names = [&quot;Plants&quot;, &quot;Animals&quot;, &quot;Objects&quot;]
+counts = [40, 35, 25]
+colors = [&quot;#376d84&quot;, &quot;#73958c&quot;, &quot;#b5a98f&quot;]
+fig, axes = plt.subplots(1, 2, figsize=(9, 4))
+axes[0].bar(names, counts, color=colors)
+axes[0].set_ylabel(&quot;Image count&quot;)
+axes[0].set_ylim(0, 50)
+axes[1].pie(counts, labels=names, colors=colors,
+            autopct=&quot;%.0f%%&quot;, startangle=90)
+axes[1].set_aspect(&quot;equal&quot;)
+fig.tight_layout()
+fig.savefig(&quot;category_charts.png&quot;, dpi=160)
+plt.show()
+</code></pre>
+<p><code>subplots(1, 2)</code> 创建一行两个绘图区，<code>axes[0]</code> 和 <code>axes[1]</code> 分别访问它们。<code>bar</code> 用条高表示数量，<code>pie</code> 将数量转成整体中的比例；<code>autopct</code> 控制百分数标签格式，<code>equal</code> 使两个方向显示尺度相同，保持饼图为圆形。三个数量相加为 100，所以百分比恰好与数量数字相同，换一组总量后就不能再这样读。</p>
+<p>图形画出来以后，还需要读图。对同一批数据，先用散点图观察关系，再用折线图检查时间变化，再按类别汇总，可能发现不同问题。保存之前应核对每个轴代表什么、数据是否按应有顺序排列、图例是否对应曲线，以及缺失记录有没有被悄悄当成零。</p>
+<h3 id="_3">画出模型的误差</h3>
+<p>第三章计算过实际值 2、4、6 与预测值 3、4、4 的误差。把这组数据画出来，可以更直观地看见模型在哪个样本上偏高、在哪个样本上偏低。横轴只表示样本编号，实测值和预测值使用不同标记，同一样本的两点间再画一条细线。</p>
+<pre><code class="language-python">sample_ids = np.array([1, 2, 3])
+observed = np.array([2, 4, 6])
+predicted = np.array([3, 4, 4])
+fig, ax = plt.subplots(figsize=(6, 4))
+ax.scatter(sample_ids, observed,
+           marker=&quot;o&quot;, label=&quot;Observed&quot;)
+ax.scatter(sample_ids, predicted,
+           marker=&quot;x&quot;, label=&quot;Predicted&quot;)
+ax.vlines(sample_ids, observed, predicted,
+          color=&quot;gray&quot;, linestyle=&quot;--&quot;)
+ax.set_xticks(sample_ids)
+ax.set_xlabel(&quot;Sample&quot;)
+ax.set_ylabel(&quot;Value&quot;)
+ax.set_ylim(0, 7)
+ax.legend()
+fig.tight_layout()
+fig.savefig(&quot;prediction_errors.png&quot;, dpi=160)
+plt.show()
+</code></pre>
+<p><code>vlines</code> 在给定横坐标处画竖直线段，起点和终点来自实测值与预测值。第二个样本的两值相同，线段长度为零；第三个样本的线段最长，绝对误差最大。图 7-4 使用同样的数据，横坐标上的距离并不表示样本在现实中相隔多远，因此也没有必要把三个实测点连成一条连续变化的曲线。</p>
+<figure><img loading="lazy" decoding="async" alt="三个样本的实测值预测值及误差" src="assets/图7-4_预测误差.png" /><figcaption>图 7-4 点的位置表示数值，竖直线段的长度表示绝对误差</figcaption></figure>
+<p>误差图还可以帮助提出下一步问题。如果多数预测都偏低，也许截距需要调整；如果误差随着输入增大而增大，也许直线没有抓住所需的曲线关系。不过，三个点只能演示读图的方法。实际分析中，需要更多记录，并把发现的问题带回训练与验证流程中检查。</p></article><nav class="pager" aria-label="前后篇目"><a href="section-7-2.html"><small>上一篇</small>7.2 Pandas</a><a href="section-7-4.html"><small>下一篇</small>7.4 scikit-learn 与第三方库使用 →</a></nav><p class="reader-note">发现错误或有没讲清楚的地方？欢迎<a href="https://github.com/UESTC1010/CAICP_Book/issues">提交勘误与建议</a>。请注明章节及原文。</p></main></div><a class="back-top" href="#main" aria-label="返回正文顶部">↑</a><footer class="footer"><span>陈峥 著 · 公开试读版 v0.9</span><span><a href="https://github.com/UESTC1010/CAICP_Book/blob/main/LICENSE.md">正文与插图 CC BY-NC-SA 4.0</a> · <a href="https://github.com/UESTC1010/CAICP_Book/issues">勘误与建议 ↗</a></span></footer></body></html>

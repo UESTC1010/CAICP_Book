@@ -1,0 +1,98 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>6.8 卷积神经网络｜从零开始学人工智能：中学生 CAICP 学习指南</title><meta name="description" content="6.8 卷积神经网络。从回归和分类，到神经网络、梯度下降与卷积，理解模型内部的工作方式。"><meta name="author" content="陈峥"><link rel="canonical" href="https://uestc1010.github.io/CAICP_Book/section-6-8.html"><link rel="icon" type="image/svg+xml" href="favicon.svg"><meta name="theme-color" content="#173c46"><meta property="og:title" content="6.8 卷积神经网络｜从零开始学人工智能：中学生 CAICP 学习指南"><meta property="og:description" content="6.8 卷积神经网络。从回归和分类，到神经网络、梯度下降与卷积，理解模型内部的工作方式。"><meta property="og:type" content="article"><meta property="og:url" content="https://uestc1010.github.io/CAICP_Book/section-6-8.html"><meta property="og:image" content="https://uestc1010.github.io/CAICP_Book/assets/cover.png"><link rel="stylesheet" href="site.css"><script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "name": "6.8 卷积神经网络｜从零开始学人工智能：中学生 CAICP 学习指南", "inLanguage": "zh-CN", "url": "https://uestc1010.github.io/CAICP_Book/section-6-8.html", "author": {"@type": "Person", "name": "陈峥"}, "description": "6.8 卷积神经网络。从回归和分类，到神经网络、梯度下降与卷积，理解模型内部的工作方式。"}</script><script defer src="site.js"></script><script defer src="mathjax-tex-svg.js"></script></head><body><a class="skip" href="#main">跳到正文</a><header class="topbar"><a class="brand" href="./"><span class="brand-mark">AI</span><span>中学生 CAICP 学习指南</span></a><nav aria-label="主导航"><a href="./#contents">全书目录</a><a href="https://github.com/UESTC1010/CAICP_Book/releases/download/v0.9/CAICP_Book-v0.9.pdf">下载 PDF</a><a href="https://github.com/UESTC1010/CAICP_Book">GitHub ↗</a></nav></header><div class="reader-layout"><aside class="sidebar"><details class="book-nav" open><summary>全书目录</summary><nav aria-label="章节目录"><a href="preface.html">前言</a><a href="chapter-1.html">第一章 认识人工智能</a><a href="chapter-2.html">第二章 用 Python 编写程序</a><a href="chapter-3.html">第三章 理解 AI 所需的数学基础</a><a href="chapter-4.html">第四章 用算法解决问题</a><a href="chapter-5.html">第五章 让机器从数据中学习</a><a href="chapter-6.html" aria-current="page">第六章 理解常见模型的工作原理</a><a href="chapter-7.html">第七章 用 Python 处理数据与训练模型</a><a href="chapter-8.html">第八章 了解人工智能的前沿与应用</a><a href="appendix.html">附录</a></nav></details><details class="section-nav" open><summary>本章小节</summary><nav aria-label="小节目录"><a href="section-6-1.html">6.1 线性回归与多项式回归</a><a href="section-6-2.html">6.2 常见分类算法</a><a href="section-6-3.html">6.3 聚类与 K-means</a><a href="section-6-4.html">6.4 概率建模与统计推断</a><a href="section-6-5.html">6.5 神经元与多层感知机</a><a href="section-6-6.html">6.6 极限、导数与梯度下降</a><a href="section-6-7.html">6.7 模型训练与改进</a><a href="section-6-8.html" aria-current="page">6.8 卷积神经网络</a><a href="chapter-6-review.html">本章小结与想一想</a></nav></details></aside><main id="main" class="reading"><div class="reading-meta"><a href="chapter-6.html">第六章 理解常见模型的工作原理</a><span>v0.9</span></div><article><h1>6.8 卷积神经网络</h1><h3 id="_1">图像中的相邻位置有意义</h3>
+<p>一张灰度图可以写成像素矩阵，彩色图通常还有多个颜色通道。如果把全部像素直接拉成一长列送入全连接层，模型虽然能计算，却没有直接利用附近像素共同形成边缘、纹理的结构。<strong>卷积神经网络</strong>，简称 CNN，使用小窗口在图像上移动，对不同位置重复进行局部运算，逐步提取图像特征。窗口中的一组权重称为<strong>卷积核</strong>或滤波器。对一个位置，把窗口覆盖的像素与卷积核对应相乘后相加，再加上偏置，就得到输出中的一个数。窗口移动到其他位置，继续使用同一组权重，得到一张<strong>特征图</strong>。某个卷积核如果对一类边缘产生较强响应，该边缘出现在图像其他位置时，也有机会被同一组权重检测到，这叫权重共享。</p>
+<h3 id="_2">逐格计算一个卷积窗口</h3>
+<p>设输入灰度图与卷积核分别为下面两个矩阵，偏置为零，窗口每次移动一格，不在边缘补数：</p>
+<div class="arithmatex">\[
+X=\begin{bmatrix}1&amp;2&amp;0\\0&amp;1&amp;3\\2&amp;1&amp;0\end{bmatrix},\qquad K=\begin{bmatrix}1&amp;0\\0&amp;-1\end{bmatrix}
+\]</div>
+<p>左上窗口覆盖 <span class="arithmatex">\(\begin{bmatrix}1&amp;2\\0&amp;1\end{bmatrix}\)</span>，计算结果为 <span class="arithmatex">\(1\times1+2\times0+0\times0+1\times(-1)=0\)</span>。向右移动一格，窗口变为 <span class="arithmatex">\(\begin{bmatrix}2&amp;0\\1&amp;3\end{bmatrix}\)</span>，结果为 <span class="arithmatex">\(2-3=-1\)</span>。下方两个窗口同样计算，分别得到 <span class="arithmatex">\(-1\)</span> 和 1，因此输出为：</p>
+<div class="arithmatex">\[
+Y=\begin{bmatrix}0&amp;-1\\-1&amp;1\end{bmatrix}
+\]</div>
+<figure><img loading="lazy" decoding="async" alt="卷积核在矩阵上移动并形成特征图" src="assets/图6-17_卷积.png" /><figcaption>图 6-17 同一卷积核在不同位置重复使用，四个窗口产生四个输出</figcaption></figure>
+<p>这里使用的是深度学习库中通常称为“卷积”的运算约定：卷积核不翻转，严格数学名称是互相关。数学教材中的卷积常会先翻转卷积核，因此遇到题目时应按给定规则计算。这个区别不影响理解局部连接和权重共享，却可能改变具体数字结果。</p>
+<p><strong>步幅</strong>表示窗口每次移动多少格，步幅为 2 就每次跨两格。<strong>填充</strong>表示在输入边缘补上数值，常见的是补零，它可以控制输出尺寸，也让边缘像素参与更多窗口计算。对一个方向，输入长度为 <span class="arithmatex">\(n\)</span>，卷积核长度为 <span class="arithmatex">\(k\)</span>，两侧各填充 <span class="arithmatex">\(p\)</span>，步幅为 <span class="arithmatex">\(s\)</span>，当卷积核连续覆盖相邻格子，且有效输入至少能放下一个窗口时，输出长度为：</p>
+<div class="arithmatex">\[
+\left\lfloor\frac{n+2p-k}{s}\right\rfloor+1
+\]</div>
+<p>向下取整符号表示舍去不足一个完整步幅的部分。本例 <span class="arithmatex">\(n=3\)</span>、<span class="arithmatex">\(k=2\)</span>、<span class="arithmatex">\(p=0\)</span>、<span class="arithmatex">\(s=1\)</span>，每个方向输出长度为 2。若输入为 <span class="arithmatex">\(5\times5\)</span>、核为 <span class="arithmatex">\(3\times3\)</span>、步幅 1、四边各补一格，输出仍为 <span class="arithmatex">\(5\times5\)</span>。先确定有效窗口能放在什么位置，再计算个数，也能检查公式是否用对。</p>
+<h3 id="_3">通道、池化与完整网络</h3>
+<p>彩色图的每个位置可能包含红、绿、蓝三个数。一个卷积核通常也要覆盖所有输入通道：分别对应相乘，跨通道相加，再加偏置，得到一个输出通道。使用多个不同的卷积核，便产生多张特征图。例如，3 个输入通道、每个核的空间大小为 <span class="arithmatex">\(3\times3\)</span>，一个核含 27 个权重；若另含一个偏置，就是 28 个参数。4 个这样的核共含 112 个参数，产生 4 个输出通道。卷积核的权重通常从训练数据中学习。教材中给一个固定核，是为了理解计算，不表示实际网络的每个边缘检测器都由人手工规定。经过卷积后常接 ReLU 等激活函数，保留非线性。较浅层可能形成边缘和纹理特征，后面的层把局部信息组合成更复杂的模式，但不能把每一张特征图都机械地解释成某个固定物体部件。</p>
+<p><strong>池化层</strong>在小范围内汇总数值，常用于降低特征图的空间尺寸。最大池化取窗口中的最大值，平均池化取平均值。例如，窗口 <span class="arithmatex">\(\begin{bmatrix}1&amp;3\\2&amp;0\end{bmatrix}\)</span> 的最大池化结果为 3，平均池化结果为 1.5。普通最大池化、平均池化本身没有像卷积核那样需要训练的权重。汇总降低了后续计算量，也会丢失部分位置细节，因此并非任何任务都适合大量池化。</p>
+<p>一个简单图像分类网络可以依次执行卷积、激活、池化，再将特征交给全连接层输出类别分数。把多维特征排列成一条向量，称为<strong>展平</strong>。展平改变的是组织形状，不会重新学习一组特征。若池化后有 4 张 <span class="arithmatex">\(2\times2\)</span> 特征图，展平后就是 16 个数，随后一个含 3 个输出单元的全连接层接收这 16 个输入。</p>
+<p>预测时，图像依次经过这些层；训练时，损失通过反向传播影响前面各层的权重。CNN 利用局部结构提高图像处理的效率，但仍受训练材料、目标与架构限制。某种位置变化、遮挡或光照变化是否能够处理，需要通过数据和评价说明，不能仅凭“使用了卷积”就推断模型已经具备所有视觉能力。</p>
+<h3 id="_4">把池化窗口完整移动一次</h3>
+<p>只计算一个窗口，还看不清池化怎样改变整张特征图。设输入为下面的 <span class="arithmatex">\(4\times4\)</span> 矩阵，使用 <span class="arithmatex">\(2\times2\)</span> 窗口，横、纵步幅都为 2，不填充边缘。窗口恰好覆盖左上、右上、左下、右下四块，不发生重叠。</p>
+<div class="arithmatex">\[
+X=\begin{bmatrix}1&amp;3&amp;2&amp;0\\2&amp;0&amp;1&amp;4\\0&amp;1&amp;5&amp;2\\3&amp;2&amp;1&amp;0\end{bmatrix}
+\]</div>
+<p>四块的最大值依次为 3、4、3、5，因此最大池化得到 <span class="arithmatex">\(\begin{bmatrix}3&amp;4\\3&amp;5\end{bmatrix}\)</span>。若改用平均池化，四块总和分别为 6、7、6、8，每块除以 4，得到 <span class="arithmatex">\(\begin{bmatrix}1.5&amp;1.75\\1.5&amp;2\end{bmatrix}\)</span>。图 6-18 用颜色框出对应区域，输入里的四个数共同决定输出里的一个数。</p>
+<figure><img loading="lazy" decoding="async" alt="四个池化窗口与最大池化和平均池化的输出" src="assets/图6-18_池化计算.png" /><figcaption>图 6-18 池化汇总局部数值，输出保留区域的排列关系</figcaption></figure>
+<pre><code class="language-python">feature = [[1, 3, 2, 0], [2, 0, 1, 4],
+           [0, 1, 5, 2], [3, 2, 1, 0]]
+pooled = []
+for row in range(0, 4, 2):
+    output_row = []
+    for col in range(0, 4, 2):
+        window = [feature[row][col],
+                  feature[row][col + 1],
+                  feature[row + 1][col],
+                  feature[row + 1][col + 1]]
+        output_row.append(max(window))
+    pooled.append(output_row)
+print(pooled)  # [[3, 4], [3, 5]]
+</code></pre>
+<p>第二章中的二维列表和嵌套循环，在这里直接表达了图像操作。外层循环确定窗口所在行，内层循环确定窗口所在列，汇总后的位置则对应输出的行列。卷积同样要确定窗口位置，但还包含各位置乘权重、再求和的步骤，不能把它与取最大值混用。</p>
+<h3 id="_5">沿着整个网络检查尺寸和参数</h3>
+<p>考虑一个小型分类网络，输入是 <span class="arithmatex">\(8\times8\)</span> 的彩色图像，共三个颜色通道。第一层采用 4 个 <span class="arithmatex">\(3\times3\)</span> 卷积核，步幅为 1，不填充；每个方向可以放下 <span class="arithmatex">\(8-3+1=6\)</span> 个窗口，因此得到 4 张 <span class="arithmatex">\(6\times6\)</span> 特征图。随后经过 ReLU，形状不变；再用 <span class="arithmatex">\(2\times2\)</span>、步幅为 2 的最大池化，每张特征图变为 <span class="arithmatex">\(3\times3\)</span>。</p>
+<figure><img loading="lazy" decoding="async" alt="一个小型卷积网络从彩色输入到三个类别分数的尺寸变化" src="assets/图6-19_网络尺寸.png" /><figcaption>图 6-19 沿每一层追踪形状，可以检查网络能否正确连接</figcaption></figure>
+<p>池化后共有 <span class="arithmatex">\(3\times3\times4=36\)</span> 个数，展平为 36 维向量。一个有 3 个输出单元的全连接层，为每个输出准备 36 个权重和 1 个偏置，因此有 <span class="arithmatex">\((36+1)\times3=111\)</span> 个参数。前面的卷积层参数为 <span class="arithmatex">\((3\times3\times3+1)\times4=112\)</span> 个；ReLU、普通池化和展平没有需要训练的参数，这个网络两层权重与偏置合计 223 个。</p>
+<p>表 6-6 小型卷积网络的形状与参数</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="数据表格"><table>
+<thead>
+<tr>
+<th>处理步骤</th>
+<th>输出形状或数量</th>
+<th>可训练参数数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>输入图像</td>
+<td>8×8×3</td>
+<td>0</td>
+</tr>
+<tr>
+<td>卷积</td>
+<td>6×6×4</td>
+<td>112</td>
+</tr>
+<tr>
+<td>ReLU</td>
+<td>6×6×4</td>
+<td>0</td>
+</tr>
+<tr>
+<td>最大池化</td>
+<td>3×3×4</td>
+<td>0</td>
+</tr>
+<tr>
+<td>展平</td>
+<td>36 个数</td>
+<td>0</td>
+</tr>
+<tr>
+<td>全连接</td>
+<td>3 个分数</td>
+<td>111</td>
+</tr>
+<tr>
+<td>Softmax</td>
+<td>3 个概率估计</td>
+<td>0</td>
+</tr>
+</tbody>
+</table></div>
+<p>卷积层输出共有 <span class="arithmatex">\(6\times6\times4=144\)</span> 个数，参数却只有 112 个，因为同一卷积核在不同位置共享权重。若让这 144 个输出都独立连接全部 <span class="arithmatex">\(8\times8\times3=192\)</span> 个输入，并各自带一个偏置，就需要 <span class="arithmatex">\((192+1)\times144=27792\)</span> 个参数。局部连接与权重共享利用了图像位置结构，使参数组织方式明显不同；这并不意味着参数较少的模型在任何任务上都更好，而是说明 CNN 的结构为何适合许多图像处理问题。</p>
+<p>网络输出三个分数以后，还需根据任务决定怎样使用。若三个类别互斥，Softmax 可以把分数变成总和为 1 的概率估计，再选择最大的一项作为类别；训练时，真实标签与这三个输出共同决定损失。</p></article><nav class="pager" aria-label="前后篇目"><a href="section-6-7.html"><small>上一篇</small>6.7 模型训练与改进</a><a href="chapter-6-review.html"><small>下一篇</small>本章小结与想一想 →</a></nav><p class="reader-note">发现错误或有没讲清楚的地方？欢迎<a href="https://github.com/UESTC1010/CAICP_Book/issues">提交勘误与建议</a>。请注明章节及原文。</p></main></div><a class="back-top" href="#main" aria-label="返回正文顶部">↑</a><footer class="footer"><span>陈峥 著 · 公开试读版 v0.9</span><span><a href="https://github.com/UESTC1010/CAICP_Book/blob/main/LICENSE.md">正文与插图 CC BY-NC-SA 4.0</a> · <a href="https://github.com/UESTC1010/CAICP_Book/issues">勘误与建议 ↗</a></span></footer></body></html>

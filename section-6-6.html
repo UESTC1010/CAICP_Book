@@ -1,0 +1,110 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>6.6 极限、导数与梯度下降｜从零开始学人工智能：中学生 CAICP 学习指南</title><meta name="description" content="6.6 极限、导数与梯度下降。从回归和分类，到神经网络、梯度下降与卷积，理解模型内部的工作方式。"><meta name="author" content="陈峥"><link rel="canonical" href="https://uestc1010.github.io/CAICP_Book/section-6-6.html"><link rel="icon" type="image/svg+xml" href="favicon.svg"><meta name="theme-color" content="#173c46"><meta property="og:title" content="6.6 极限、导数与梯度下降｜从零开始学人工智能：中学生 CAICP 学习指南"><meta property="og:description" content="6.6 极限、导数与梯度下降。从回归和分类，到神经网络、梯度下降与卷积，理解模型内部的工作方式。"><meta property="og:type" content="article"><meta property="og:url" content="https://uestc1010.github.io/CAICP_Book/section-6-6.html"><meta property="og:image" content="https://uestc1010.github.io/CAICP_Book/assets/cover.png"><link rel="stylesheet" href="site.css"><script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "name": "6.6 极限、导数与梯度下降｜从零开始学人工智能：中学生 CAICP 学习指南", "inLanguage": "zh-CN", "url": "https://uestc1010.github.io/CAICP_Book/section-6-6.html", "author": {"@type": "Person", "name": "陈峥"}, "description": "6.6 极限、导数与梯度下降。从回归和分类，到神经网络、梯度下降与卷积，理解模型内部的工作方式。"}</script><script defer src="site.js"></script><script defer src="mathjax-tex-svg.js"></script></head><body><a class="skip" href="#main">跳到正文</a><header class="topbar"><a class="brand" href="./"><span class="brand-mark">AI</span><span>中学生 CAICP 学习指南</span></a><nav aria-label="主导航"><a href="./#contents">全书目录</a><a href="https://github.com/UESTC1010/CAICP_Book/releases/download/v0.9/CAICP_Book-v0.9.pdf">下载 PDF</a><a href="https://github.com/UESTC1010/CAICP_Book">GitHub ↗</a></nav></header><div class="reader-layout"><aside class="sidebar"><details class="book-nav" open><summary>全书目录</summary><nav aria-label="章节目录"><a href="preface.html">前言</a><a href="chapter-1.html">第一章 认识人工智能</a><a href="chapter-2.html">第二章 用 Python 编写程序</a><a href="chapter-3.html">第三章 理解 AI 所需的数学基础</a><a href="chapter-4.html">第四章 用算法解决问题</a><a href="chapter-5.html">第五章 让机器从数据中学习</a><a href="chapter-6.html" aria-current="page">第六章 理解常见模型的工作原理</a><a href="chapter-7.html">第七章 用 Python 处理数据与训练模型</a><a href="chapter-8.html">第八章 了解人工智能的前沿与应用</a><a href="appendix.html">附录</a></nav></details><details class="section-nav" open><summary>本章小节</summary><nav aria-label="小节目录"><a href="section-6-1.html">6.1 线性回归与多项式回归</a><a href="section-6-2.html">6.2 常见分类算法</a><a href="section-6-3.html">6.3 聚类与 K-means</a><a href="section-6-4.html">6.4 概率建模与统计推断</a><a href="section-6-5.html">6.5 神经元与多层感知机</a><a href="section-6-6.html" aria-current="page">6.6 极限、导数与梯度下降</a><a href="section-6-7.html">6.7 模型训练与改进</a><a href="section-6-8.html">6.8 卷积神经网络</a><a href="chapter-6-review.html">本章小结与想一想</a></nav></details></aside><main id="main" class="reading"><div class="reading-meta"><a href="chapter-6.html">第六章 理解常见模型的工作原理</a><span>v0.9</span></div><article><h1>6.6 极限、导数与梯度下降</h1><h3 id="_1">从一段变化到一点附近的变化</h3>
+<p>一次函数 <span class="arithmatex">\(y=2x+1\)</span> 的输入增加 1，输出就增加 2，变化率始终相同。二次函数 <span class="arithmatex">\(f(x)=x^2\)</span> 则不同：从 1 到 2，平均变化率为 <span class="arithmatex">\((4-1)/(2-1)=3\)</span>；从 2 到 3，平均变化率为 5。所谓<strong>平均变化率</strong>，就是一段范围内输出改变量除以输入改变量，在图像上对应两点连线的斜率。</p>
+<p>若希望知道 <span class="arithmatex">\(x=2\)</span> 附近变化得有多快，可以把另一个点逐渐靠近它。设输入从 2 变为 <span class="arithmatex">\(2+h\)</span>，其中 <span class="arithmatex">\(h\ne0\)</span>，平均变化率为：</p>
+<div class="arithmatex">\[
+\frac{(2+h)^2-2^2}{h}=\frac{4h+h^2}{h}=4+h
+\]</div>
+<p><span class="arithmatex">\(h\)</span> 取 1、0.1、0.01 时，结果分别为 5、4.1、4.01；取 <span class="arithmatex">\(-0.1\)</span>、<span class="arithmatex">\(-0.01\)</span> 时，结果为 3.9、3.99。无论从哪一侧靠近，<span class="arithmatex">\(h\)</span> 越接近零，<span class="arithmatex">\(4+h\)</span> 就越接近 4。描述这种“无限靠近时趋向哪里”的概念，称为<strong>极限</strong>。这里先保持 <span class="arithmatex">\(h\)</span> 非零完成计算，再研究它趋近零时的结果，并不是直接把分母设为零。如果一个函数在某点的这种平均变化率趋向一个确定的数，就称这个数为函数在该点的<strong>导数</strong>，表示该点的瞬时变化率。<span class="arithmatex">\(f(x)\)</span> 的导数常记为 <span class="arithmatex">\(f'(x)\)</span>，也可记为 <span class="arithmatex">\(\mathrm{d}f/\mathrm{d}x\)</span>。上面的计算得到 <span class="arithmatex">\(f'(2)=4\)</span>。图 6-11 中，两个点越来越近时，割线的方向逐渐接近切线方向，导数就是这条切线的斜率。</p>
+<figure><img loading="lazy" decoding="async" alt="割线接近切线与局部变化率" src="assets/图6-11_导数.png" /><figcaption>图 6-11 对平方函数，在 x 等于 2 的位置，切线斜率为 4</figcaption></figure>
+<p>导数为正，表示函数在该点附近沿输入增大的方向具有上升趋势；导数为负，则具有下降趋势。导数的绝对值越大，局部变化越陡。</p>
+<p>导数为零表示该点切线水平，但不能单凭这一点断定它是最小值。例如，<span class="arithmatex">\(x^2\)</span> 在零处取得最小值，<span class="arithmatex">\(-x^2\)</span> 在零处取得最大值，两者在零处的导数都是零。有些函数在某点没有导数：ReLU 在零点两侧的斜率分别为 0 和 1，不能得到同一个值。</p>
+<h3 id="_2">几条常用求导规则</h3>
+<p>将上面的推导中的 2 换成一般的 <span class="arithmatex">\(x\)</span>，可以得到 <span class="arithmatex">\((x^2)'=2x\)</span>。多项式各项也有简便规则：常数的导数为零，<span class="arithmatex">\(x\)</span> 的导数为 1，<span class="arithmatex">\(x^n\)</span> 的导数为 <span class="arithmatex">\(nx^{n-1}\)</span>，这里 <span class="arithmatex">\(n\)</span> 为正整数。常数倍可以保留，各项相加减则分别求导后再相加减。因此：</p>
+<div class="arithmatex">\[
+(3x^2-5x+6)'=6x-5
+\]</div>
+<div class="arithmatex">\[
+(2x^3+x^2-4x+7)'=6x^2+2x-4
+\]</div>
+<p>导数本身也是一个函数。想知道第一个多项式在 <span class="arithmatex">\(x=2\)</span> 处怎样变化，代入导函数得到 <span class="arithmatex">\(6\times2-5=7\)</span> 即可。<span class="arithmatex">\(e^x\)</span> 有一个特别的性质：它的导数仍是 <span class="arithmatex">\(e^x\)</span>。若指数内部还有一个随 <span class="arithmatex">\(x\)</span> 变化的表达式，还要乘上内部表达式的导数，这体现了<strong>链式法则</strong>。例如，<span class="arithmatex">\((e^{3x})'=3e^{3x}\)</span>，<span class="arithmatex">\((e^{-x})'=-e^{-x}\)</span>，而不是都原样照抄。再看一个“函数套函数”的例子。对 <span class="arithmatex">\((2x+1)^2\)</span>，可以先把 <span class="arithmatex">\(2x+1\)</span> 看成整体，外层平方的变化率是 <span class="arithmatex">\(2(2x+1)\)</span>；内层随 <span class="arithmatex">\(x\)</span> 变化的速率是 2，两者相乘，得到 <span class="arithmatex">\(4(2x+1)\)</span>。展开为 <span class="arithmatex">\(4x^2+4x+1\)</span> 后再求导，也得到 <span class="arithmatex">\(8x+4\)</span>。神经网络把多层函数接在一起，反向传播正是沿这些连接应用链式法则，把输出损失对前面各量的影响逐步传回去。</p>
+<p>求导也能回过头检验第 6.4 节的最大似然例子。将 <span class="arithmatex">\(L(p)=p^3(1-p)\)</span> 展开为 <span class="arithmatex">\(p^3-p^4\)</span>，导数为 <span class="arithmatex">\(3p^2-4p^3=p^2(3-4p)\)</span>。在 <span class="arithmatex">\(0&lt;p&lt;3/4\)</span> 时为正，在 <span class="arithmatex">\(3/4&lt;p&lt;1\)</span> 时为负，说明似然先上升再下降，因此在 <span class="arithmatex">\(p=3/4\)</span> 处最大。前面通过数据比例得到的估计，便有了变化率方面的解释。</p>
+<h3 id="_3">沿着减小损失的方向移动</h3>
+<p><strong>梯度下降</strong>利用当前的变化率，向函数值减小的方向调整参数。先看只有一个参数的损失函数 <span class="arithmatex">\(L(w)=(w-2)^2\)</span>。它在 <span class="arithmatex">\(w=2\)</span> 处最小，导数为 <span class="arithmatex">\(L'(w)=2(w-2)\)</span>。当 <span class="arithmatex">\(w=0\)</span> 时，导数为 <span class="arithmatex">\(-4\)</span>，说明向增大 <span class="arithmatex">\(w\)</span> 的方向移动，附近的损失会下降；当 <span class="arithmatex">\(w=3\)</span> 时，导数为 2，减小 <span class="arithmatex">\(w\)</span> 则有助于下降。</p>
+<p>把每次移动的比例记为 <span class="arithmatex">\(\eta\)</span>，读作 eta，称为<strong>学习率</strong>。一次更新可写为：</p>
+<div class="arithmatex">\[
+w_{\text{新}}=w_{\text{旧}}-\eta L'(w_{\text{旧}})
+\]</div>
+<p>这里的减号保证沿导数所指上升方向的反方向移动。若初值为零，学习率为 0.1，第一次更新为 <span class="arithmatex">\(0-0.1\times(-4)=0.4\)</span>，损失从 4 降到 2.56；第二次导数为 <span class="arithmatex">\(2(0.4-2)=-3.2\)</span>，更新到 0.72，损失降到 1.6384。每次都要在新的位置重新计算导数，不能始终沿用第一次的 <span class="arithmatex">\(-4\)</span>。</p>
+<pre><code class="language-python">w = 0.0
+learning_rate = 0.1
+for step in range(3):
+    gradient = 2 * (w - 2)
+    w = w - learning_rate * gradient
+    loss = (w - 2) ** 2
+    print(round(w, 4), round(loss, 4))
+</code></pre>
+<p>三行结果依次为 <code>0.4 2.56</code>、<code>0.72 1.6384</code>、<code>0.976 1.0486</code>。损失持续下降，但前三步没有立即到达最小点。学习率太小，靠近得慢；太大则可能跨过谷底来回摆动，甚至越走越远。对这个特定的二次函数，若学习率取 1.1，从零出发先到 4.4，再到 <span class="arithmatex">\(-0.88\)</span>，距离最优点反而扩大。这与第四章中调节过猛的反馈现象有相通之处。</p>
+<h3 id="_4">小步变化怎样检验导数</h3>
+<p>导数计算可以用很小的有限变化作数值核对。设 <span class="arithmatex">\(f(x)=(2x+1)^2\)</span>，在 <span class="arithmatex">\(x=1\)</span> 处的导数为 <span class="arithmatex">\(4(2\times1+1)=12\)</span>。这表示输入在 1 附近增加一小段 h 时，输出改变量近似为 <span class="arithmatex">\(12h\)</span>。取 <span class="arithmatex">\(h=0.01\)</span>，预测的改变量为 0.12；直接代入公式，实际改变量为 <span class="arithmatex">\(3.02^2-3^2=0.1204\)</span>，两者已经很接近。差出的 0.0004 从哪里来？把式子展开，实际改变量为 <span class="arithmatex">\(12h+4h^2\)</span>。导数提供其中与 h 成正比的部分，<span class="arithmatex">\(4h^2\)</span> 则是有限步长下仍存在的差异。当 h 更小时，这一部分相对于 h 也变得更小。</p>
+<p>导数描述的是局部变化。把这一步跨得很大，近似就可能不再准确。</p>
+<p>程序中可以用相邻两点的差商检查导数公式：</p>
+<pre><code class="language-python">def function_value(x):
+    return (2 * x + 1) ** 2
+
+x = 1.0
+for h in [0.1, 0.01, 0.001]:
+    rate = (function_value(x + h) - function_value(x)) / h
+    print(round(rate, 3))
+# 12.4
+# 12.04
+# 12.004
+</code></pre>
+<p>这三个数逐步接近 12，与公式求得的导数一致。用有限步长近似导数，称为数值求导的一种方法。它适合帮助理解或核对，但通常不能代替解析求导或反向传播：步长较大时近似较粗，过小时又可能受到浮点舍入的影响；参数很多时，逐个试探还需要大量计算。梯度检查的想法也从这里来。把某一个参数稍稍增加、稍稍减少，观察损失如何变化，再与反向传播给出的偏导比较，可以帮助发现符号或链式法则用错的位置。检查时要固定其他参数，并保证两次计算采用同一批数据，才能把差异归因于正在考察的参数。</p>
+<h3 id="_5">多个参数形成损失曲面</h3>
+<p>模型通常不止一个参数。对 <span class="arithmatex">\(\hat{y}=wx+b\)</span>，设训练样本只有两条：输入为 <span class="arithmatex">\(-1\)</span> 时目标为 <span class="arithmatex">\(-2\)</span>，输入为 1 时目标为 2。它们的均方误差为：</p>
+<div class="arithmatex">\[
+L(w,b)=\frac{(-w+b+2)^2+(w+b-2)^2}{2}=(w-2)^2+b^2
+\]</div>
+<p>这次横向的两个坐标分别表示权重 <span class="arithmatex">\(w\)</span> 和偏置 <span class="arithmatex">\(b\)</span>，竖向表示损失 <span class="arithmatex">\(L\)</span>。每一对参数确定一个模型，也确定曲面上的一个点。图 6-12 的曲面呈碗形，最低处为 <span class="arithmatex">\((w,b)=(2,0)\)</span>。它与“输入 x 对应预测 y”的函数图像不同：这里固定了训练数据，观察的是更换模型参数会怎样改变整体误差。</p>
+<figure><img loading="lazy" decoding="async" alt="线性回归的损失曲面及等高线上的梯度方向" src="assets/图6-12_损失与梯度.png" /><figcaption>图 6-12 同一损失可以画成曲面或等高线，负梯度指向当前位置下降最快的方向</figcaption></figure>
+<p>只改变 <span class="arithmatex">\(w\)</span>、暂时固定 <span class="arithmatex">\(b\)</span>，计算损失的变化率，称为损失对 <span class="arithmatex">\(w\)</span> 的<strong>偏导数</strong>；同理可以对 <span class="arithmatex">\(b\)</span> 求偏导。本例得到 <span class="arithmatex">\(\partial L/\partial w=2(w-2)\)</span>、<span class="arithmatex">\(\partial L/\partial b=2b\)</span>。把各参数的偏导按顺序组成向量，就得到<strong>梯度</strong>，记为 <span class="arithmatex">\(\nabla L\)</span>。在 <span class="arithmatex">\((0,1)\)</span> 处，梯度为 <span class="arithmatex">\((-4,2)\)</span>，负梯度为 <span class="arithmatex">\((4,-2)\)</span>；学习率取 0.1，一次更新便到 <span class="arithmatex">\((0.4,0.8)\)</span>。<strong>等高线</strong>连接损失相同的参数位置。在曲面光滑、梯度不为零的位置，梯度垂直于该点经过的等高线，指向局部上升最快的方向；负梯度方向局部下降最快。读图时要先看各圈标出的损失高低，再判断箭头方向，不能把“向中心走”当成所有图都适用的规则。</p>
+<p>局部下降最快，不保证一直沿此方向就能到达最低处；步长过大，也可能让损失反而上升。</p>
+<p>复杂神经网络的损失曲面可能有许多谷地和平坦区域。某些位置各偏导都为零，却不是最低点。用一个简单的曲面函数 <span class="arithmatex">\(F(u,v)=u^2-v^2\)</span> 说明：在原点，梯度为零，沿 <span class="arithmatex">\(u\)</span> 轴离开原点时函数值上升，沿 <span class="arithmatex">\(v\)</span> 轴离开时却下降，这样的位置称为<strong>鞍点</strong>。这说明“梯度接近零”需要结合曲面和训练表现解释。梯度下降是一种有用的优化方法，实际效果仍取决于损失形状、初始化、步长以及数据。</p>
+<h3 id="_6">把样本、梯度和更新连成一次训练</h3>
+<p>前面的损失曲面具有很整齐的形式。实际程序常常逐条读取样本，再累加梯度。对线性模型 <span class="arithmatex">\(\hat y=wx+b\)</span>，一条样本的误差为 <span class="arithmatex">\(e=wx+b-y\)</span>，平方损失是 <span class="arithmatex">\(e^2\)</span>。改变 w 会先改变预测，再改变误差和平方，因此由链式法则得到：</p>
+<div class="arithmatex">\[
+\frac{\partial(e^2)}{\partial w}=2ex,\qquad
+\frac{\partial(e^2)}{\partial b}=2e
+\]</div>
+<p>其中 x 来自“预测对权重的变化率”，偏置前的对应变化率则为 1。对于一批 n 条样本，逐条计算这些量后取平均，就得到均方误差的两个偏导：</p>
+<div class="arithmatex">\[
+\frac{\partial L}{\partial w}=\frac{2}{n}\sum_{i=1}^{n}e_i x_i
+\]</div>
+<div class="arithmatex">\[
+\frac{\partial L}{\partial b}=\frac{2}{n}\sum_{i=1}^{n}e_i
+\]</div>
+<p>取训练样本 <span class="arithmatex">\((1,2)\)</span>、<span class="arithmatex">\((2,4)\)</span>，初始 <span class="arithmatex">\(w=0\)</span>、<span class="arithmatex">\(b=0\)</span>。两条预测都是零，误差分别为 <span class="arithmatex">\(-2\)</span>、<span class="arithmatex">\(-4\)</span>，MSE 为 10。权重梯度为 <span class="arithmatex">\((-2)\times1+(-4)\times2=-10\)</span>，偏置梯度为 <span class="arithmatex">\(-2-4=-6\)</span>；这里 <span class="arithmatex">\(2/n=1\)</span>，所以不再另乘系数。学习率取 0.1，两个参数一起更新为：</p>
+<div class="arithmatex">\[
+w=0-0.1\times(-10)=1,\qquad
+b=0-0.1\times(-6)=0.6
+\]</div>
+<p>重新预测，得到 1.6 和 2.6，MSE 降为 <span class="arithmatex">\((0.4^2+1.4^2)/2=1.06\)</span>。第二次必须从新的参数重新计算，得到权重梯度 <span class="arithmatex">\(-3.2\)</span>、偏置梯度 <span class="arithmatex">\(-1.8\)</span>，再更新到 <span class="arithmatex">\(w=1.32\)</span>、<span class="arithmatex">\(b=0.78\)</span>，MSE 为 0.1732。每一步都把同一批输入、目标与当前参数联系起来，不能只看一个“让权重变大”的固定口诀。</p>
+<pre><code class="language-python">samples = [(1.0, 2.0), (2.0, 4.0)]
+w, b = 0.0, 0.0
+rate = 0.1
+for step in range(3):
+    grad_w, grad_b = 0.0, 0.0
+    for x, y in samples:
+        error = w * x + b - y
+        grad_w += 2 * error * x / len(samples)
+        grad_b += 2 * error / len(samples)
+    w -= rate * grad_w
+    b -= rate * grad_b
+    loss = sum((w * x + b - y) ** 2
+               for x, y in samples) / len(samples)
+    print(round(w, 4), round(b, 4), round(loss, 6))
+# 1.0 0.6 1.06
+# 1.32 0.78 0.1732
+# 1.426 0.828 0.083458
+</code></pre>
+<p>程序先完整累加两个梯度，再更新参数。这保证两个梯度都在同一组旧参数处计算。如果算出第一条样本的贡献后立即修改 w，后面的样本就使用了不同参数，已不再是这里说明的整批梯度。它可能对应另一种更新方式，但必须重新解释过程，不能把两种算法混在一起比较。</p>
+<h3 id="_7">沿着连接反向计算变化率</h3>
+<p>反向传播可以从一条很短的网络看起。设输入 x 为 2，第一层计算 <span class="arithmatex">\(u=wx\)</span>、<span class="arithmatex">\(h=\max(0,u)\)</span>，第二层计算 <span class="arithmatex">\(\hat y=vh\)</span>；本例为简化计算省略偏置。取 <span class="arithmatex">\(w=1\)</span>、<span class="arithmatex">\(v=3\)</span>，目标 y 为 4。前向计算依次得到 u 为 2、h 为 2、预测为 6，平方损失为 4。反向计算从损失对预测的变化率开始：<span class="arithmatex">\((\hat y-y)^2\)</span> 对 <span class="arithmatex">\(\hat y\)</span> 的导数是 <span class="arithmatex">\(2(\hat y-y)\)</span>，当前为 4。输出层的权重 v 每改变一点，预测按 h 的倍数变化，所以损失对 v 的梯度为 <span class="arithmatex">\(4\times h=8\)</span>。再向前传，预测对 h 的变化率为 v，损失对 h 的变化率便为 <span class="arithmatex">\(4\times3=12\)</span>。</p>
+<p>由于当前 u 大于零，ReLU 在此处的导数为 1；u 对 w 的变化率为 x，也就是 2。因此，损失对第一层权重 w 的梯度为：</p>
+<div class="arithmatex">\[
+\frac{\partial L}{\partial w}
+=4\times3\times1\times2=24
+\]</div>
+<figure><img loading="lazy" decoding="async" alt="前向数值与反向变化率在一个小网络中的传递" src="assets/图6-13_反向传播.png" /><figcaption>图 6-13 反向传播沿着前向计算的连接应用链式法则</figcaption></figure>
+<p>学习率取 0.01，同时更新 w、v，得到 <span class="arithmatex">\(w=0.76\)</span>、<span class="arithmatex">\(v=2.92\)</span>。再次前向计算，预测为 <span class="arithmatex">\(2.92\times(0.76\times2)=4.4384\)</span>，损失约为 0.1922，较原来的 4 明显减小。两条梯度大小不同，是因为各条路径上的变化率不同，不是因为训练程序随意给前一层“更大的责任”。</p>
+<p>若当前 u 小于零，ReLU 在这一侧输出恒为零，局部导数为零，这条路径向前传递的梯度也会相应变为零。u 恰好为零时，数学导数不存在，软件会采用约定值处理。更宽的网络中，一个中间量可能通向多个输出分支，此时需要把各条路径带来的梯度贡献相加。反向传播计算这些贡献，优化器再使用它们调整参数。</p></article><nav class="pager" aria-label="前后篇目"><a href="section-6-5.html"><small>上一篇</small>6.5 神经元与多层感知机</a><a href="section-6-7.html"><small>下一篇</small>6.7 模型训练与改进 →</a></nav><p class="reader-note">发现错误或有没讲清楚的地方？欢迎<a href="https://github.com/UESTC1010/CAICP_Book/issues">提交勘误与建议</a>。请注明章节及原文。</p></main></div><a class="back-top" href="#main" aria-label="返回正文顶部">↑</a><footer class="footer"><span>陈峥 著 · 公开试读版 v0.9</span><span><a href="https://github.com/UESTC1010/CAICP_Book/blob/main/LICENSE.md">正文与插图 CC BY-NC-SA 4.0</a> · <a href="https://github.com/UESTC1010/CAICP_Book/issues">勘误与建议 ↗</a></span></footer></body></html>

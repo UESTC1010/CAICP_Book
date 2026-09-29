@@ -1,0 +1,73 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>7.2 Pandas｜从零开始学人工智能：中学生 CAICP 学习指南</title><meta name="description" content="7.2 Pandas。使用 NumPy、Pandas、Matplotlib 和 scikit-learn，把知识落实到数据与程序中。"><meta name="author" content="陈峥"><link rel="canonical" href="https://uestc1010.github.io/CAICP_Book/section-7-2.html"><link rel="icon" type="image/svg+xml" href="favicon.svg"><meta name="theme-color" content="#173c46"><meta property="og:title" content="7.2 Pandas｜从零开始学人工智能：中学生 CAICP 学习指南"><meta property="og:description" content="7.2 Pandas。使用 NumPy、Pandas、Matplotlib 和 scikit-learn，把知识落实到数据与程序中。"><meta property="og:type" content="article"><meta property="og:url" content="https://uestc1010.github.io/CAICP_Book/section-7-2.html"><meta property="og:image" content="https://uestc1010.github.io/CAICP_Book/assets/cover.png"><link rel="stylesheet" href="site.css"><script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "name": "7.2 Pandas｜从零开始学人工智能：中学生 CAICP 学习指南", "inLanguage": "zh-CN", "url": "https://uestc1010.github.io/CAICP_Book/section-7-2.html", "author": {"@type": "Person", "name": "陈峥"}, "description": "7.2 Pandas。使用 NumPy、Pandas、Matplotlib 和 scikit-learn，把知识落实到数据与程序中。"}</script><script defer src="site.js"></script><script defer src="mathjax-tex-svg.js"></script></head><body><a class="skip" href="#main">跳到正文</a><header class="topbar"><a class="brand" href="./"><span class="brand-mark">AI</span><span>中学生 CAICP 学习指南</span></a><nav aria-label="主导航"><a href="./#contents">全书目录</a><a href="https://github.com/UESTC1010/CAICP_Book/releases/download/v0.9/CAICP_Book-v0.9.pdf">下载 PDF</a><a href="https://github.com/UESTC1010/CAICP_Book">GitHub ↗</a></nav></header><div class="reader-layout"><aside class="sidebar"><details class="book-nav" open><summary>全书目录</summary><nav aria-label="章节目录"><a href="preface.html">前言</a><a href="chapter-1.html">第一章 认识人工智能</a><a href="chapter-2.html">第二章 用 Python 编写程序</a><a href="chapter-3.html">第三章 理解 AI 所需的数学基础</a><a href="chapter-4.html">第四章 用算法解决问题</a><a href="chapter-5.html">第五章 让机器从数据中学习</a><a href="chapter-6.html">第六章 理解常见模型的工作原理</a><a href="chapter-7.html" aria-current="page">第七章 用 Python 处理数据与训练模型</a><a href="chapter-8.html">第八章 了解人工智能的前沿与应用</a><a href="appendix.html">附录</a></nav></details><details class="section-nav" open><summary>本章小节</summary><nav aria-label="小节目录"><a href="section-7-1.html">7.1 NumPy</a><a href="section-7-2.html" aria-current="page">7.2 Pandas</a><a href="section-7-3.html">7.3 Matplotlib</a><a href="section-7-4.html">7.4 scikit-learn 与第三方库使用</a><a href="chapter-7-review.html">本章小结与想一想</a></nav></details></aside><main id="main" class="reading"><div class="reading-meta"><a href="chapter-7.html">第七章 用 Python 处理数据与训练模型</a><span>v0.9</span></div><article><h1>7.2 Pandas</h1><h3 id="_1">有列名的表格</h3>
+<p><strong>Pandas</strong> 适合处理有字段名的表格数据。<code>Series</code> 表示带索引的一列数据，<code>DataFrame</code> 表示由多列组成的表。不同列可以采用不同类型，例如编号为字符串、长度为小数、类别为文字。下面使用字典创建一张表，字典的键成为列名，各列表中的同一位置构成一行；<code>None</code> 表示缺失。</p>
+<pre><code class="language-python">import pandas as pd
+
+df = pd.DataFrame({
+    &quot;id&quot;: [&quot;A&quot;, &quot;B&quot;, &quot;C&quot;, &quot;C&quot;],
+    &quot;length&quot;: [4.0, None, 8.0, 8.0],
+    &quot;width&quot;: [1.0, 2.0, 3.0, 3.0],
+    &quot;kind&quot;: [&quot;甲&quot;, &quot;乙&quot;, &quot;甲&quot;, &quot;甲&quot;]
+})
+print(df.shape)
+print(df.head(2))
+</code></pre>
+<p><code>shape</code> 为 <code>(4, 4)</code>，<code>head(2)</code> 显示前两行。表格最左侧默认出现的 0、1 等数字是行索引，不是 <code>id</code> 列的内容。<code>df["length"]</code> 得到一个 Series，<code>df[["length", "width"]]</code> 则得到两列构成的 DataFrame。这里两层方括号有不同作用：里面是一份列名列表，外面用它选择表格列。<code>iloc</code> 按整数位置选择，<code>df.iloc[0, 1]</code> 得到第一行第二列的 4.0；<code>loc</code> 按行索引标签和列标签选择。若把 <code>id</code> 设成索引，就可以用样本编号选行。但本表 C 出现两次，以 C 选取时会得到两条记录，不能假定索引标签一定唯一。位置切片的右端不包含，标签切片在相应用法中通常包含右端，阅读文档时需要区分。</p>
+<p>文件中常见的 <strong>CSV</strong> 以分隔符组织行列。<code>pd.read_csv("leaves.csv")</code> 读取文件，<code>df.to_csv("cleaned.csv", index=False)</code> 保存表格；后面的 <code>index=False</code> 表示不把行索引额外写成一列。若当前文件夹没有该文件，读取会报文件不存在，不能把路径问题当作数据处理算法的错误。下面用内存中的文本演示相同的读取方法，不需要事先准备文件。</p>
+<pre><code class="language-python">from io import StringIO
+
+csv_text = &quot;id,length,width\nA,4.0,1.0\nB,6.0,2.0\n&quot;
+small_table = pd.read_csv(StringIO(csv_text))
+print(small_table[&quot;length&quot;].mean())
+</code></pre>
+<p>输出为 <code>5.0</code>。<code>StringIO</code> 把字符串包装成可读取的文本对象，<code>read_csv</code> 再按行列解释内容。实际文件还可能需要说明字符编码、分隔符或日期格式，这些都是读取规则，不应在失败后盲目删除看不懂的内容。</p>
+<h3 id="_2">筛选、清洗和分组</h3>
+<p>可以先用 <code>isna</code> 识别缺失，再决定处理方式。下面先删除完全相同的重复行，再在这份示意表内用已知长度的均值填充缺失。它仅演示清洗操作；若这张表进入机器学习流程，应先划分数据，再从训练部分学习填充值。</p>
+<pre><code class="language-python">clean = df.drop_duplicates().copy()
+print(clean[&quot;length&quot;].isna().sum())
+mean_length = clean[&quot;length&quot;].mean()
+clean[&quot;length&quot;] = clean[&quot;length&quot;].fillna(mean_length)
+selected = clean.loc[clean[&quot;length&quot;] &gt;= 6,
+                     [&quot;id&quot;, &quot;length&quot;, &quot;width&quot;]]
+print(selected)
+</code></pre>
+<p>第一项输出 1，表示一条长度缺失。去重后已知长度为 4 和 8，均值为 6，B 的长度因此被填为 6。筛选结果保留 B、C 两行。<code>drop_duplicates()</code> 不指定字段时按整行比较；若只按编号去重，应明确 <code>subset="id"</code>，并先判断同一编号的多条记录到底是重复录入还是不同时间的有效观测。</p>
+<p>对按时间排序、间隔相同的一列数，可以用线性插值演示中间缺失值的估计：</p>
+<pre><code class="language-python">temperatures = pd.Series([18.0, None, 22.0])
+print(temperatures.interpolate().tolist())
+print(clean.groupby(&quot;kind&quot;)[&quot;length&quot;].mean())
+</code></pre>
+<p>第一项为 <code>[18.0, 20.0, 22.0]</code>。第二项先按 <code>kind</code> 分组，再对每组长度求平均，甲类均值为 6，乙类也是 6。<code>groupby</code> 不是训练分类模型，它依据现有字段把记录分组后执行统计。如果要同时查看每组样本数，还应增加计数，避免把样本很少的组与大组的均值作过强比较。</p>
+<h3 id="_3">连接、追加与类别转换</h3>
+<p>下面的右表为每个编号补充采集区域。左连接保留 <code>clean</code> 的所有记录，编号 C 在右表没有出现，连接后的区域字段因而缺失。</p>
+<pre><code class="language-python">places = pd.DataFrame({
+    &quot;id&quot;: [&quot;A&quot;, &quot;B&quot;],
+    &quot;place&quot;: [&quot;温室&quot;, &quot;室外&quot;]
+})
+joined = clean.merge(places, on=&quot;id&quot;, how=&quot;left&quot;,
+                     validate=&quot;one_to_one&quot;)
+print(joined[[&quot;id&quot;, &quot;place&quot;]])
+</code></pre>
+<p><code>on</code> 指定共同的键，<code>how="left"</code> 指定左连接，<code>validate="one_to_one"</code> 要求两边的连接键都唯一；若这一约定不成立，程序会报告问题，便于发现意外重复。Pandas 也有 <code>join</code> 方法，常按索引组织连接。使用哪种写法，都要先清楚按哪个字段配对，以及一条记录可能匹配几条。</p>
+<pre><code class="language-python">new_row = pd.DataFrame({
+    &quot;id&quot;: [&quot;D&quot;], &quot;length&quot;: [5.0],
+    &quot;width&quot;: [1.5], &quot;kind&quot;: [&quot;乙&quot;]
+})
+combined = pd.concat([clean, new_row], ignore_index=True)
+encoded = pd.get_dummies(combined, columns=[&quot;kind&quot;],
+                         dtype=int)
+print(encoded.columns.tolist())
+</code></pre>
+<p><code>concat</code> 沿行方向追加，<code>ignore_index=True</code> 为结果重新安排连续行索引。追加操作在概念上也常称 append，但较新版本的 Pandas 已移除 <code>DataFrame.append</code> 方法，应使用 <code>concat</code>。</p>
+<p><code>get_dummies</code> 将类别列转换成独热列，结果中包含 <code>kind_乙</code>、<code>kind_甲</code> 等字段；具体顺序应查看实际列名。</p>
+<p>分别对训练与新数据独立编码，可能产生不同列集合或顺序，机器学习时更适合使用在训练数据上确定类别规则的编码器。</p>
+<h3 id="_4">标签相同与位置相同</h3>
+<p>前面筛选出的 <code>selected</code> 保留 B、C 两行，行索引仍为 1、2。筛选只是选择记录，并没有把它们的索引自动改为 0、1。于是 <code>selected.iloc[0]</code> 取得第一行，也就是 B；<code>selected.loc[1]</code> 则查找标签为 1 的行，在本例中恰好也是 B。两个结果相同，依据却不同。</p>
+<pre><code class="language-python">print(selected.iloc[0][&quot;id&quot;])
+print(selected.loc[1, &quot;id&quot;])
+renumbered = selected.reset_index(drop=True)
+print(renumbered.index.tolist())
+</code></pre>
+<p>前两行都输出 B，最后一行输出 <code>[0, 1]</code>。<code>reset_index</code> 可以重新安排索引，<code>drop=True</code> 表示不把旧索引另外保存成一列。样本编号 <code>id</code> 与表格行索引又是两种信息：A、B、C 是记录中的编号，0、1、2 是目前这张表采用的行标签。只要含义清楚，二者不必相同。连接表格时，更应使用能识别对象的字段。假设测量表按 A、B、C 排列，位置表却按 B、A 排列，直接把“位置”一列按顺序抄过去，会把 A 的位置误写成 B 的位置。<code>merge</code> 根据 <code>id</code> 匹配，能在两张表顺序不同时仍找到同一对象。没有匹配项的 C 保留下来，位置显示缺失，提醒后续补查。</p>
+<figure><img loading="lazy" decoding="async" alt="按样本编号连接顺序不同的两张表" src="assets/图7-3_按编号连接.png" /><figcaption>图 7-3 连接依据是对象编号，行在表格中的位置可以不同</figcaption></figure>
+<p>还有一种更隐蔽的情况：如果位置表里 B 出现两次，连接结果可能让 B 的测量记录也出现两次。此时增加的是匹配组合，不能理解成又采集了一片叶子。前面的 <code>validate="one_to_one"</code> 要求连接字段在两边都不重复，遇到这种情况会报错。</p>
+<p>报错提供了检查数据的线索：应先弄清两条 B 是否分别代表两个时间、两次观测，还是确实重复，再决定连接键是否需要同时包含日期等字段。</p></article><nav class="pager" aria-label="前后篇目"><a href="section-7-1.html"><small>上一篇</small>7.1 NumPy</a><a href="section-7-3.html"><small>下一篇</small>7.3 Matplotlib →</a></nav><p class="reader-note">发现错误或有没讲清楚的地方？欢迎<a href="https://github.com/UESTC1010/CAICP_Book/issues">提交勘误与建议</a>。请注明章节及原文。</p></main></div><a class="back-top" href="#main" aria-label="返回正文顶部">↑</a><footer class="footer"><span>陈峥 著 · 公开试读版 v0.9</span><span><a href="https://github.com/UESTC1010/CAICP_Book/blob/main/LICENSE.md">正文与插图 CC BY-NC-SA 4.0</a> · <a href="https://github.com/UESTC1010/CAICP_Book/issues">勘误与建议 ↗</a></span></footer></body></html>

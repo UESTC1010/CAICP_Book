@@ -1,0 +1,145 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>2.1 基础语法与程序执行｜从零开始学人工智能：中学生 CAICP 学习指南</title><meta name="description" content="2.1 基础语法与程序执行。变量、条件、循环、函数与程序调试，逐步写出能解决问题的 Python 程序。"><meta name="author" content="陈峥"><link rel="canonical" href="https://uestc1010.github.io/CAICP_Book/section-2-1.html"><link rel="icon" type="image/svg+xml" href="favicon.svg"><meta name="theme-color" content="#173c46"><meta property="og:title" content="2.1 基础语法与程序执行｜从零开始学人工智能：中学生 CAICP 学习指南"><meta property="og:description" content="2.1 基础语法与程序执行。变量、条件、循环、函数与程序调试，逐步写出能解决问题的 Python 程序。"><meta property="og:type" content="article"><meta property="og:url" content="https://uestc1010.github.io/CAICP_Book/section-2-1.html"><meta property="og:image" content="https://uestc1010.github.io/CAICP_Book/assets/cover.png"><link rel="stylesheet" href="site.css"><script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "name": "2.1 基础语法与程序执行｜从零开始学人工智能：中学生 CAICP 学习指南", "inLanguage": "zh-CN", "url": "https://uestc1010.github.io/CAICP_Book/section-2-1.html", "author": {"@type": "Person", "name": "陈峥"}, "description": "2.1 基础语法与程序执行。变量、条件、循环、函数与程序调试，逐步写出能解决问题的 Python 程序。"}</script><script defer src="site.js"></script><script defer src="mathjax-tex-svg.js"></script></head><body><a class="skip" href="#main">跳到正文</a><header class="topbar"><a class="brand" href="./"><span class="brand-mark">AI</span><span>中学生 CAICP 学习指南</span></a><nav aria-label="主导航"><a href="./#contents">全书目录</a><a href="https://github.com/UESTC1010/CAICP_Book/releases/download/v0.9/CAICP_Book-v0.9.pdf">下载 PDF</a><a href="https://github.com/UESTC1010/CAICP_Book">GitHub ↗</a></nav></header><div class="reader-layout"><aside class="sidebar"><details class="book-nav" open><summary>全书目录</summary><nav aria-label="章节目录"><a href="preface.html">前言</a><a href="chapter-1.html">第一章 认识人工智能</a><a href="chapter-2.html" aria-current="page">第二章 用 Python 编写程序</a><a href="chapter-3.html">第三章 理解 AI 所需的数学基础</a><a href="chapter-4.html">第四章 用算法解决问题</a><a href="chapter-5.html">第五章 让机器从数据中学习</a><a href="chapter-6.html">第六章 理解常见模型的工作原理</a><a href="chapter-7.html">第七章 用 Python 处理数据与训练模型</a><a href="chapter-8.html">第八章 了解人工智能的前沿与应用</a><a href="appendix.html">附录</a></nav></details><details class="section-nav" open><summary>本章小节</summary><nav aria-label="小节目录"><a href="section-2-1.html" aria-current="page">2.1 基础语法与程序执行</a><a href="section-2-2.html">2.2 字符串与容器</a><a href="section-2-3.html">2.3 函数、递归与代码复用</a><a href="section-2-4.html">2.4 模块、文档阅读与程序调试</a><a href="section-2-5.html">2.5 进阶表达与面向对象</a><a href="chapter-2-review.html">本章小结与想一想</a></nav></details></aside><main id="main" class="reading"><div class="reading-meta"><a href="chapter-2.html">第二章 用 Python 编写程序</a><span>v0.9</span></div><article><h1>2.1 基础语法与程序执行</h1><h3 id="_1">从代码到运行结果</h3>
+<p><strong>程序</strong>是按照一定规则写成的一组指令，告诉计算机做什么、按什么顺序做。编写这些指令所用的语言称为<strong>编程语言</strong>，Python 就是其中一种。用编程语言写出的文字称为<strong>代码</strong>；代码中能够完成某个操作的指令称为<strong>语句</strong>。计算机不能只看见这些文字就自动完成工作，还需要由相应的软件读取和执行代码。负责运行 Python 代码的软件称为 <strong>Python 解释器</strong>。</p>
+<p>输入和修改代码，要使用<strong>代码编辑器</strong>。本书采用 Python 3：在能运行 Python 3 的编辑器中新建代码文件，输入程序后执行“运行”，输出区域就会显示结果。代码文件通常以 <code>.py</code> 结尾，如 <code>first.py</code>。灰底代码块中的换行和行首空格都应保留，运行结果则会在正文或注释中另作说明。</p>
+<p>Python 已经准备好了一些常用工具，<code>print()</code> 就是一个负责显示内容的<strong>函数</strong>。函数把一项工作组织成可以反复使用的操作，使用函数称为<strong>调用</strong>。调用时写出函数名和一对圆括号，需要交给它处理的信息放在括号内，称为<strong>参数</strong>。下面两行分别让 <code>print()</code> 显示一段文字和一个计算结果。</p>
+<pre><code class="language-python">print(&quot;开始处理数据&quot;)
+print(2 + 3)
+</code></pre>
+<p>程序从上向下执行，先输出 <code>开始处理数据</code>，再另起一行输出 <code>5</code>。第一行的引号说明里面是一段文字，这样的文字数据称为<strong>字符串</strong>；引号本身不属于要显示的内容。第二行没有给 <code>2 + 3</code> 加引号，因此会先做加法，再显示结果。能够计算出一个值的代码片段称为<strong>表达式</strong>，<code>2 + 3</code> 就是一个表达式。</p>
+<p>输入代码时，括号、引号和逗号等符号应使用英文半角形式。中文全角括号不能直接代替圆括号。</p>
+<h3 id="_2">变量让数据有了名字</h3>
+<p>处理一张图片时，程序需要记住它的宽度和高度；统计一批资料时，需要记住已经收集了多少条。<strong>变量</strong>是程序中用来关联数据的名字。有了名字，后面的语句就能通过它使用相应的数据，也能让这个名字改为关联新的数据。例如，可以用 <code>width</code> 表示图片宽度，用 <code>height</code> 表示高度。</p>
+<pre><code class="language-python">width = 28
+height = 28
+pixel_count = width * height
+print(pixel_count)  # 784
+</code></pre>
+<p>第一行把整数 <code>28</code> 交给变量 <code>width</code>，这样的操作称为<strong>赋值</strong>。赋值写成 <code>变量名 = 表达式</code>：先求出等号右边的值，再让左边的名字与这个值关联。第二行同样记录高度；第三行读取两个变量的值，用 <code>*</code> 做乘法，把结果交给 <code>pixel_count</code>。最后一行输出 <code>784</code>。这里的图片宽和高都按像素计，算出的就是像素总数。代码中 <code>#</code> 后面的 <code>784</code> 是<strong>注释</strong>，用来说明结果，不参与执行；字符串里的 <code>#</code> 则只是普通文字。</p>
+<p>变量可以重新赋值。例如，已经收集 80 条数据，后来又增加 5 条，就需要更新数量。下面的程序特意保留了更新前的数量，便于比较。</p>
+<pre><code class="language-python">sample_count = 80
+old_count = sample_count
+sample_count = sample_count + 5
+print(sample_count, old_count)  # 85 80
+</code></pre>
+<p>第三行先读取当前的 <code>sample_count</code>，算出 <code>80 + 5</code>，再把 <code>85</code> 赋给这个名字。<code>old_count</code> 已在上一行取得当时的数值，不会随这次赋值一起改变。倘若一个名字还没有值就被读取，Python 会报告找不到它。</p>
+<p>因此，程序里的 <code>=</code> 是一次赋值操作，并非数学中两边始终相等的关系。</p>
+<p>变量名最好能说明用途，<code>sample_count</code> 比随手写的 <code>a</code> 更容易理解。常用名称由英文字母、数字和下划线组成，不能以数字开头；大小写有区别，<code>score</code> 与 <code>Score</code> 是两个名字。<code>sample-count</code> 会被读成减法，不能用来代替带下划线的名称。<code>if</code>、<code>for</code> 等已有特殊含义的词称为<strong>关键字</strong>，不能再拿来当变量名。Python 也允许不少中文字符用于命名，本书采用常见的英文名称，并在需要时解释含义。</p>
+<h3 id="_3">数据的类型决定怎样处理</h3>
+<p>同样写着 25，可以表示一个数量，也可以只是编号中的两位文字。计算机需要分清这些情况。<strong>数据类型</strong>规定了一类数据的表示方式以及适合进行的操作。Python 的常用基本类型包括整数 <code>int</code>、浮点数 <code>float</code>、字符串 <code>str</code> 和布尔值 <code>bool</code>。整数用来表示没有小数部分的数量；浮点数可以表示带小数的数值，不过很多小数只能被近似保存；字符串保存文字；布尔值只有 <code>True</code> 和 <code>False</code>，分别表示真和假，常用来记录判断结果。</p>
+<pre><code class="language-python">print(25 + 5)        # 30
+print(&quot;25&quot; + &quot;5&quot;)    # 255
+print(25 &gt; 20)       # True
+</code></pre>
+<p>第一行的 <code>+</code> 做加法，第二行的 <code>+</code> 则把两个字符串连接起来。第三行判断 25 是否大于 20，得到真值 <code>True</code>。<code>"25"</code> 是字符串，<code>25</code> 是整数，两者比较是否相等也会得到 <code>False</code>。直接写 <code>"25" + 5</code> 会报错，因为这里的加号不能把字符串和整数按同一种规则相加。要让文字参与数值计算，可以先做<strong>类型转换</strong>。这就是把合适的内容变成另一种类型。<code>int("25")</code> 把文字转成整数，<code>float("25.5")</code> 把文字转成浮点数，<code>str(25)</code> 则把整数转成字符串。这些写法都在调用相应的转换工具。转换也有条件：<code>int("25.5")</code> 不能直接处理带小数点的文字；若输入已经是浮点数，<code>int(25.9)</code> 得到 <code>25</code>，<code>int(-25.9)</code> 得到 <code>-25</code>，相当于舍去小数部分，并没有四舍五入。</p>
+<p>Python 把程序使用的具体数据统称为<strong>对象</strong>，整数和字符串都是对象，各有类型和值。变量名“指向”对象，本身却不固定属于某种类型：<code>value = 25</code> 让它指向整数，<code>value = "25"</code> 又让它指向字符串。程序越长，越应让一个名字保持清楚、一致的用途，免得把文字误拿去做数值计算。</p>
+<h3 id="_4">输入怎样进入程序</h3>
+<p><strong>输入</strong>是把外部信息交给程序，<strong>输出</strong>是把程序的结果交出来。<code>input()</code> 可以读取一行输入；执行到这里时，程序会等待输入内容。输入结束后，<code>input()</code> 把读到的文字交回当前调用的位置，这称为<strong>返回</strong>，交回的内容称为<strong>返回值</strong>。下面先把输入保存到变量 <code>text</code>，再转换成整数。</p>
+<pre><code class="language-python">text = input()
+count = int(text)
+print(&quot;样本数&quot;, count, sep=&quot;：&quot;)
+</code></pre>
+<p>输入 <code>12</code> 后，第一行得到的是字符串 <code>"12"</code>，第二行才得到整数 <code>12</code>，最后输出 <code>样本数：12</code>。按下运行后若暂时没有结果，可能只是程序正在等待输入；有些在线编辑器需要先在专门的输入区域填好内容。<code>input()</code> 也能在括号内接收一段提示文字，但题目若规定了输入输出格式，就应按约定编写，不能随意增加提示语。结果的显示方式可以交给 <code>print()</code> 的参数控制。它接收多个内容时用逗号分开，默认在中间显示空格、末尾换行；本例的 <code>sep="："</code> 将分隔符改为中文冒号。<code>end</code> 控制结尾，<code>print(1, 2, end="!")</code> 会输出 <code>1 2!</code>，随后不自动换行。至于 <code>print("count")</code> 与 <code>print(count)</code>，前者显示引号中的单词，后者读取变量，两者做的工作不同。</p>
+<h3 id="_5">运算与判断</h3>
+<p>加、减、乘、除分别写作 <code>+</code>、<code>-</code>、<code>*</code>、<code>/</code>，乘方写作 <code>**</code>，例如 <code>2 ** 3</code> 表示 2 的三次方，得到 <code>8</code>。<code>//</code> 表示整除，<code>%</code> 表示取余。以 17 除以 5 为例，<code>17 // 5</code> 得到 <code>3</code>，<code>17 % 5</code> 得到 <code>2</code>，对应 <code>17 = 3 × 5 + 2</code>。普通除法 <code>10 / 2</code> 得到浮点数 <code>5.0</code>。<code>total += value</code> 是常见简写；对于这里的数值，相当于 <code>total = total + value</code>。遇到负数，整除仍要按商向较小整数方向取整：<code>-17 // 5</code> 为 <code>-4</code>，余数 <code>-17 % 5</code> 为 <code>3</code>，满足 <code>-17 = (-4) × 5 + 3</code>。</p>
+<p>整除向下取整与 <code>int()</code> 舍去小数部分，是两套不同的规则。</p>
+<p>比较运算 <code>&gt;</code>、<code>&lt;</code>、<code>==</code>、<code>!=</code>、<code>&gt;=</code>、<code>&lt;=</code> 分别表示大于、小于、等于、不等于、大于等于、小于等于。它们产生真假结果，其中判断相等需要两个等号。一个判断有时包含不止一个要求，例如年龄应在 10 至 15 岁之间，就需要既不小于 10，又不大于 15。<code>and</code> 表示“并且”，要求两边都成立；<code>or</code> 表示“或者”，至少一边成立即可；<code>not</code> 则把真假取反。</p>
+<pre><code class="language-python">age = 12
+allowed = age &gt;= 10 and age &lt;= 15
+print(allowed)      # True
+print(not allowed)  # False
+</code></pre>
+<p>把年龄改为 8，第一个条件就不成立，整个 <code>and</code> 判断为假。误写成 <code>or</code> 却会让它通过，因为 8 满足“不大于 15”。这个范围也可以写成连续比较 <code>10 &lt;= age &lt;= 15</code>。</p>
+<p>常见运算先处理括号，再进行乘方、乘除与整除取余、加减，之后进行比较，最后依次处理 <code>not</code>、<code>and</code>、<code>or</code>。负号与乘方相遇时，<code>-2 ** 2</code> 按 <code>-(2 ** 2)</code> 计算，结果为 <code>-4</code>；<code>(-2) ** 2</code> 才是 <code>4</code>。连续乘方 <code>2 ** 3 ** 2</code> 按 <code>2 ** (3 ** 2)</code> 计算，得到 <code>512</code>。较长的表达式可以用括号明确分组，使计算意图更清楚。</p>
+<h3 id="_6">分支让程序选择路线</h3>
+<p>前面的程序基本按从上到下的顺序执行，这称为<strong>顺序结构</strong>。如果电量不足时准备充电，电量充足时继续工作，程序就需要根据条件选择不同的语句，这称为<strong>分支结构</strong>。Python 用 <code>if</code> 开始判断，用 <code>elif</code> 检查另一个条件，用 <code>else</code> 处理前面条件都不成立的情况。</p>
+<pre><code class="language-python">battery = 15
+if battery == 0:
+    status = &quot;停止&quot;
+elif battery &lt; 20:
+    status = &quot;准备充电&quot;
+else:
+    status = &quot;继续运行&quot;
+print(status)  # 准备充电
+</code></pre>
+<p>每个条件后面的冒号表示下面跟着相应的一组语句，称为<strong>代码块</strong>。行首向右空出的距离称为<strong>缩进</strong>，它在 Python 中用来表示语句之间的层次，通常每一级使用四个空格。这里三行给 <code>status</code> 赋值的语句分别属于三个分支，最后的 <code>print()</code> 没有缩进，表示整组判断结束后再执行它。沿着这个层次看电量为 15 的情况：第一个条件不成立，第二个成立，于是 <code>status</code> 变为 <code>"准备充电"</code>，随后跳过 <code>else</code>。整组 <code>if-elif-else</code> 最多执行一个分支；两个独立的 <code>if</code> 却会各自判断。分支里还可以嵌入另一组判断，只有进入外层分支，内层才有执行机会。</p>
+<p>缩进决定语句属于哪里，不能随意增减，也不要混用空格和制表符。这个例子执行的是人写好的电量规则；从数据中学习判断方法，要到后面的机器学习部分再讨论。</p>
+<h3 id="_7">循环让相同的步骤重复执行</h3>
+<p>面对三条记录，可以把处理语句写三遍；面对三千条记录，这样做就很不方便。<strong>循环</strong>能够让一组语句重复执行。为了先把多项数据放在一起，可以使用<strong>列表</strong>：用方括号包围数据，项目之间用逗号分开，例如 <code>[18, 20, 25]</code>。列表里的每一项称为一个<strong>元素</strong>，有关列表的更多操作将在下一节展开。</p>
+<pre><code class="language-python">values = [18, 20, 25]
+total = 0
+for value in values:
+    total = total + value
+print(total)  # 63
+</code></pre>
+<p><code>for value in values:</code> 的意思是依次取出列表中的元素，每次交给变量 <code>value</code>，再执行缩进的循环体。第一次取出 18，把总数从 0 改成 18；第二次取出 20，总数变成 38；第三次取出 25，总数变成 63。元素取完以后离开循环，执行最后的输出。这种逐项访问数据的过程称为<strong>遍历</strong>。字符串同样可以遍历，<code>for letter in "cat":</code> 会依次得到 <code>"c"</code>、<code>"a"</code>、<code>"t"</code>。能够提供这些逐项访问结果的数据对象，统称为<strong>可迭代对象</strong>。</p>
+<p>如果只需要重复若干次，可以用 <code>range()</code> 提供一段整数。<code>range(4)</code> 从 0 开始，给出 <code>0、1、2、3</code>；指定起点时，<code>range(1, 4)</code> 给出 <code>1、2、3</code>。第三个参数是每次前进的步长，例如 <code>range(2, 7, 2)</code> 给出 <code>2、4、6</code>，<code>range(5, 0, -1)</code> 给出 <code>5、4、3、2、1</code>。</p>
+<p><code>range()</code> 不包含终点，步长也不能为零。方向不合适时可能一个数也取不到，例如 <code>range(5, 0)</code>。给循环变量另外赋值，也不会改变 <code>for</code> 下一次从原有数据中取出的元素。</p>
+<p><code>while</code> 是另一种循环：每次进入循环体之前先检查条件，条件为真才继续。下面计算 1、2、3 的总和，每次把当前的 <code>n</code> 加入总数，再把 <code>n</code> 增加 1。</p>
+<pre><code class="language-python">total = 0
+n = 1
+while n &lt;= 3:
+    total += n
+    n += 1
+print(total, n)  # 6 4
+</code></pre>
+<p>表 2-1 记录了每轮的变化。第三轮结束时，<code>n</code> 已变成 4；再次检查 <code>n &lt;= 3</code>，条件不成立，循环结束，所以最后输出的 <code>n</code> 是 4。若漏掉 <code>n += 1</code>，<code>n</code> 一直是 1，条件就始终成立，形成无法正常结束的循环。跟踪程序时，必须看清每条语句执行的先后，不能把“先累加、再更新”读成相反顺序。</p>
+<p>表 2-1 循环中变量的变化</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="数据表格"><table>
+<thead>
+<tr>
+<th>次数</th>
+<th>进入循环时的 n</th>
+<th>累加后的 total</th>
+<th>更新后的 n</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>第一次</td>
+<td>1</td>
+<td>1</td>
+<td>2</td>
+</tr>
+<tr>
+<td>第二次</td>
+<td>2</td>
+<td>3</td>
+<td>3</td>
+</tr>
+<tr>
+<td>第三次</td>
+<td>3</td>
+<td>6</td>
+<td>4</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="_8">把循环画成执行过程</h3>
+<p>读循环时，可以把“将要检查的条件”和“刚刚完成的语句”分开。前面的 <code>while</code> 程序进入循环前，<code>n</code> 为 1、<code>total</code> 为 0；检查条件后，才执行累加；累加完成，再更新 <code>n</code>。图 2-1 把这几步连成一个回路，返回条件判断的箭头说明：每一轮都要重新读取变量的当前值。循环结束后的 <code>print()</code> 位于回路外，因此只在离开循环后执行一次。</p>
+<figure><img loading="lazy" decoding="async" alt="累加程序中条件检查与变量更新的循环路线" src="assets/图2-1_循环执行.png" /><figcaption>图 2-1 循环会反复回到条件判断</figcaption></figure>
+<p>如果把 <code>print(total)</code> 缩进到循环体末尾，输出就变成 1、3、6 三个中间结果。若再把 <code>total = 0</code> 也移入循环体，每轮都会重新清零，便失去了累积的作用。相同语句放在不同层次，程序完成的任务也会改变。跟踪变量的表格与执行路线图可以相互配合：表格记录数值，路线图解释为什么接下来会执行这一步。</p>
+<h3 id="_9">提前结束与跳过一轮</h3>
+<p>有时数据还没有处理完，但需要的结果已经找到，这时可以用 <code>break</code> 结束当前这一层循环。另一些时候，只是当前这一项不符合要求，后面的数据还应继续处理，就可以用 <code>continue</code> 跳过本轮剩下的语句。下面约定负数表示无效记录，只把非负数加入总数。</p>
+<pre><code class="language-python">values = [3, -1, 5]
+total = 0
+for value in values:
+    if value &lt; 0:
+        continue
+    total += value
+print(total)  # 8
+</code></pre>
+<p>取到 <code>-1</code> 时进入内层分支，<code>continue</code> 使程序跳过本轮的累加，随后继续取出 <code>5</code>。这里的 <code>total += value</code> 与内层 <code>if</code> 对齐，属于循环体，但不属于 <code>if</code> 的代码块。<code>pass</code> 则表示什么也不做，常在语法要求必须有一句语句、暂时又没有具体操作时占位；它既不会退出循环，也不会跳过后面的语句。使用 <code>while</code> 和 <code>continue</code> 时，应让计数或状态得到必要的更新，否则可能反复停在同一种情况。</p>
+<p>循环也可以嵌套。例如，外层处理两行数据，内层处理每行的三项，最内层的操作一共执行六次，下一节的二维列表会给出完整例子。内层的 <code>break</code> 只结束内层，外层仍可继续。循环后还可以跟 <code>else</code>，它表示循环正常结束时要做的事；通过 <code>break</code> 提前离开时，则跳过它。下面用 <code>len(values)</code> 取得列表长度，从左向右寻找数字 7。</p>
+<pre><code class="language-python">values = [4, 7, 10]
+index = 0
+while index &lt; len(values):
+    if values[index] == 7:
+        print(index)  # 1
+        break
+    index += 1
+else:
+    print(&quot;未找到&quot;)
+</code></pre>
+<p>列表位置从 0 开始，<code>values[index]</code> 取出指定位置的元素。第一次检查位置 0 的数字 4，未找到；第二次检查位置 1 的数字 7，输出位置并结束循环。若把要找的数改成 8，循环会走完，执行 <code>else</code>。这里的 <code>else</code> 与 <code>while</code> 对齐，属于循环；如果与内层 <code>if</code> 对齐，含义就变了。<code>for</code> 的元素取完或 <code>while</code> 的条件变为假，都会执行循环的 <code>else</code>，即使一开始就没有循环次数也如此；如果程序因函数返回或未处理的错误而中断，则不会补做它。</p>
+<p>条件中不一定有比较式。零、空字符串、空列表和 <code>None</code> 都会被当作假值，常见的非零数与非空容器会被当作真值。<code>None</code> 表示没有具体值，<code>if values:</code> 则可以检查列表是否非空。</p>
+<p><code>and</code> 和 <code>or</code> 还采用<strong>短路求值</strong>：前面的值已能决定结果，就不再计算后面。例如 <code>count != 0 and total / count &gt; 10</code> 先检查数量，数量为零时便不会执行除法。这两个运算返回参与判断的某个值，不一定是布尔值；<code>"" or "未命名"</code> 返回的就是字符串 <code>"未命名"</code>。读到这样的表达式，除了判断真假，还要看它究竟交回了什么值。</p></article><nav class="pager" aria-label="前后篇目"><a href="chapter-2.html"><small>上一篇</small>第二章 用 Python 编写程序</a><a href="section-2-2.html"><small>下一篇</small>2.2 字符串与容器 →</a></nav><p class="reader-note">发现错误或有没讲清楚的地方？欢迎<a href="https://github.com/UESTC1010/CAICP_Book/issues">提交勘误与建议</a>。请注明章节及原文。</p></main></div><a class="back-top" href="#main" aria-label="返回正文顶部">↑</a><footer class="footer"><span>陈峥 著 · 公开试读版 v0.9</span><span><a href="https://github.com/UESTC1010/CAICP_Book/blob/main/LICENSE.md">正文与插图 CC BY-NC-SA 4.0</a> · <a href="https://github.com/UESTC1010/CAICP_Book/issues">勘误与建议 ↗</a></span></footer></body></html>

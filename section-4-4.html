@@ -1,0 +1,88 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>4.4 树、图与搜索｜从零开始学人工智能：中学生 CAICP 学习指南</title><meta name="description" content="4.4 树、图与搜索。从枚举、查找和排序，到树、图与搜索，学习把问题变成可以执行的步骤。"><meta name="author" content="陈峥"><link rel="canonical" href="https://uestc1010.github.io/CAICP_Book/section-4-4.html"><link rel="icon" type="image/svg+xml" href="favicon.svg"><meta name="theme-color" content="#173c46"><meta property="og:title" content="4.4 树、图与搜索｜从零开始学人工智能：中学生 CAICP 学习指南"><meta property="og:description" content="4.4 树、图与搜索。从枚举、查找和排序，到树、图与搜索，学习把问题变成可以执行的步骤。"><meta property="og:type" content="article"><meta property="og:url" content="https://uestc1010.github.io/CAICP_Book/section-4-4.html"><meta property="og:image" content="https://uestc1010.github.io/CAICP_Book/assets/cover.png"><link rel="stylesheet" href="site.css"><script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "name": "4.4 树、图与搜索｜从零开始学人工智能：中学生 CAICP 学习指南", "inLanguage": "zh-CN", "url": "https://uestc1010.github.io/CAICP_Book/section-4-4.html", "author": {"@type": "Person", "name": "陈峥"}, "description": "4.4 树、图与搜索。从枚举、查找和排序，到树、图与搜索，学习把问题变成可以执行的步骤。"}</script><script defer src="site.js"></script><script defer src="mathjax-tex-svg.js"></script></head><body><a class="skip" href="#main">跳到正文</a><header class="topbar"><a class="brand" href="./"><span class="brand-mark">AI</span><span>中学生 CAICP 学习指南</span></a><nav aria-label="主导航"><a href="./#contents">全书目录</a><a href="https://github.com/UESTC1010/CAICP_Book/releases/download/v0.9/CAICP_Book-v0.9.pdf">下载 PDF</a><a href="https://github.com/UESTC1010/CAICP_Book">GitHub ↗</a></nav></header><div class="reader-layout"><aside class="sidebar"><details class="book-nav" open><summary>全书目录</summary><nav aria-label="章节目录"><a href="preface.html">前言</a><a href="chapter-1.html">第一章 认识人工智能</a><a href="chapter-2.html">第二章 用 Python 编写程序</a><a href="chapter-3.html">第三章 理解 AI 所需的数学基础</a><a href="chapter-4.html" aria-current="page">第四章 用算法解决问题</a><a href="chapter-5.html">第五章 让机器从数据中学习</a><a href="chapter-6.html">第六章 理解常见模型的工作原理</a><a href="chapter-7.html">第七章 用 Python 处理数据与训练模型</a><a href="chapter-8.html">第八章 了解人工智能的前沿与应用</a><a href="appendix.html">附录</a></nav></details><details class="section-nav" open><summary>本章小节</summary><nav aria-label="小节目录"><a href="section-4-1.html">4.1 问题分解、抽象与信息表示</a><a href="section-4-2.html">4.2 枚举与查找</a><a href="section-4-3.html">4.3 排序与贪心</a><a href="section-4-4.html" aria-current="page">4.4 树、图与搜索</a><a href="section-4-5.html">4.5 状态、过程与反馈系统</a><a href="chapter-4-review.html">本章小结与想一想</a></nav></details></aside><main id="main" class="reading"><div class="reading-meta"><a href="chapter-4.html">第四章 用算法解决问题</a><span>v0.9</span></div><article><h1>4.4 树、图与搜索</h1><h3 id="_1">用连接关系表示问题</h3>
+<p>一个对象只列出自身特征，有时还不够。例如，路线问题需要知道哪些路口可以互通，社交网络需要知道哪些人有联系。<strong>图</strong>由一组顶点和连接它们的边组成，顶点也常称为结点。道路只能单向通行时，用带箭头的有向边表示；可以双向通行时，可以使用无向边。边还可以附带距离、费用等数值，称为<strong>权重</strong>。沿着边依次经过顶点，形成一条<strong>路径</strong>。本节讨论无权图时，路径长度按经过的边数计算。沿不同的边经过一串顶点，除起点与终点重合外不重复经过顶点，就形成一个<strong>环</strong>。沿一条路走过去再原路退回，不算这里所说的环。</p>
+<p><strong>树</strong>是一种没有环、且所有顶点连通的无向图；若选定一个根结点，就可以按离根的层次讨论父结点、子结点和叶结点。父子关系描述相邻层次，叶结点则没有子结点。计算机的目录层级和决策树都借用了这种结构，但具体数据是否真是一棵树，还要看有没有额外连接。</p>
+<p>图可以用<strong>邻接表</strong>保存：每个顶点对应一个列表，记录从它出发可以直接到达的邻居。下面这张无向图中，S 与 A 相连，就在 S 的列表中写 A，也在 A 的列表中写 S。邻居顺序还规定了后面搜索时的先后次序。</p>
+<pre><code class="language-python">graph = {
+    &quot;S&quot;: [&quot;A&quot;, &quot;B&quot;],
+    &quot;A&quot;: [&quot;S&quot;, &quot;C&quot;, &quot;D&quot;],
+    &quot;B&quot;: [&quot;S&quot;, &quot;D&quot;],
+    &quot;C&quot;: [&quot;A&quot;, &quot;T&quot;],
+    &quot;D&quot;: [&quot;A&quot;, &quot;B&quot;, &quot;T&quot;],
+    &quot;T&quot;: [&quot;C&quot;, &quot;D&quot;]
+}
+</code></pre>
+<figure><img loading="lazy" decoding="async" alt="同一张图中的逐层搜索和沿路深入" src="assets/图4-5_图与搜索.png" /><figcaption>图 4-5 广度优先搜索先访问较近的一层，深度优先搜索先沿一条路深入</figcaption></figure>
+<p><strong>搜索</strong>是在候选位置或状态中，按一定顺序寻找目标；<strong>遍历</strong>则着重于按规则访问所有需要处理的结点。图中可能有环，多个顶点也可能通向同一个顶点，因此通常要保存一个“已经发现”的集合，避免反复进入同一处。从 S 能访问哪些顶点，还取决于它们与 S 是否连通；若要求遍历整张不连通的图，需要再从尚未访问的顶点开始搜索。</p>
+<h3 id="_2">广度优先搜索</h3>
+<p><strong>广度优先搜索</strong>，简称 BFS，先处理起点，再处理离起点一条边的顶点，然后处理两条边、三条边的顶点。它使用<strong>队列</strong>保存等待处理的顶点：先进入队列的先出来，这种顺序称为先进先出。Python 的 <code>collections.deque</code> 可以高效地从一端加入、另一端取出。</p>
+<pre><code class="language-python">from collections import deque
+
+def bfs(graph, start):
+    queue = deque([start])
+    distance = {start: 0}
+    order = []
+    while queue:
+        node = queue.popleft()
+        order.append(node)
+        for neighbor in graph[node]:
+            if neighbor not in distance:
+                distance[neighbor] = distance[node] + 1
+                queue.append(neighbor)
+    return order, distance
+
+order, distance = bfs(graph, &quot;S&quot;)
+print(order)
+print(distance[&quot;T&quot;])
+</code></pre>
+<p>访问顺序为 <code>S、A、B、C、D、T</code>，S 到 T 的最短距离为 <code>3</code>。最初队列为 <code>[S]</code>；取出 S 后，加入 A、B；取出 A 后，加入 C、D，队列变为 <code>[B, C, D]</code>。处理 B 时，D 已经在 <code>distance</code> 中，不会再次入队。将“已发现”标记放在入队时完成，可以避免一个结点被不同邻居反复加入。这个字典同时保存距离和已发现标记。首次发现邻居时，它比当前结点多经过一条边，所以距离加 1。由于队列先处理较近的层，第一次发现一个结点时，不会漏掉一条边数更少的路径。这就是 BFS 能在无权图中求最短路径长度的原因。</p>
+<p>若每条边的耗时不同，边数少不等于总耗时少，上述程序便不能直接用来求最短耗时。</p>
+<p>若还需要输出完整路线，可以在首次发现邻居时记录它来自哪个结点。例如，将 <code>parent[neighbor]</code> 设为 <code>node</code>；找到 T 后，从 T 沿这些记录回到 S，再把顺序反转。距离字典回答“有多远”，前驱记录回答“怎样走到那里”，两者保存的信息不同。</p>
+<h3 id="_3">把最短距离还原成一条路线</h3>
+<p>如果只记录距离 3，仍不知道该经过哪些结点。找到一个新结点时，可以同时记下它是从哪里第一次到达的，把这个来源称为<strong>前驱</strong>。在本例中，A 和 B 的前驱是 S，C 和 D 的前驱是 A，T 的前驱是 C。由 T 沿前驱反向追溯，得到 T、C、A、S；反转后就是从起点出发的路线。下面的函数仍使用前面定义的 <code>graph</code> 和已经导入的 <code>deque</code>。字典 <code>parent</code> 同时承担已发现标记和前驱记录，起点的前驱设为 <code>None</code>，表示回溯到此结束。</p>
+<pre><code class="language-python">def shortest_path(graph, start, goal):
+    queue = deque([start])
+    parent = {start: None}
+    while queue:
+        node = queue.popleft()
+        if node == goal:
+            break
+        for neighbor in graph[node]:
+            if neighbor not in parent:
+                parent[neighbor] = node
+                queue.append(neighbor)
+    if goal not in parent:
+        return []
+    path = []
+    node = goal
+    while node is not None:
+        path.append(node)
+        node = parent[node]
+    return path[::-1]
+
+print(shortest_path(graph, &quot;S&quot;, &quot;T&quot;))
+# ['S', 'A', 'C', 'T']
+</code></pre>
+<p>回溯循环不再查看图中所有邻居，只沿已经保存的前驱走。前驱记录把搜索过程中的一个选择保留下来，因此搜索结束后仍能还原路线。如果邻居的访问顺序改变，可能得到另一条同样短的路线；无权图中最短边数仍为 3。要判断程序对不对，应看任务是否允许多个正确答案。</p>
+<p>图 4-6 还比较了队列和栈的取出顺序。A、B、C 按这个顺序放入，队列先取出 A，栈先取出 C。搜索顺序不是由字母本身决定的，而是由数据结构的取出规则与放入顺序共同决定的。</p>
+<figure><img loading="lazy" decoding="async" alt="队列与栈的存取顺序对比" src="assets/图4-6_队列与栈.png" /><figcaption>图 4-6 队列先进先出，栈后进先出</figcaption></figure>
+<h3 id="_4">深度优先搜索</h3>
+<p><strong>深度优先搜索</strong>，简称 DFS，沿着一条尚未访问的路线尽量深入，到没有可继续访问的邻居时，再退回上一个结点，尝试其他分支。递归调用恰好能够保存“退回哪里继续”的信息。</p>
+<pre><code class="language-python">def dfs(graph, start):
+    visited = set()
+    order = []
+
+    def visit(node):
+        visited.add(node)
+        order.append(node)
+        for neighbor in graph[node]:
+            if neighbor not in visited:
+                visit(neighbor)
+
+    visit(start)
+    return order
+
+print(dfs(graph, &quot;S&quot;))
+</code></pre>
+<p>按给定邻接表，顺序为 <code>S、A、C、T、D、B</code>。从 S 进入 A，再进入 C、T、D、B；B 的邻居都已经访问过，于是返回 D，继续检查 D 尚未检查完的邻居。递归结束不表示重新从起点开始，而是回到发起这次调用的位置。这一点与第二章中函数调用的执行顺序相同。</p>
+<p>DFS 也可以用<strong>栈</strong>实现。栈是后放入的先取出，称为后进先出；它与队列的顺序不同。如果希望迭代写法产生与上述递归相同的顺序，还需注意邻居的压栈次序。</p>
+<p>DFS 找到的第一条路线未必最短，因为它可能先走进一条很长的分支。BFS 与 DFS 都能检查可达性，选择哪一种，要看目标是逐层找近处，还是深入检查分支结构。</p></article><nav class="pager" aria-label="前后篇目"><a href="section-4-3.html"><small>上一篇</small>4.3 排序与贪心</a><a href="section-4-5.html"><small>下一篇</small>4.5 状态、过程与反馈系统 →</a></nav><p class="reader-note">发现错误或有没讲清楚的地方？欢迎<a href="https://github.com/UESTC1010/CAICP_Book/issues">提交勘误与建议</a>。请注明章节及原文。</p></main></div><a class="back-top" href="#main" aria-label="返回正文顶部">↑</a><footer class="footer"><span>陈峥 著 · 公开试读版 v0.9</span><span><a href="https://github.com/UESTC1010/CAICP_Book/blob/main/LICENSE.md">正文与插图 CC BY-NC-SA 4.0</a> · <a href="https://github.com/UESTC1010/CAICP_Book/issues">勘误与建议 ↗</a></span></footer></body></html>

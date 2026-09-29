@@ -1,0 +1,78 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>2.4 模块、文档阅读与程序调试｜从零开始学人工智能：中学生 CAICP 学习指南</title><meta name="description" content="2.4 模块、文档阅读与程序调试。变量、条件、循环、函数与程序调试，逐步写出能解决问题的 Python 程序。"><meta name="author" content="陈峥"><link rel="canonical" href="https://uestc1010.github.io/CAICP_Book/section-2-4.html"><link rel="icon" type="image/svg+xml" href="favicon.svg"><meta name="theme-color" content="#173c46"><meta property="og:title" content="2.4 模块、文档阅读与程序调试｜从零开始学人工智能：中学生 CAICP 学习指南"><meta property="og:description" content="2.4 模块、文档阅读与程序调试。变量、条件、循环、函数与程序调试，逐步写出能解决问题的 Python 程序。"><meta property="og:type" content="article"><meta property="og:url" content="https://uestc1010.github.io/CAICP_Book/section-2-4.html"><meta property="og:image" content="https://uestc1010.github.io/CAICP_Book/assets/cover.png"><link rel="stylesheet" href="site.css"><script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "name": "2.4 模块、文档阅读与程序调试｜从零开始学人工智能：中学生 CAICP 学习指南", "inLanguage": "zh-CN", "url": "https://uestc1010.github.io/CAICP_Book/section-2-4.html", "author": {"@type": "Person", "name": "陈峥"}, "description": "2.4 模块、文档阅读与程序调试。变量、条件、循环、函数与程序调试，逐步写出能解决问题的 Python 程序。"}</script><script defer src="site.js"></script><script defer src="mathjax-tex-svg.js"></script></head><body><a class="skip" href="#main">跳到正文</a><header class="topbar"><a class="brand" href="./"><span class="brand-mark">AI</span><span>中学生 CAICP 学习指南</span></a><nav aria-label="主导航"><a href="./#contents">全书目录</a><a href="https://github.com/UESTC1010/CAICP_Book/releases/download/v0.9/CAICP_Book-v0.9.pdf">下载 PDF</a><a href="https://github.com/UESTC1010/CAICP_Book">GitHub ↗</a></nav></header><div class="reader-layout"><aside class="sidebar"><details class="book-nav" open><summary>全书目录</summary><nav aria-label="章节目录"><a href="preface.html">前言</a><a href="chapter-1.html">第一章 认识人工智能</a><a href="chapter-2.html" aria-current="page">第二章 用 Python 编写程序</a><a href="chapter-3.html">第三章 理解 AI 所需的数学基础</a><a href="chapter-4.html">第四章 用算法解决问题</a><a href="chapter-5.html">第五章 让机器从数据中学习</a><a href="chapter-6.html">第六章 理解常见模型的工作原理</a><a href="chapter-7.html">第七章 用 Python 处理数据与训练模型</a><a href="chapter-8.html">第八章 了解人工智能的前沿与应用</a><a href="appendix.html">附录</a></nav></details><details class="section-nav" open><summary>本章小节</summary><nav aria-label="小节目录"><a href="section-2-1.html">2.1 基础语法与程序执行</a><a href="section-2-2.html">2.2 字符串与容器</a><a href="section-2-3.html">2.3 函数、递归与代码复用</a><a href="section-2-4.html" aria-current="page">2.4 模块、文档阅读与程序调试</a><a href="section-2-5.html">2.5 进阶表达与面向对象</a><a href="chapter-2-review.html">本章小结与想一想</a></nav></details></aside><main id="main" class="reading"><div class="reading-meta"><a href="chapter-2.html">第二章 用 Python 编写程序</a><span>v0.9</span></div><article><h1>2.4 模块、文档阅读与程序调试</h1><h3 id="_1">导入已有工具</h3>
+<p>函数能把一项工作组织起来，如果相关函数很多，就可以进一步把它们放在一起，形成<strong>模块</strong>。模块中还可以保存常量和其他定义，供别的程序使用。Python 配备了一组常用工具，称为<strong>标准库</strong>；其中的 <code>math</code> 模块提供数学运算，<code>random</code> 提供随机工具，<code>os</code> 提供与操作系统有关的功能。这些模块可以直接使用，不需要另外编写它们的内部代码。要让当前程序访问这些工具，先用 <code>import</code> <strong>导入</strong>模块。下面在 <code>math</code> 后加点号，调用其中的平方根函数 <code>sqrt()</code>。因为 5 的平方为 25，<code>math.sqrt(25)</code> 得到 <code>5.0</code>。</p>
+<pre><code class="language-python">import math
+
+print(math.sqrt(25))   # 5.0
+print(math.floor(2.8)) # 2
+print(math.ceil(2.2))  # 3
+</code></pre>
+<p><code>floor()</code> 取不大于给定数的最大整数，<code>ceil()</code> 取不小于给定数的最小整数，所以对负数也应按数轴方向理解：<code>math.floor(-2.2)</code> 为 <code>-3</code>，<code>math.ceil(-2.2)</code> 为 <code>-2</code>。数学模块还提供圆周率 <code>math.pi</code> 等<strong>常量</strong>，即使用时作为固定数值看待的量。<code>math.sqrt()</code> 处理普通实数时不能直接给负数开平方，调用前仍要考虑输入条件。</p>
+<p>另一种导入写法是 <code>from math import sqrt</code>，只把所需名称引入当前程序，随后直接写 <code>sqrt(25)</code>。<code>import math as m</code> 则给模块取别名，随后使用 <code>m.sqrt(25)</code>。本书初次使用模块时通常保留完整的模块名，便于看清函数来自哪里。变量、方法和模块都会用到点号，但点号前后的名称说明了正在访问谁的内容。</p>
+<p><code>random</code> 模块用于产生<strong>伪随机数</strong>，也就是通过确定的算法产生看起来具有随机变化特点的数值。它常用来模拟抽签、打乱数据或进行随机抽样。下面创建一个随机数生成器，再调用它的不同方法；注释说明结果应当满足的条件，不把某一次抽到的值当作永远不变的答案。</p>
+<pre><code class="language-python">import random
+
+rng = random.Random(7)
+print(rng.randint(1, 6))        # 1 到 6 之间的整数，含两端
+print(rng.choice([&quot;甲&quot;, &quot;乙&quot;, &quot;丙&quot;]))  # 从三项中选一项
+print(rng.sample([1, 2, 3, 4], 2))   # 抽取两个不同位置
+</code></pre>
+<p><code>Random(7)</code> 中的 7 是<strong>随机种子</strong>，用来确定生成器的初始状态。在相同实现、相同种子和相同调用顺序等条件下，通常可以重复得到相同序列，便于比较程序修改前后的结果。<code>random()</code> 产生大于等于 0、小于 1 的浮点数；<code>randint(a, b)</code> 的整数范围包含两个端点，不能与 <code>range()</code> 的终点规则混淆。<code>sample()</code> 不重复抽取同一个位置，但原序列若有重复值，抽出的值仍可能相同。<code>shuffle()</code> 在原列表中打乱顺序，返回 <code>None</code>。随机工具提供了数据变化，是否符合具体任务的抽样要求仍需要判断。</p>
+<p><code>os</code> 模块提供与操作系统打交道的功能，例如查看文件夹、组合路径和判断文件是否存在。<strong>路径</strong>用来说明文件或文件夹的位置；绝对路径从文件系统的起点定位，相对路径则以当前工作目录为出发点。当前工作目录不一定就是代码文件所在的目录。</p>
+<pre><code class="language-python">import os
+
+print(os.getcwd())
+path = os.path.join(&quot;data&quot;, &quot;records.txt&quot;)
+print(os.path.isfile(path))
+</code></pre>
+<p>第一行输出随运行位置变化，最后一行输出 <code>True</code> 或 <code>False</code>，表示相应路径是否指向一个已存在的文件。<code>os.path.join()</code> 按系统规则把文件夹名和文件名组合成路径，<code>os.listdir("data")</code> 则列出文件夹内的条目名称。列出的名称不保证已经排序，需要固定顺序时可以使用 <code>sorted()</code>。处理一批图片或文本之前，通常就要先找到文件所在的位置。</p>
+<p>读取文件内容可以用内置函数 <code>open()</code>。下面假定当前工作目录下已有 <code>data</code> 文件夹，其中有一个以 UTF-8 编码保存的 <code>records.txt</code> 文本文件。<strong>文字编码</strong>规定文字如何表示成字节，UTF-8 是一种常用编码方式；读取时应与保存方式相符。</p>
+<pre><code class="language-python">import os
+
+path = os.path.join(&quot;data&quot;, &quot;records.txt&quot;)
+with open(path, encoding=&quot;utf-8&quot;) as file:
+    text = file.read()
+print(text)
+</code></pre>
+<p><code>open()</code> 返回一个表示已打开文件的对象，<code>as file</code> 把它交给变量 <code>file</code>，<code>file.read()</code> 读取其中的文字。<code>with</code> 使程序在离开这个代码块时关闭文件，不必再另写关闭语句。最后输出的是文件实际保存的内容，因此结果随文件而变。遇到“文件找不到”，应先核对路径和工作目录；程序并不知道一份资料在人脑中被归到了哪个文件夹。</p>
+<h3 id="_2">从文档理解一个陌生函数</h3>
+<p><strong>文档</strong>是工具的使用说明，写着用途、参数、返回结果和使用条件。程序员也经常查文档，不会把全部函数记在脑中。Python 可以用 <code>help(str.split)</code> 或导入后的 <code>help(math.sqrt)</code> 查看相应帮助。函数名和参数列表称为<strong>函数签名</strong>，从中能看出需要交给工具哪些信息。以 <code>split(sep=None, maxsplit=-1)</code> 为例，<code>sep</code> 指定分隔方式，<code>maxsplit</code> 限制分割次数，负数表示不限次数。对 <code>"A:B:C"</code> 使用 <code>split(":", 1)</code>，只分割一次，便得到 <code>['A', 'B:C']</code>。签名中的 <code>/</code> 表示前面的参数只能按位置传递，单独的 <code>*</code> 表示后面的参数必须写出名称；这些符号说明调用规则，通常不照抄进调用语句。再看返回值的类型、是否修改原对象、没有找到所需内容时怎样处理，就能逐步掌握一个陌生工具。CAICP 中给出文档提示的任务，也需要这样读懂说明再分析代码。</p>
+<p>读一段陌生代码，可以先确认输入是什么，再逐步记录中间结果的类型、内容和形状。字符串经过 <code>split()</code> 变成列表，列表中的某一项经过 <code>float()</code> 变成数值，数值比较又产生布尔值。只要这些变化能连起来，即使中间使用了不熟悉的方法，也可以借助文档继续分析。遇到简短示例，应自己换一组小输入检查，尤其可以试一试没有匹配项、只有一项或刚好位于边界的情况。</p>
+<h3 id="_3">让错误变得可以定位</h3>
+<p>程序没报错，并不等于结果正确。</p>
+<p>漏写冒号或括号不配对，会造成<strong>语法错误</strong>，缩进出错也可能让程序无法开始执行。除以零、访问不存在的位置等<strong>运行错误</strong>，则发生在执行某条语句时。还有一种更隐蔽的<strong>逻辑错误</strong>：程序顺利结束，却没有完成原来的要求。例如，打算累加到 <code>n</code>，写的却是 <code>range(1, n)</code>，就会漏掉最后一项。先分清错误属于哪一类，才知道从哪里查起。</p>
+<p>查找并修正程序错误的过程称为<strong>调试</strong>。运行错误通常会给出<strong>回溯信息</strong>，列出出错的调用位置，并在末尾显示异常名称和原因。<strong>异常</strong>是程序执行中报告错误或特殊情况的一种机制。常见的 <code>NameError</code> 表示名字无法找到，<code>TypeError</code> 表示对象类型不适合当前操作，<code>ValueError</code> 表示值不符合要求，<code>IndexError</code> 表示序列索引超出范围，<code>KeyError</code> 表示字典中没有相应键。检查时先读末尾的异常说明，再找到自己代码中的相关行，并核对那一行使用的变量。</p>
+<p>对于可以预料并有明确处理办法的异常，可以用 <code>try-except</code>。<code>try</code> 中写需要尝试的操作，<code>except</code> 后写要处理的异常类型，以及出现这种异常时执行的语句。程序先执行 <code>try</code> 的代码块，成功就跳过对应的 <code>except</code>；遇到指定异常，才转入处理部分。下面的转换会失败，因此输出一段说明，程序随后可以继续。</p>
+<pre><code class="language-python">text = &quot;3.5&quot;
+try:
+    count = int(text)
+except ValueError:
+    print(&quot;这段文字不能直接转换为整数&quot;)
+</code></pre>
+<p>没有异常信息可看时，可以先用最小的一组数据，把预期结果与实际结果比较，再临时打印关键变量，找到第一个不符合预期的中间值。前面的求和程序，用 <code>n = 1</code>、<code>n = 3</code> 就容易查出是否漏了一项；换成大数，反而不便手算。空列表、只有一项、数值恰好等于阈值，都是<strong>边界情况</strong>，选择它们是为了检查分支与范围的含义。</p>
+<p>代码也应让人容易看懂意图。名称说明用途，重复步骤可以提成函数，注释解释为什么这样处理。补全程序尤其要留意前后的约定：要求返回新列表，就不能只打印；要求保留顺序，也不能顺手用排序代替去重。</p>
+<h3 id="_4">把几项基本操作连成一个程序</h3>
+<p>现在把几个基本操作连起来。假设一行文字按 <code>"编号,长度,宽度"</code> 保存一条记录，字段都齐全，彼此以英文逗号分隔。任务是把文字转成数值，保留长、宽都大于零的记录，再计算平均长度。可以先把读取一条记录的步骤写成 <code>read_record</code> 函数：用 <code>split()</code> 分字段，用 <code>float()</code> 转两个测量值，最后以元组返回三个结果。它接收的是已经放在字符串里的文字，这一步还不涉及打开硬盘上的文件。</p>
+<pre><code class="language-python">def read_record(line):
+    fields = line.split(&quot;,&quot;)
+    code = fields[0].strip()
+    length = float(fields[1])
+    width = float(fields[2])
+    return code, length, width
+</code></pre>
+<p>下面用循环逐条处理。<code>total</code> 记录有效长度的总和，<code>count</code> 记录有效条数。两者都放在循环外初始化，只有一条记录通过条件判断后才一起更新。程序最后才用总和除以条数。</p>
+<pre><code class="language-python">lines = [&quot;A,4.0,1.0&quot;, &quot;B,-2.0,1.5&quot;, &quot;C,8.0,3.0&quot;]
+total = 0.0
+count = 0
+for line in lines:
+    code, length, width = read_record(line)
+    if length &gt; 0 and width &gt; 0:
+        total += length
+        count += 1
+if count &gt; 0:
+    print(total / count)  # 6.0
+else:
+    print(&quot;没有有效记录&quot;)
+</code></pre>
+<p>A 记录通过检查，使总和变为 4.0、条数变为 1。B 的长度为负，本例将它视为无效记录，因此总和和条数都不变。C 通过检查，最终总和为 12.0、条数为 2，平均长度是 6.0。如果误用 <code>len(lines)</code> 作为分母，得到的会是 4.0；程序依然能运行，含义却变成了把无效记录也计入数量。这就是一种逻辑错误。找出错误后，需要说明分母应统计什么，才能知道为什么应当修改。</p>
+<p>如果一行文字写成 <code>"D,很长,2.0"</code>，数值转换会失败；少一个字段，则可能在按索引访问时出错。怎样处理这些情况，应根据数据约定决定：是要求修正记录，还是跳过并保留原因。程序不能因为某一项读不懂，就擅自把它当成零。这里采用格式完整、测量值可转换的数据，是为了先看清几个基本步骤怎样配合；第五章会进一步讨论缺失、异常和数据清洗的不同含义。</p>
+<p>若分隔符后来改成分号，只需集中修改读取函数。统计部分仍接收编号、长度、宽度；交接含义不变，两部分就可以分别调整。这也是把处理步骤写成函数的一个好处。</p></article><nav class="pager" aria-label="前后篇目"><a href="section-2-3.html"><small>上一篇</small>2.3 函数、递归与代码复用</a><a href="section-2-5.html"><small>下一篇</small>2.5 进阶表达与面向对象 →</a></nav><p class="reader-note">发现错误或有没讲清楚的地方？欢迎<a href="https://github.com/UESTC1010/CAICP_Book/issues">提交勘误与建议</a>。请注明章节及原文。</p></main></div><a class="back-top" href="#main" aria-label="返回正文顶部">↑</a><footer class="footer"><span>陈峥 著 · 公开试读版 v0.9</span><span><a href="https://github.com/UESTC1010/CAICP_Book/blob/main/LICENSE.md">正文与插图 CC BY-NC-SA 4.0</a> · <a href="https://github.com/UESTC1010/CAICP_Book/issues">勘误与建议 ↗</a></span></footer></body></html>

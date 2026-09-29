@@ -1,0 +1,59 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>1.3 算法、算力与计算机｜从零开始学人工智能：中学生 CAICP 学习指南</title><meta name="description" content="1.3 算法、算力与计算机。从数据、算法与算力开始，认识人工智能能做什么，也理解它的局限。"><meta name="author" content="陈峥"><link rel="canonical" href="https://uestc1010.github.io/CAICP_Book/section-1-3.html"><link rel="icon" type="image/svg+xml" href="favicon.svg"><meta name="theme-color" content="#173c46"><meta property="og:title" content="1.3 算法、算力与计算机｜从零开始学人工智能：中学生 CAICP 学习指南"><meta property="og:description" content="1.3 算法、算力与计算机。从数据、算法与算力开始，认识人工智能能做什么，也理解它的局限。"><meta property="og:type" content="article"><meta property="og:url" content="https://uestc1010.github.io/CAICP_Book/section-1-3.html"><meta property="og:image" content="https://uestc1010.github.io/CAICP_Book/assets/cover.png"><link rel="stylesheet" href="site.css"><script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "name": "1.3 算法、算力与计算机｜从零开始学人工智能：中学生 CAICP 学习指南", "inLanguage": "zh-CN", "url": "https://uestc1010.github.io/CAICP_Book/section-1-3.html", "author": {"@type": "Person", "name": "陈峥"}, "description": "1.3 算法、算力与计算机。从数据、算法与算力开始，认识人工智能能做什么，也理解它的局限。"}</script><script defer src="site.js"></script><script defer src="mathjax-tex-svg.js"></script></head><body><a class="skip" href="#main">跳到正文</a><header class="topbar"><a class="brand" href="./"><span class="brand-mark">AI</span><span>中学生 CAICP 学习指南</span></a><nav aria-label="主导航"><a href="./#contents">全书目录</a><a href="https://github.com/UESTC1010/CAICP_Book/releases/download/v0.9/CAICP_Book-v0.9.pdf">下载 PDF</a><a href="https://github.com/UESTC1010/CAICP_Book">GitHub ↗</a></nav></header><div class="reader-layout"><aside class="sidebar"><details class="book-nav" open><summary>全书目录</summary><nav aria-label="章节目录"><a href="preface.html">前言</a><a href="chapter-1.html" aria-current="page">第一章 认识人工智能</a><a href="chapter-2.html">第二章 用 Python 编写程序</a><a href="chapter-3.html">第三章 理解 AI 所需的数学基础</a><a href="chapter-4.html">第四章 用算法解决问题</a><a href="chapter-5.html">第五章 让机器从数据中学习</a><a href="chapter-6.html">第六章 理解常见模型的工作原理</a><a href="chapter-7.html">第七章 用 Python 处理数据与训练模型</a><a href="chapter-8.html">第八章 了解人工智能的前沿与应用</a><a href="appendix.html">附录</a></nav></details><details class="section-nav" open><summary>本章小节</summary><nav aria-label="小节目录"><a href="section-1-1.html">1.1 人工智能是什么</a><a href="section-1-2.html">1.2 数据</a><a href="section-1-3.html" aria-current="page">1.3 算法、算力与计算机</a><a href="section-1-4.html">1.4 人工智能的发展与主要思想</a><a href="section-1-5.html">1.5 人工智能的局限与使用伦理</a><a href="chapter-1-review.html">本章小结与想一想</a></nav></details></aside><main id="main" class="reading"><div class="reading-meta"><a href="chapter-1.html">第一章 认识人工智能</a><span>v0.9</span></div><article><h1>1.3 算法、算力与计算机</h1><p><strong>数据、算法和算力</strong>通常被称为人工智能的三大要素。数据提供材料，算法规定处理材料的方法，算力让计算真正执行起来。仍以训练图像识别模型为例：图片是学习材料，训练算法规定怎样根据图片调整模型，处理器负责完成运算。材料不合适，模型可能学不到有用的规律；方法不合适，有了好材料也未必学得好；计算资源不足，训练可能太慢，甚至无法运行。三者需要配合，才能把任务完成。</p>
+<h3 id="_1">算法与程序</h3>
+<p><strong>算法</strong>是为完成规定任务而设计的一组明确步骤。每一步做什么，遇到不同情况怎么办，都需要说清楚，并且能够在有限步骤内得到结果。比如，要从一组至少包含一个数的数据中找出最大值，可以先把第一个数记为“当前最大值”，然后逐个比较后面的数，遇到更大的就更新记录。对 17、23、19、26 这组数来说，记录先是 17，随后变成 23；遇到 19 时不变，最后变成 26。所有数比较完，留下的就是最大值。这套步骤也适用于其他数值，不必每换一组数就重新想一种办法。</p>
+<p>算法可以用不同方式表达。自然语言说明步骤，流程图画出顺序和分支，伪代码写得像程序，却不必严格遵守某一种语言的语法。<strong>程序</strong>则是用编程语言实现算法的结果，必须符合相应语言的规则。找最大值的思路可以相同，用不同语言写出的程序却可能很不一样。训练模型也要先规定怎样计算输出、比较差错和调整参数，再把步骤落实为程序。</p>
+<p>同一个问题还可能有更省事的办法。找最大值时，先排序再取最后一项当然可行，但排序做了任务原本不需要的工作。只有四个数时差别很小，数据多了，额外耗时就不能忽略。硬件跑得快，也值得替它省掉这些计算。</p>
+<h3 id="_2">处理器、内存与存储</h3>
+<p>程序运行时，<strong>中央处理器</strong>（CPU）负责通用计算和程序控制，例如读取指令、判断条件、安排任务。它能灵活处理多种工作，现代 CPU 还常有多个核心。<strong>图形处理器</strong>（GPU）则擅长用大量计算单元同时完成相似运算：对许多像素使用同一规则，可以分开来一起做，神经网络里也有大量这样的计算。还有专为神经网络常见运算设计的<strong>神经网络处理器</strong>（NPU），能加快适合的 AI 任务，或减少耗电。一台设备可以让 CPU 组织程序，将适合加速的工作交给 GPU 或 NPU。</p>
+<p>这种分工不能简化成“CPU 只能依次算，GPU 才能同时算”。它们的核心设计和适合处理的工作不同。</p>
+<p>运行程序还需要放置数据的地方。可以把硬盘和内存的关系想成书柜与书桌：书柜适合长期存放许多书，书桌则放正在翻阅的材料，便于随时取用。<strong>内存</strong>（RAM）就是程序运行时存放指令和数据的快速工作空间，通常所说的运行内存在断电后不能保留内容，文件还要保存到固态硬盘等长期存储设备上。硬盘大，说明能存下更多文件；内存大，说明运行时能同时容纳更多数据。GPU 使用的相应内存空间通常称为显存，有的设备有独立显存，有的采用共享内存。模型的参数和计算中的中间结果都要占据空间，因此，模型能不能运行，除了看算得多快，还要看这些内容能不能放得下。</p>
+<p>图 1-5 展示了一次图片识别中的主要步骤。图片原先保存在硬盘中，程序先把需要的数据读入内存，再让处理器计算；如果使用独立 GPU，通常还需要把相应数据传入显存。计算结果可以显示在屏幕上，也可以保存为文件。如果图片来自摄像头，还要先进行采集。摄像头、麦克风和键盘是常见输入设备，屏幕、扬声器和打印机是常见输出设备，它们让计算机接收外部信息，再把处理结果呈现出来。</p>
+<figure><img loading="lazy" decoding="async" alt="图片识别中硬盘内存处理器和屏幕的配合" src="assets/图1-5_计算机的配合.png" /><figcaption>图 1-5 一次图片识别中的主要步骤</figcaption></figure>
+<h3 id="_3">算力与实际性能</h3>
+<p><strong>算力</strong>是执行计算的能力，常用单位时间能完成的运算量描述。可是，处理器等着数据送来时，再强的算力也用不上。厨师动作再快，食材迟迟不到，同样做不出饭菜。看处理器的指标，也要问清数字意味着什么。<strong>主频</strong>表示时钟每秒经历的周期数，1 GHz 对应每秒十亿个周期；时钟提供工作节拍，但一个节拍不固定等于完成一道计算，不同处理器在一个周期里能做的工作也不同。<strong>核心数量</strong>表示包含多少相应的处理核心。多个核心可以分担能够并行的任务，有些步骤却必须等前一步完成，不能随意拆开。所以，只比较主频或核心数，不能判断所有程序谁都跑得更快，还得把计算、存储和数据传送放在一起看。</p>
+<p>FLOPS 和 TOPS 是另外两种常见指标。FLOPS 指每秒浮点运算次数；浮点数是计算机表示数值的一种常用方式，能够表示小数以及很大或很小的数。TOPS 通常指每秒万亿次运算。比较这些数字，还要看运算类型和数值精度，也就是数值表示得有多精细。类似于记录长度时可以保留到厘米，也可以保留到毫米，计算机处理不同精度的数值，速度和资源消耗也可能不同。两台设备给出的指标如果计算条件不同，就不能只比数字大小。</p>
+<p><strong>带宽</strong>表示单位时间能传送多少数据，<strong>延迟</strong>表示完成一次操作或得到响应要等多久。</p>
+<p>整理整个相册，关心的可能是一千张照片多久能处理完；实时语音识别，更在意一句话说完后要等多久才能看到文字。系统每秒能处理很多请求，也可能让其中某个请求排队很久。总处理能力和一次使用的等待时间，衡量的是不同的快慢。</p>
+<p>表 1-2 常见性能指标</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="数据表格"><table>
+<thead>
+<tr>
+<th>指标</th>
+<th>主要说明什么</th>
+<th>常见单位或表述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>容量</td>
+<td>能够保存或容纳多少数据</td>
+<td>B、MB、GB 等</td>
+</tr>
+<tr>
+<td>主频</td>
+<td>处理器时钟每秒的周期数</td>
+<td>GHz 等</td>
+</tr>
+<tr>
+<td>运算吞吐能力</td>
+<td>单位时间完成的运算量</td>
+<td>FLOPS、TOPS 等，需注明条件</td>
+</tr>
+<tr>
+<td>带宽</td>
+<td>单位时间传送的数据量</td>
+<td>GB/s 等</td>
+</tr>
+<tr>
+<td>延迟</td>
+<td>完成一次操作所需的等待时间</td>
+<td>毫秒、微秒等</td>
+</tr>
+</tbody>
+</table></div>
+<h3 id="_4">一次识别到底花了多少时间</h3>
+<p>处理一张图片，假设读取和传送花 8 毫秒，模型计算花 2 毫秒，显示结果花 1 毫秒，三个步骤依次进行，共需 11 毫秒。如果只把模型计算加快一倍，这一步变为 1 毫秒，总时间却仍要 10 毫秒，另外 9 毫秒的工作并没有消失。处理大量图片时，有时可以一边计算当前图片、一边准备下一张，使部分步骤重叠，但哪些工作能同时做，取决于它们之间的依赖关系，以及程序、存储和处理器能否配合。先把过程画出来，找到时间主要花在哪里，才容易发现限制速度的环节，也就是<strong>瓶颈</strong>。它可能在计算，也可能在读取、传输或排队。</p>
+<p>因此，一次识别要等多久，一批图片要处理多久，数据能否放进内存，都应结合具体任务考察。减少重复计算、改用合适的数据表示，也是在改善整个过程。</p>
+<h3 id="_5">软件怎样使用硬件</h3>
+<p>模型还需要合适的软件，才能在具体硬件上运行。程序提出需要完成的计算，相关软件再安排设备执行，并处理数据的传送。<strong>CUDA</strong> 是 NVIDIA 提供的并行计算平台与编程模型，开发者可以借助它，让 NVIDIA GPU 完成图形处理之外的通用计算。<strong>CANN</strong> 是昇腾面向 AI 计算的异构计算架构，英文全称为 Compute Architecture for Neural Networks，为上层框架使用下层硬件提供软件支持。这里的框架，可以理解为组织模型与计算任务的软件工具；“异构”则表示系统中包含不同类型的计算设备。</p>
+<p>软件能否支持模型需要的运算，也是选择硬件时必须回答的问题。CUDA、CANN 所做的工作，就处在这种软件与硬件的配合之中。</p></article><nav class="pager" aria-label="前后篇目"><a href="section-1-2.html"><small>上一篇</small>1.2 数据</a><a href="section-1-4.html"><small>下一篇</small>1.4 人工智能的发展与主要思想 →</a></nav><p class="reader-note">发现错误或有没讲清楚的地方？欢迎<a href="https://github.com/UESTC1010/CAICP_Book/issues">提交勘误与建议</a>。请注明章节及原文。</p></main></div><a class="back-top" href="#main" aria-label="返回正文顶部">↑</a><footer class="footer"><span>陈峥 著 · 公开试读版 v0.9</span><span><a href="https://github.com/UESTC1010/CAICP_Book/blob/main/LICENSE.md">正文与插图 CC BY-NC-SA 4.0</a> · <a href="https://github.com/UESTC1010/CAICP_Book/issues">勘误与建议 ↗</a></span></footer></body></html>

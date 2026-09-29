@@ -1,0 +1,139 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>4.2 枚举与查找｜从零开始学人工智能：中学生 CAICP 学习指南</title><meta name="description" content="4.2 枚举与查找。从枚举、查找和排序，到树、图与搜索，学习把问题变成可以执行的步骤。"><meta name="author" content="陈峥"><link rel="canonical" href="https://uestc1010.github.io/CAICP_Book/section-4-2.html"><link rel="icon" type="image/svg+xml" href="favicon.svg"><meta name="theme-color" content="#173c46"><meta property="og:title" content="4.2 枚举与查找｜从零开始学人工智能：中学生 CAICP 学习指南"><meta property="og:description" content="4.2 枚举与查找。从枚举、查找和排序，到树、图与搜索，学习把问题变成可以执行的步骤。"><meta property="og:type" content="article"><meta property="og:url" content="https://uestc1010.github.io/CAICP_Book/section-4-2.html"><meta property="og:image" content="https://uestc1010.github.io/CAICP_Book/assets/cover.png"><link rel="stylesheet" href="site.css"><script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "name": "4.2 枚举与查找｜从零开始学人工智能：中学生 CAICP 学习指南", "inLanguage": "zh-CN", "url": "https://uestc1010.github.io/CAICP_Book/section-4-2.html", "author": {"@type": "Person", "name": "陈峥"}, "description": "4.2 枚举与查找。从枚举、查找和排序，到树、图与搜索，学习把问题变成可以执行的步骤。"}</script><script defer src="site.js"></script><script defer src="mathjax-tex-svg.js"></script></head><body><a class="skip" href="#main">跳到正文</a><header class="topbar"><a class="brand" href="./"><span class="brand-mark">AI</span><span>中学生 CAICP 学习指南</span></a><nav aria-label="主导航"><a href="./#contents">全书目录</a><a href="https://github.com/UESTC1010/CAICP_Book/releases/download/v0.9/CAICP_Book-v0.9.pdf">下载 PDF</a><a href="https://github.com/UESTC1010/CAICP_Book">GitHub ↗</a></nav></header><div class="reader-layout"><aside class="sidebar"><details class="book-nav" open><summary>全书目录</summary><nav aria-label="章节目录"><a href="preface.html">前言</a><a href="chapter-1.html">第一章 认识人工智能</a><a href="chapter-2.html">第二章 用 Python 编写程序</a><a href="chapter-3.html">第三章 理解 AI 所需的数学基础</a><a href="chapter-4.html" aria-current="page">第四章 用算法解决问题</a><a href="chapter-5.html">第五章 让机器从数据中学习</a><a href="chapter-6.html">第六章 理解常见模型的工作原理</a><a href="chapter-7.html">第七章 用 Python 处理数据与训练模型</a><a href="chapter-8.html">第八章 了解人工智能的前沿与应用</a><a href="appendix.html">附录</a></nav></details><details class="section-nav" open><summary>本章小节</summary><nav aria-label="小节目录"><a href="section-4-1.html">4.1 问题分解、抽象与信息表示</a><a href="section-4-2.html" aria-current="page">4.2 枚举与查找</a><a href="section-4-3.html">4.3 排序与贪心</a><a href="section-4-4.html">4.4 树、图与搜索</a><a href="section-4-5.html">4.5 状态、过程与反馈系统</a><a href="chapter-4-review.html">本章小结与想一想</a></nav></details></aside><main id="main" class="reading"><div class="reading-meta"><a href="chapter-4.html">第四章 用算法解决问题</a><span>v0.9</span></div><article><h1>4.2 枚举与查找</h1><h3 id="_1">把可能性逐一检查</h3>
+<p>在一个有限范围内依次列出候选答案，并检查哪些符合条件，称为<strong>枚举</strong>。例如，两种材料每份分别重 3 克、5 克，需要配出 16 克，且每种份数是非负整数。设它们分别有 <span class="arithmatex">\(a\)</span> 份、<span class="arithmatex">\(b\)</span> 份，条件就是 <span class="arithmatex">\(3a+5b=16\)</span>。因为 <span class="arithmatex">\(3a\)</span> 不能超过 16，<span class="arithmatex">\(a\)</span> 只需从 0 检查到 5；同理，<span class="arithmatex">\(b\)</span> 从 0 检查到 3。</p>
+<pre><code class="language-python">solutions = []
+for a in range(16 // 3 + 1):
+    for b in range(16 // 5 + 1):
+        if 3 * a + 5 * b == 16:
+            solutions.append((a, b))
+print(solutions)
+</code></pre>
+<p>输出 <code>[(2, 2)]</code>，表示两种材料各取两份。枚举范围应包含零和上界，所以 <code>range</code> 的终点要加 1。这段程序会检查 <span class="arithmatex">\(6\times4=24\)</span> 对候选数。还可以只枚举 <span class="arithmatex">\(a\)</span>，计算剩余重量 <code>16 - 3 * a</code>；如果它非负且能被 5 整除，就能直接得到 <span class="arithmatex">\(b\)</span>。这样既没有漏解，也省去了内层循环。设计枚举算法时，最值得说明的两件事是：为什么这些候选已经足够，以及有没有重复检查同一答案。</p>
+<h3 id="_2">怎样减少枚举而不漏掉答案</h3>
+<p>在 <span class="arithmatex">\(3a+5b=16\)</span> 中，一旦确定 <span class="arithmatex">\(a\)</span>，剩余重量就确定了，<span class="arithmatex">\(b\)</span> 因而不必再从头试到尾。表 4-1 列出所有可能的 <span class="arithmatex">\(a\)</span>，并检查剩余重量能否由 5 克的材料整份组成。</p>
+<p>表 4-1 用剩余重量缩小枚举范围</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="数据表格"><table>
+<thead>
+<tr>
+<th>a 的取值</th>
+<th>剩余重量 16−3a</th>
+<th>能否被 5 整除</th>
+<th>结论</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>16</td>
+<td>否</td>
+<td>不符合</td>
+</tr>
+<tr>
+<td>1</td>
+<td>13</td>
+<td>否</td>
+<td>不符合</td>
+</tr>
+<tr>
+<td>2</td>
+<td>10</td>
+<td>是</td>
+<td>b＝2</td>
+</tr>
+<tr>
+<td>3</td>
+<td>7</td>
+<td>否</td>
+<td>不符合</td>
+</tr>
+<tr>
+<td>4</td>
+<td>4</td>
+<td>否</td>
+<td>不符合</td>
+</tr>
+<tr>
+<td>5</td>
+<td>1</td>
+<td>否</td>
+<td>不符合</td>
+</tr>
+</tbody>
+</table></div>
+<p>相应程序只需要一个循环：</p>
+<pre><code class="language-python">solutions = []
+for a in range(16 // 3 + 1):
+    remaining = 16 - 3 * a
+    if remaining % 5 == 0:
+        b = remaining // 5
+        solutions.append((a, b))
+print(solutions)  # [(2, 2)]
+</code></pre>
+<p>循环范围保证剩余重量不为负，取余为零则保证能够整份分配。每一个合法答案都有一个 <span class="arithmatex">\(a\)</span>，这个 <span class="arithmatex">\(a\)</span> 一定会被检查；检查时又由等式唯一确定 <span class="arithmatex">\(b\)</span>，所以这个改写不会遗漏合法答案。原程序检查 24 对候选数，改写后只检查 6 个剩余重量。</p>
+<p>这里能少写一层循环，是因为确定了 <span class="arithmatex">\(a\)</span> 就能算出唯一的 <span class="arithmatex">\(b\)</span>。如果一个 <span class="arithmatex">\(a\)</span> 可能对应许多个合法的 <span class="arithmatex">\(b\)</span>，就需要另外说明怎样找到它们。改进算法时，先写出能够覆盖全部情况的办法，再寻找已经确定的信息，避免重复尝试。人工智能中的许多计算也会反复利用这类关系，把共同部分提前计算或同时处理。</p>
+<h3 id="_3">顺序查找与二分查找</h3>
+<p>要判断某个编号是否在一组记录中，最直接的办法是从头到尾逐个比较，称为<strong>顺序查找</strong>。它不要求数据事先排序。找到目标就返回所在位置，检查完仍没找到则返回约定的标记。下面用 <code>-1</code> 表示未找到；使用结果时要先判断，不能直接拿 <code>-1</code> 访问列表，因为在 Python 中它恰好表示最后一个元素。</p>
+<pre><code class="language-python">def linear_search(values, target):
+    for i in range(len(values)):
+        if values[i] == target:
+            return i
+    return -1
+
+print(linear_search([8, 3, 9, 5], 9))
+</code></pre>
+<p>输出为 <code>2</code>。若列表含有重复目标，这个函数返回第一次出现的位置。最顺利时第一次就能找到；目标在末尾或根本不存在时，可能需要检查全部 <span class="arithmatex">\(n\)</span> 个元素。这里的 <span class="arithmatex">\(n\)</span> 表示数据规模，也就是列表长度。</p>
+<p>如果列表已经按从小到大的顺序排列，可以每次检查当前范围的中间元素，称为<strong>二分查找</strong>。中间值小于目标时，它左边的值也不可能更大，所以连同中间位置一起排除；中间值大于目标时，则排除右半部分。每次比较都让候选范围大约减少一半，直到找到目标或范围为空。</p>
+<pre><code class="language-python">def binary_search(values, target):
+    left = 0
+    right = len(values) - 1
+    while left &lt;= right:
+        middle = (left + right) // 2
+        if values[middle] == target:
+            return middle
+        if values[middle] &lt; target:
+            left = middle + 1
+        else:
+            right = middle - 1
+    return -1
+
+print(binary_search([2, 5, 8, 11, 14, 17, 20], 14))
+</code></pre>
+<p>第一次检查索引 3，值为 11，候选范围变成索引 4 到 6；第二次检查索引 5，值为 17，范围缩为索引 4；第三次找到 14，返回 <code>4</code>。<code>left</code> 和 <code>right</code> 表示仍可能包含目标的左右端点，而且都包含在范围内。更新时用 <code>middle + 1</code> 或 <code>middle - 1</code>，是因为中间位置已经检查过。若仍把它留作端点，范围可能无法继续缩小，循环便可能停不下来。空列表开始时 <code>right</code> 为 <code>-1</code>，条件不成立，直接返回 <code>-1</code>。目标重复出现时，这种写法会找到其中一次，未必是第一次；若要求第一个或最后一个位置，需要改动保留范围的规则。</p>
+<p>二分查找能排除半个范围，靠的是数据已经有序。对打乱的列表，便失去了这一依据。</p>
+<h3 id="_4">没找到目标时，范围怎样消失</h3>
+<p>找到目标的例子说明二分查找怎样返回答案，没有目标的例子则更能检查端点规则。仍使用 <code>[2, 5, 8, 11, 14, 17, 20]</code>，现在寻找 13。第一次比较中间的 11，目标若存在只能在右侧；第二次比较 17，目标若存在只能在它左侧；第三次只剩 14，比较后左端点成为 4、右端点成为 3，范围为空。</p>
+<p>表 4-2 二分查找 13 的过程</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="数据表格"><table>
+<thead>
+<tr>
+<th>比较次数</th>
+<th>当前索引范围</th>
+<th>中间位置与数值</th>
+<th>更新后的范围</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>0 到 6</td>
+<td>索引 3，数值 11</td>
+<td>4 到 6</td>
+</tr>
+<tr>
+<td>2</td>
+<td>4 到 6</td>
+<td>索引 5，数值 17</td>
+<td>4 到 4</td>
+</tr>
+<tr>
+<td>3</td>
+<td>4 到 4</td>
+<td>索引 4，数值 14</td>
+<td>4 到 3，空范围</td>
+</tr>
+</tbody>
+</table></div>
+<figure><img loading="lazy" decoding="async" alt="二分查找逐轮排除不可能包含目标的位置" src="assets/图4-2_二分范围.png" /><figcaption>图 4-2 每次更新都排除已经检查过的中间位置</figcaption></figure>
+<p>算法在整个过程中维持一个约定：如果目标存在，它仍在尚未排除的范围内。比较之后，只有已经证明不可能的部分才能丢掉。这种在循环前后持续成立的关系，称为<strong>循环不变量</strong>。顺序求最大值时，“当前最大值是已经读过的数中最大的”，也是这样的关系。列表有重复值时，任务要求还会决定何时结束。若只需要找到任意一个目标，比较相等后即可返回；若要求第一次出现的位置，则即使找到了目标，左侧仍可能有另一个相同值，需要继续检查。修改程序前，应先改变“尚未解决的是什么”这一解释，再据此修改端点和返回规则。</p>
+<h3 id="_5">用操作次数理解效率</h3>
+<p>评价算法快慢，不能只看一次运行花了多少秒：设备、数据和当时的负载都会影响时间。更稳定的比较方法，是看数据规模增大时，主要操作次数怎样变化。顺序查找的最坏情况需要 <span class="arithmatex">\(n\)</span> 次比较，称为线性增长，常记为 <span class="arithmatex">\(O(n)\)</span>。二分查找把范围反复减半，规模从 16 增到 32，最坏情况大致只多一次比较，常记为 <span class="arithmatex">\(O(\log n)\)</span>；这里的对数来自“需要减半多少次”。符号 <span class="arithmatex">\(O\)</span> 用来描述增长的数量级，并不表示精确用时。两重循环若各自最多执行 <span class="arithmatex">\(n\)</span> 次，可能产生约 <span class="arithmatex">\(n^2\)</span> 次操作，常记为 <span class="arithmatex">\(O(n^2)\)</span>。保存额外数据也要占空间：只记录几个端点，与复制整份列表，所需的额外空间不同。</p>
+<p>一次查找是否值得先排序，也要结合任务。为了只找一次就先排好整组数据，排序本身可能比顺序检查更费事；若同一组数据要反复查找，排序后的有序结构则可能节省大量工作。算法选择是在比较完整过程，不能只比较最后那一步。</p></article><nav class="pager" aria-label="前后篇目"><a href="section-4-1.html"><small>上一篇</small>4.1 问题分解、抽象与信息表示</a><a href="section-4-3.html"><small>下一篇</small>4.3 排序与贪心 →</a></nav><p class="reader-note">发现错误或有没讲清楚的地方？欢迎<a href="https://github.com/UESTC1010/CAICP_Book/issues">提交勘误与建议</a>。请注明章节及原文。</p></main></div><a class="back-top" href="#main" aria-label="返回正文顶部">↑</a><footer class="footer"><span>陈峥 著 · 公开试读版 v0.9</span><span><a href="https://github.com/UESTC1010/CAICP_Book/blob/main/LICENSE.md">正文与插图 CC BY-NC-SA 4.0</a> · <a href="https://github.com/UESTC1010/CAICP_Book/issues">勘误与建议 ↗</a></span></footer></body></html>

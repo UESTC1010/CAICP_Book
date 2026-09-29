@@ -1,0 +1,189 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>D 基础级 E 第一轮模拟题｜从零开始学人工智能：中学生 CAICP 学习指南</title><meta name="description" content="D 基础级 E 第一轮模拟题。大纲对应表、术语与符号、分级阅读路线，及 E、J、S 三套原创模拟题与解析。"><meta name="author" content="陈峥"><link rel="canonical" href="https://uestc1010.github.io/CAICP_Book/appendix-d.html"><link rel="icon" type="image/svg+xml" href="favicon.svg"><meta name="theme-color" content="#173c46"><meta property="og:title" content="D 基础级 E 第一轮模拟题｜从零开始学人工智能：中学生 CAICP 学习指南"><meta property="og:description" content="D 基础级 E 第一轮模拟题。大纲对应表、术语与符号、分级阅读路线，及 E、J、S 三套原创模拟题与解析。"><meta property="og:type" content="article"><meta property="og:url" content="https://uestc1010.github.io/CAICP_Book/appendix-d.html"><meta property="og:image" content="https://uestc1010.github.io/CAICP_Book/assets/cover.png"><link rel="stylesheet" href="site.css"><script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "name": "D 基础级 E 第一轮模拟题｜从零开始学人工智能：中学生 CAICP 学习指南", "inLanguage": "zh-CN", "url": "https://uestc1010.github.io/CAICP_Book/appendix-d.html", "author": {"@type": "Person", "name": "陈峥"}, "description": "D 基础级 E 第一轮模拟题。大纲对应表、术语与符号、分级阅读路线，及 E、J、S 三套原创模拟题与解析。"}</script><script defer src="site.js"></script><script defer src="mathjax-tex-svg.js"></script></head><body><a class="skip" href="#main">跳到正文</a><header class="topbar"><a class="brand" href="./"><span class="brand-mark">AI</span><span>中学生 CAICP 学习指南</span></a><nav aria-label="主导航"><a href="./#contents">全书目录</a><a href="https://github.com/UESTC1010/CAICP_Book/releases/download/v0.9/CAICP_Book-v0.9.pdf">下载 PDF</a><a href="https://github.com/UESTC1010/CAICP_Book">GitHub ↗</a></nav></header><div class="reader-layout"><aside class="sidebar"><details class="book-nav" open><summary>全书目录</summary><nav aria-label="章节目录"><a href="preface.html">前言</a><a href="chapter-1.html">第一章 认识人工智能</a><a href="chapter-2.html">第二章 用 Python 编写程序</a><a href="chapter-3.html">第三章 理解 AI 所需的数学基础</a><a href="chapter-4.html">第四章 用算法解决问题</a><a href="chapter-5.html">第五章 让机器从数据中学习</a><a href="chapter-6.html">第六章 理解常见模型的工作原理</a><a href="chapter-7.html">第七章 用 Python 处理数据与训练模型</a><a href="chapter-8.html">第八章 了解人工智能的前沿与应用</a><a href="appendix.html" aria-current="page">附录</a></nav></details><details class="section-nav" open><summary>本章小节</summary><nav aria-label="小节目录"><a href="appendix-a.html">A 大纲与教材对应表</a><a href="appendix-b.html">B 术语与符号表</a><a href="appendix-c.html">C 分级阅读路线</a><a href="appendix-d.html" aria-current="page">D 基础级 E 第一轮模拟题</a><a href="appendix-e.html">E 入门级 J 第一轮模拟题</a><a href="appendix-f.html">F 进阶级 S 第一轮模拟题</a><a href="appendix-g.html">G 模拟题答案与解析</a></nav></details></aside><main id="main" class="reading"><div class="reading-meta"><a href="appendix.html">附录</a><span>v0.9</span></div><article><h1>D 基础级 E 第一轮模拟题</h1><p>本卷为原创模拟题。限时 90 分钟，满分 100 分。单选题每题只有一个正确选项；多选题每题有两个或两个以上正确选项，全部选对得 5 分，少选、多选或错选均不得分；判断题正确记“√”，错误记“×”。所有代码均按 Python 3 理解。建议先独立完成，再查阅附录 G 的答案与解析。</p>
+<h3 id="_1">一 单选题</h3>
+<p>共 10 题，每题 5 分，共 50 分。</p>
+<p><strong>1．</strong> 校园广播站使用一种软件，把采访录音中的说话内容转成文字，供编辑整理。与这项功能最直接相关的人工智能技术是（　）。</p>
+<p>A．语音识别</p>
+<p>B．图像识别</p>
+<p>C．把文字转换成语音的语音合成</p>
+<p>D．把录音文件复制到另一个文件夹</p>
+<p><strong>2．</strong> 运行下面的程序，输出结果是（　）。</p>
+<pre><code class="language-python">count = 4
+count = count + 3
+total = count * 2
+print(count, total)
+</code></pre>
+<p>A．<code>4 8</code></p>
+<p>B．<code>4 14</code></p>
+<p>C．<code>7 14</code></p>
+<p>D．<code>7 8</code></p>
+<p><strong>3．</strong> 运行下面的程序，依次输入 <code>8</code> 和 <code>3</code>，每输入一个数按一次回车。输出结果是（　）。</p>
+<pre><code class="language-python">a = input()
+b = int(input())
+print(a * 2, b + 2)
+</code></pre>
+<p>A．<code>16 5</code></p>
+<p>B．<code>88 5</code></p>
+<p>C．<code>88 32</code></p>
+<p>D．程序在最后一行报错</p>
+<p><strong>4．</strong> 表达式 <code>18 - 8 / 2 + 3 * 2</code> 的计算结果是（　）。</p>
+<p>A．11.0</p>
+<p>B．13.0</p>
+<p>C．16.0</p>
+<p>D．20.0</p>
+<p><strong>5．</strong> 字符串方法 <code>replace(a, b)</code> 返回把原字符串中所有 <code>a</code> 替换为 <code>b</code> 后的新字符串。运行下面的代码，输出结果是（　）。</p>
+<pre><code class="language-python">s = &quot;ab-ba&quot;
+t = s.replace(&quot;a&quot;, &quot;xy&quot;)
+print(t[1:4])
+</code></pre>
+<p>A．<code>yb-</code></p>
+<p>B．<code>xyb</code></p>
+<p>C．<code>yb-b</code></p>
+<p>D．<code>b-b</code></p>
+<p><strong>6．</strong> 运行下面的程序，输出结果是（　）。</p>
+<pre><code class="language-python">values = [8, 3, 6]
+values[1] = values[0] - values[2]
+values.append(5)
+print(values[-2])
+</code></pre>
+<p>A．2</p>
+<p>B．5</p>
+<p>C．6</p>
+<p>D．8</p>
+<p><strong>7．</strong> 运行下面的程序，输出结果是（　）。注意两个 <code>if</code> 的缩进相同。</p>
+<pre><code class="language-python">x = 4
+if x &lt; 5:
+    x = x + 3
+if x &gt; 6:
+    x = x - 2
+else:
+    x = x + 10
+print(x)
+</code></pre>
+<p>A．4</p>
+<p>B．5</p>
+<p>C．7</p>
+<p>D．17</p>
+<p><strong>8．</strong> 运行下面的程序，输出结果是（　）。</p>
+<pre><code class="language-python">total = 0
+for n in range(1, 7):
+    if n % 3 == 0:
+        continue
+    total = total + n
+print(total)
+</code></pre>
+<p>A．9</p>
+<p>B．15</p>
+<p>C．21</p>
+<p>D．12</p>
+<p><strong>9．</strong> 一张编码表如下。每个字母用两位数字表示：第一位是行号，第二位是列号。例如，B 编为 <code>12</code>。把 <code>23 11 22</code> 解码后，得到的字母序列是（　）。</p>
+<div class="table-scroll" tabindex="0" role="region" aria-label="数据表格"><table>
+<thead>
+<tr>
+<th>行号与列号</th>
+<th>第 1 列</th>
+<th>第 2 列</th>
+<th>第 3 列</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>第 1 行</td>
+<td>A</td>
+<td>B</td>
+<td>C</td>
+</tr>
+<tr>
+<td>第 2 行</td>
+<td>D</td>
+<td>E</td>
+<td>F</td>
+</tr>
+</tbody>
+</table></div>
+<p>A．FAD</p>
+<p>B．CBE</p>
+<p>C．FAE</p>
+<p>D．EAF</p>
+<p><strong>10．</strong> 某图像识别程序分四批处理图片，每批都是 5 张。四批分别正确识别了 4、3、5、4 张。本题把“正确识别的图片数占全部图片数的比例”称为正确率。平均每批正确识别的张数和这 20 张图片的总体正确率分别为（　）。</p>
+<p>A．4 张，80%</p>
+<p>B．4 张，75%</p>
+<p>C．5 张，80%</p>
+<p>D．16 张，80%</p>
+<h3 id="_2">二 多选题</h3>
+<p>共 6 题，每题 5 分，共 30 分。全部选对得分。</p>
+<p><strong>11．</strong> 同一款语音转文字软件，在安静教室中使用时效果较好，在嘈杂操场上使用时错字明显增多。下列判断合理的有（　）。</p>
+<p>A．转写结果需要结合原录音核对，不能把软件输出直接当成完全正确的文字</p>
+<p>B．录音环境可能影响识别效果</p>
+<p>C．既然使用了人工智能，录音设备和背景声音就不会再影响结果</p>
+<p>D．分别记录安静环境和嘈杂环境中的错误，有助于发现问题出现的条件</p>
+<p>E．把同一段安静环境的录音反复识别，就能保证软件适应所有嘈杂环境</p>
+<p><strong>12．</strong> <code>has_card</code>、<code>has_ticket</code> 和 <code>closed</code> 均为布尔变量。入场规则是：持有卡片或持有门票即可，但场馆关闭时任何人都不能进入。对这三个变量的所有取值，下列表达式中始终符合规则的有（　）。</p>
+<p>A．<code>(has_card or has_ticket) and not closed</code></p>
+<p>B．<code>not closed and (has_card or has_ticket)</code></p>
+<p>C．<code>has_card and has_ticket and not closed</code></p>
+<p>D．<code>has_card or (has_ticket and not closed)</code></p>
+<p>E．<code>has_card or has_ticket or not closed</code></p>
+<p><strong>13．</strong> 对每个选项，都从列表 <code>values = [10, 20, 30]</code> 重新开始判断。<code>insert(i, x)</code> 在索引 <code>i</code> 处插入 <code>x</code>；不带参数的 <code>pop()</code> 删除并返回最后一个元素。下列说法正确的有（　）。</p>
+<p>A．执行 <code>values.insert(1, 15)</code> 后，列表的第二个元素是 15</p>
+<p>B．执行 <code>values.pop()</code> 时，删除的是 10</p>
+<p>C．<code>values[:2]</code> 的结果是 <code>[10, 20]</code></p>
+<p>D．<code>values[0:3:2]</code> 的结果是 <code>[10, 30]</code></p>
+<p>E．<code>values[3]</code> 的值是 30</p>
+<p><strong>14．</strong> 下面的程序原本用于统计列表中大于 4 的数有多少个，但结果不符合预期。下列分析正确的有（　）。</p>
+<pre><code class="language-python">data = [2, 7, 5]
+count = 0
+for value in data:
+    if value &gt; 4:
+        count = 1
+print(count)
+</code></pre>
+<p>A．原程序输出 1</p>
+<p>B．把循环中的 <code>count = 1</code> 改为 <code>count = count + 1</code>，可以得到正确结果 2</p>
+<p>C．只把循环前的 <code>count = 0</code> 改为 <code>count = 1</code>，就能得到正确结果 2</p>
+<p>D．只把条件改为 <code>value &gt;= 4</code>，就能修复这里的计数错误</p>
+<p>E．逐次记录 <code>count</code> 的值，可以发现它被重复设为 1，而没有累加</p>
+<p><strong>15．</strong> 运行下面的程序。关于执行过程和输出，下列说法正确的有（　）。</p>
+<pre><code class="language-python">for row in range(2):
+    for col in range(3):
+        if row == col:
+            continue
+        print(row, col)
+</code></pre>
+<p>A．共输出 4 行</p>
+<p>B．输出中包含一行 <code>1 1</code></p>
+<p>C．执行一次 <code>continue</code> 后，外层循环也随之结束</p>
+<p>D．输出的第一行是 <code>0 1</code></p>
+<p>E．外层循环中，<code>row</code> 依次取 0 和 1</p>
+<p><strong>16．</strong> 图书管理员准备把图书信息整理成表格，以便比较不同图书。下列关于信息表示和比较的说法合理的有（　）。</p>
+<p>A．页数可以用数字表示，用于比较图书的篇幅</p>
+<p>B．图书编号越大，书中的内容就一定越难</p>
+<p>C．借阅次数可以反映借阅情况，但不能单凭它判断一本书的内容质量</p>
+<p>D．“科普”“文学”等题材可以用文字表示</p>
+<p>E．封面的主要颜色可以作为一种特征记录，但相同颜色不表示内容相同</p>
+<h3 id="_3">三 判断题</h3>
+<p>共 10 题，每题 2 分，共 20 分。</p>
+<p><strong>17．</strong> 一台设备每隔 10 分钟播放一次预先录好的铃声。仅凭这一功能，不能认定它使用了人工智能。（　）</p>
+<p><strong>18．</strong> Python 中先执行 <code>n = 2</code>，再执行 <code>n = n + 1</code>，是合法操作；第二句执行后，<code>n</code> 的值为 3。（　）</p>
+<p><strong>19．</strong> 执行下面的代码后，<code>a[0]</code> 仍为 1，因为 <code>b = a</code> 会自动复制出一个新列表。（　）</p>
+<pre><code class="language-python">a = [1, 2]
+b = a
+b[0] = 7
+</code></pre>
+<p><strong>20．</strong> <code>strip()</code> 返回去掉字符串首尾空格等空白字符后的新字符串。执行下面的代码，输出结果为 1。（　）</p>
+<pre><code class="language-python">s = &quot; x &quot;
+s.strip()
+print(len(s))
+</code></pre>
+<p><strong>21．</strong> 表达式 <code>4 &lt; 3 or 2 == 2 and not False</code> 的结果为 <code>True</code>。（　）</p>
+<p><strong>22．</strong> 执行 <code>a = [3, 1, 2]</code> 和 <code>a.sort()</code> 后，<code>a[0]</code> 的值是 3。（　）</p>
+<p><strong>23．</strong> 下面程序中的循环没有被 <code>break</code> 中断，最终输出 13。（　）</p>
+<pre><code class="language-python">n = 0
+while n &lt; 3:
+    n = n + 1
+else:
+    n = n + 10
+print(n)
+</code></pre>
+<p><strong>24．</strong> 在循环中执行 <code>pass</code>，会立刻结束整个循环。（　）</p>
+<p><strong>25．</strong> 三个小组每人平均借书量分别为 8、10、12 本，即使三个小组人数不同，也能直接认定全体成员平均每人借书 10 本。（　）</p>
+<p><strong>26．</strong> 一段 AI 合成的历史讲解音频，即使标明了“合成配音”，其中的历史叙述仍可能有误，需要核对。（　）</p></article><nav class="pager" aria-label="前后篇目"><a href="appendix-c.html"><small>上一篇</small>C 分级阅读路线</a><a href="appendix-e.html"><small>下一篇</small>E 入门级 J 第一轮模拟题 →</a></nav><p class="reader-note">发现错误或有没讲清楚的地方？欢迎<a href="https://github.com/UESTC1010/CAICP_Book/issues">提交勘误与建议</a>。请注明章节及原文。</p></main></div><a class="back-top" href="#main" aria-label="返回正文顶部">↑</a><footer class="footer"><span>陈峥 著 · 公开试读版 v0.9</span><span><a href="https://github.com/UESTC1010/CAICP_Book/blob/main/LICENSE.md">正文与插图 CC BY-NC-SA 4.0</a> · <a href="https://github.com/UESTC1010/CAICP_Book/issues">勘误与建议 ↗</a></span></footer></body></html>
