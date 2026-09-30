@@ -34,3 +34,7 @@ python3 build_site.py
 采用先同意后加载的方式：读者未选择或拒绝时，不加载 Google 统计脚本；同意后启用页面浏览和增强型衡量，广告相关选项保持关闭。页脚提供隐私说明与统计设置；选择最长记忆 180 天，撤回后清除本站统计 Cookie 并重新加载页面。不要绕过这一流程另行添加 Google 统计代码，避免重复统计。
 
 GA4 的“实时”报告用于检查最近的访问；常规报告可查看用户、流量来源、页面与屏幕、事件。`file_download` 表示下载链接点击，不等同于成功下载或读完 PDF。`scroll` 默认反映接近页尾的滚动，也不等同于完整阅读。访客数为近似统计，拒绝统计、广告拦截器和网络限制都会导致漏计；不能追溯接入之前的访问。
+
+## Bing 站长工具
+
+站点网址为 `https://uestc1010.github.io/CAICP_Book/`，使用首页 HTML meta 标签验证。`build_site.py` 中的 `BING_SITE_VERIFICATION` 会在生成首页时写入 `msvalidate.01` 标签；验证后请持续保留。公开验证标签不是密码。站点地图地址为 `https://uestc1010.github.io/CAICP_Book/sitemap.xml`，在 Bing Webmaster Tools 的 Sitemaps 中提交。
