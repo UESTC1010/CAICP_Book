@@ -3,7 +3,9 @@
   'use strict';
   const id = document.currentScript?.dataset.measurementId;
   if (!/^G-[A-Z0-9]+$/.test(id || '')) return;
-  const production = location.hostname === 'uestc1010.github.io' && location.pathname.startsWith('/CAICP_Book/');
+  const legacySite = location.hostname === 'uestc1010.github.io' && location.pathname.startsWith('/CAICP_Book/');
+  const production = ['caicpbook.cn', 'www.caicpbook.cn'].includes(location.hostname) || legacySite;
+  const cookiePath = legacySite ? '/CAICP_Book/' : '/';
   const key = 'caicp-analytics-consent-v1';
   const lifetime = 180 * 24 * 60 * 60 * 1000;
   let started = false;
@@ -33,7 +35,7 @@
       allow_ad_personalization_signals: false,
       page_location: location.origin + location.pathname,
       page_referrer: referrer,
-      cookie_domain: 'none', cookie_path: '/CAICP_Book/',
+      cookie_domain: 'none', cookie_path: cookiePath,
       cookie_prefix: 'caicp', cookie_expires: lifetime / 1000
     });
     const tag = document.createElement('script');
@@ -53,7 +55,7 @@
       window['ga-disable-' + id] = true;
       for (const item of document.cookie.split(';')) {
         const name = item.split('=')[0].trim();
-        if (name.startsWith('caicp_ga')) document.cookie = name + '=; Max-Age=0; Path=/CAICP_Book/; SameSite=Lax';
+        if (name.startsWith('caicp_ga')) document.cookie = name + '=; Max-Age=0; Path=' + cookiePath + '; SameSite=Lax';
       }
       // Unload the tag after withdrawal, including its automatic event handlers.
       if (started) location.reload();

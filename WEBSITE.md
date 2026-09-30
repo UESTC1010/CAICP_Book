@@ -1,6 +1,8 @@
 # 图书网站维护
 
-网站地址：https://uestc1010.github.io/CAICP_Book/
+网站地址：https://caicpbook.cn/
+
+自定义域名由根目录 `CNAME` 文件和 GitHub Pages 设置共同维护。西部数码的 `@` 使用 GitHub Pages 的四条 A 记录，`www` 的 CNAME 指向 `uestc1010.github.io`。`build_site.py` 统一生成新域名下的规范网址、分享信息、站点地图及 `robots.txt`。原 GitHub Pages 地址由托管服务重定向；章节文件名保持不变。
 
 GitHub Pages 从 `main` 分支根目录发布。首页为 `index.html`；每章保留介绍与小节目录，每个正式小节有独立网页。章末小结与思考题合在同一页，附录按 A—G 分页。
 
@@ -19,7 +21,7 @@ python3 build_site.py
 
 ## Google Search Console
 
-使用网址前缀资源 `https://uestc1010.github.io/CAICP_Book/`。提交的站点地图为同网址下的 `sitemap.xml`，包括首页、章目录、小节正文、前言和附录。
+原网址前缀资源为 `https://uestc1010.github.io/CAICP_Book/`。迁移后需为 `https://caicpbook.cn/` 添加资源并提交 `https://caicpbook.cn/sitemap.xml`；该搜索后台迁移须单独完成，修改网站并不自动完成验证和提交。站点地图包括首页、章目录、小节正文、前言和附录。
 
 `google1067b17d6c8eea9b.html` 是 Google 提供的网站所有权验证文件，须持续保留，不要改名或修改内容。它是公开验证文件，不是密码。重新生成网页不会覆盖该文件。
 
@@ -29,7 +31,7 @@ python3 build_site.py
 
 资源名称：CAICP 图书网站；数据流：CAICP 图书网站 · 在线阅读；衡量 ID：`G-4TK50WBGCC`（公开标识，不是密码）。管理入口：https://analytics.google.com/ 。使用创建资源的 Google 账号登录。
 
-`build_site.py` 的 `GA_MEASUREMENT_ID` 为全站统一配置，`page()` 在每页引入 `analytics.js`。修改配置后需重新生成并发布 HTML。`analytics.js` 只在正式网站域名与 `/CAICP_Book/` 路径下发送统计，本地预览不会进入报表。
+`build_site.py` 的 `GA_MEASUREMENT_ID` 为全站统一配置，`page()` 在每页引入 `analytics.js`。修改配置后需重新生成并发布 HTML。`analytics.js` 允许 `caicpbook.cn`、`www.caicpbook.cn`，以及原 GitHub 域名的 `/CAICP_Book/` 路径发送统计，本地预览不会进入报表。新域名使用根路径统计 Cookie；原统计资源和衡量 ID 保持不变。浏览器的同意选择不会跨域名转移，读者首次访问新域名时会重新选择。
 
 采用先同意后加载的方式：读者未选择或拒绝时，不加载 Google 统计脚本；同意后启用页面浏览和增强型衡量，广告相关选项保持关闭。页脚提供隐私说明与统计设置；选择最长记忆 180 天，撤回后清除本站统计 Cookie 并重新加载页面。不要绕过这一流程另行添加 Google 统计代码，避免重复统计。
 
@@ -37,4 +39,4 @@ GA4 的“实时”报告用于检查最近的访问；常规报告可查看用�
 
 ## Bing 站长工具
 
-站点网址为 `https://uestc1010.github.io/CAICP_Book/`，使用首页 HTML meta 标签验证。`build_site.py` 中的 `BING_SITE_VERIFICATION` 会在生成首页时写入 `msvalidate.01` 标签；验证后请持续保留。公开验证标签不是密码。站点地图地址为 `https://uestc1010.github.io/CAICP_Book/sitemap.xml`，在 Bing Webmaster Tools 的 Sitemaps 中提交。
+原站点 `https://uestc1010.github.io/CAICP_Book/` 使用首页 HTML meta 标签验证。`build_site.py` 中的 `BING_SITE_VERIFICATION` 会在生成首页时写入 `msvalidate.01` 标签；请持续保留。公开验证标签不是密码。新域名须在 Bing Webmaster Tools 中另行添加、验证并提交 `https://caicpbook.cn/sitemap.xml`，不能将旧站点的验证结果视为新域名已提交。

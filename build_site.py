@@ -3,7 +3,7 @@ from pathlib import Path
 import re, json, html
 import markdown
 ROOT=Path(__file__).resolve().parent
-BASE='https://uestc1010.github.io/CAICP_Book/'
+BASE='https://caicpbook.cn/'
 REPO='https://github.com/UESTC1010/CAICP_Book'
 GA_MEASUREMENT_ID='G-4TK50WBGCC'
 BING_SITE_VERIFICATION='1087DE7226FACD543D8A8AE81B738830'
@@ -73,3 +73,5 @@ urls=[BASE]+[BASE+e['slug']+'.html' for e in entries]
 (ROOT/'sitemap.xml').write_text('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'+''.join(f'  <url><loc>{u}</loc></url>\n' for u in urls)+'</urlset>\n')
 (ROOT/'404.html').write_text(page('页面未找到｜'+TITLE,'返回图书首页或全书目录。','404','<main id="main" class="wrap error-page"><p class="eyebrow">404</p><h1>这一页暂时找不到了。</h1><p>可以回到首页，继续阅读。</p><a class="button primary" href="'+BASE+'">返回图书首页 →</a></main>'))
 print(f'Built {len(entries)+1} pages, sitemap and 404 page.')
+(ROOT/'CNAME').write_text('caicpbook.cn\n')
+(ROOT/'robots.txt').write_text('User-agent: *\nAllow: /\nSitemap: '+BASE+'sitemap.xml\n')
