@@ -21,7 +21,7 @@ python3 build_site.py
 
 ## Google Search Console
 
-原网址前缀资源为 `https://uestc1010.github.io/CAICP_Book/`。迁移后需为 `https://caicpbook.cn/` 添加资源并提交 `https://caicpbook.cn/sitemap.xml`；该搜索后台迁移须单独完成，修改网站并不自动完成验证和提交。站点地图包括首页、章目录、小节正文、前言和附录。
+原网址前缀资源为 `https://uestc1010.github.io/CAICP_Book/`。新资源 `https://caicpbook.cn/` 已于 2026 年 9 月 30 日验证，站点地图 `https://caicpbook.cn/sitemap.xml` 已成功读取 64 个页面，首页已请求索引。站点地图包括首页、章目录、小节正文、前言和附录。
 
 `google1067b17d6c8eea9b.html` 是 Google 提供的网站所有权验证文件，须持续保留，不要改名或修改内容。它是公开验证文件，不是密码。重新生成网页不会覆盖该文件。
 
@@ -39,4 +39,8 @@ GA4 的“实时”报告用于检查最近的访问；常规报告可查看用�
 
 ## Bing 站长工具
 
-原站点 `https://uestc1010.github.io/CAICP_Book/` 使用首页 HTML meta 标签验证。`build_site.py` 中的 `BING_SITE_VERIFICATION` 会在生成首页时写入 `msvalidate.01` 标签；请持续保留。公开验证标签不是密码。新域名须在 Bing Webmaster Tools 中另行添加、验证并提交 `https://caicpbook.cn/sitemap.xml`，不能将旧站点的验证结果视为新域名已提交。
+原站点 `https://uestc1010.github.io/CAICP_Book/` 使用首页 HTML meta 标签验证。`build_site.py` 中的 `BING_SITE_VERIFICATION` 会在生成首页时写入 `msvalidate.01` 标签；请持续保留。公开验证标签不是密码。新域名已于 2026 年 9 月 30 日在 Bing Webmaster Tools 中添加并验证，已提交站点地图及全部 64 个页面。实际收录状态以 Bing 后续报告为准。
+
+## 百度搜索资源平台
+
+站点使用 `https://caicpbook.cn`。`build_site.py` 中的 `BAIDU_SITE_VERIFICATION` 在生成首页时写入 `baidu-site-verification` 标签；该标签用于证明网站所有权，成功验证后须持续保留。它是公开验证标签，不是密码。站点类别为书籍文档、教育培训、信息技术。验证后在百度搜索资源平台提交网站页面，提交不代表已经收录。

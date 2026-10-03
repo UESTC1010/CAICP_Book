@@ -7,6 +7,7 @@ BASE='https://caicpbook.cn/'
 REPO='https://github.com/UESTC1010/CAICP_Book'
 GA_MEASUREMENT_ID='G-4TK50WBGCC'
 BING_SITE_VERIFICATION='1087DE7226FACD543D8A8AE81B738830'
+BAIDU_SITE_VERIFICATION='codeva-enpN9J9igC'
 TITLE='从零开始学人工智能：中学生 CAICP 学习指南'
 PDF=REPO+'/releases/download/v0.9/CAICP_Book-v0.9.pdf'
 files=[ROOT/'book/前言.md']+[next((ROOT/'book').glob(f'第{i}章_*.md')) for i in '一二三四五六七八']+[ROOT/'book/附录.md']
@@ -18,7 +19,8 @@ def header():return f'''<a class="skip" href="#main">跳到正文</a><header cla
 def footer():return f'''<footer class="footer"><span>陈峥 著 · 公开试读版 v0.9</span><span><a href="{REPO}/blob/main/LICENSE.md">正文与插图 CC BY-NC-SA 4.0</a> · <a href="{REPO}/issues">勘误与建议 ↗</a><br><a href="privacy.html">隐私与访问统计</a> · <button type="button" class="analytics-link" data-analytics-settings hidden>访问统计设置</button></span></footer><section id="analytics-choice" class="analytics-choice" aria-label="访问统计选择" hidden><p>允许使用 Cookie 统计访问量和热门章节吗？数据由 Google Analytics 处理，拒绝不影响阅读。<a href="privacy.html">了解详情</a></p><div><button type="button" data-analytics-choice="deny">不参与</button><button type="button" data-analytics-choice="allow">允许统计</button></div></section>'''
 def page(title,desc,slug,body,reader=False):
  url=BASE+(slug+'.html' if slug else '')
- verification=f'<meta name="msvalidate.01" content="{BING_SITE_VERIFICATION}">' if not slug else ''
+ verification=(f'<meta name="msvalidate.01" content="{BING_SITE_VERIFICATION}">'
+               f'<meta name="baidu-site-verification" content="{BAIDU_SITE_VERIFICATION}">') if not slug else ''
  schema={'@context':'https://schema.org','@type':'Book' if not slug else 'WebPage','name':title,'inLanguage':'zh-CN','url':url,'author':{'@type':'Person','name':'陈峥'},'description':desc}
  if not slug:schema.update({'bookFormat':'https://schema.org/EBook','image':BASE+'assets/cover.png','license':'https://creativecommons.org/licenses/by-nc-sa/4.0/','isAccessibleForFree':True})
  return f'''<!doctype html><html lang="zh-CN"><head><meta charset="utf-8">{verification}<meta name="viewport" content="width=device-width,initial-scale=1"><title>{esc(title)}</title><meta name="description" content="{esc(desc)}"><meta name="author" content="陈峥"><link rel="canonical" href="{url}"><link rel="icon" type="image/svg+xml" href="favicon.svg"><meta name="theme-color" content="#173c46"><meta property="og:title" content="{esc(title)}"><meta property="og:description" content="{esc(desc)}"><meta property="og:type" content="{'article' if reader else 'book'}"><meta property="og:url" content="{url}"><meta property="og:image" content="{BASE}assets/cover.png"><link rel="stylesheet" href="site.css"><script defer src="analytics.js" data-measurement-id="{GA_MEASUREMENT_ID}"></script><script type="application/ld+json">{json.dumps(schema,ensure_ascii=False)}</script>{'<script defer src="site.js"></script><script defer src="mathjax-tex-svg.js"></script>' if reader else ''}</head><body>{header()}{body}{footer()}</body></html>'''
